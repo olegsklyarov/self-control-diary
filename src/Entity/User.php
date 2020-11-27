@@ -36,14 +36,20 @@ class User
     private ?\DateTimeInterface $lastVisitAt;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $passwordHash;
+
+    /**
      * User constructor.
      * @param UuidInterface $uuid
      * @param string $email
      */
-    public function __construct(UuidInterface $uuid, string $email)
+    public function __construct(UuidInterface $uuid, string $email, ?string $passwordHash = null)
     {
         $this->uuid = $uuid;
         $this->email = $email;
+        $this->passwordHash = $passwordHash;
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -77,6 +83,18 @@ class User
     public function setLastVisitAt(?\DateTimeInterface $lastVisitAt): self
     {
         $this->lastVisitAt = $lastVisitAt;
+
+        return $this;
+    }
+
+    public function getPasswordHash(): ?string
+    {
+        return $this->passwordHash;
+    }
+
+    public function setPasswordHash(?string $passwordHash): self
+    {
+        $this->passwordHash = $passwordHash;
 
         return $this;
     }
