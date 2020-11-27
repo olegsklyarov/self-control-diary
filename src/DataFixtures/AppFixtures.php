@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 class AppFixtures extends Fixture
 {
     private const TEST_USER_EMAIL = 'test@example.com';
-    private const TEST_USER_PASSWORD = 'string-password';
+    private const TEST_USER_PASSWORD = 'strong-password';
 
     public function load(ObjectManager $manager)
     {
