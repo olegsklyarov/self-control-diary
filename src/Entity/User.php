@@ -14,7 +14,7 @@ class User
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true, nullable=false)
+     * @ORM\Column(type="uuid", unique=true)
      */
     private UuidInterface $uuid;
 
@@ -53,7 +53,7 @@ class User
         return $this->uuid;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -65,7 +65,7 @@ class User
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }
