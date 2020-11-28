@@ -17,7 +17,7 @@ final class Version20201123074227 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         $tableUser = $schema->createTable('user');
-        $tableUser->addColumn('uuid', 'guid');
+        $tableUser->addColumn('uuid', 'uuid');
         $tableUser->addColumn('email', 'string');
         $tableUser->addColumn('password_hash', 'string', ['notnull' => false]);
         $tableUser->addColumn('created_at', 'datetime');

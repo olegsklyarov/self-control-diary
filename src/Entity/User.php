@@ -12,7 +12,6 @@ use Ramsey\Uuid\UuidInterface;
  */
 class User
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true, nullable=false)
@@ -40,11 +39,7 @@ class User
      */
     private ?string $passwordHash;
 
-    /**
-     * User constructor.
-     * @param UuidInterface $uuid
-     * @param string $email
-     */
+
     public function __construct(UuidInterface $uuid, string $email, ?string $passwordHash = null)
     {
         $this->uuid = $uuid;
