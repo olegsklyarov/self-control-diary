@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
     {
         $user = new User(
             self::TEST_USER_EMAIL,
-            password_hash(self::TEST_USER_PASSWORD, PASSWORD_DEFAULT)
+            password_hash(self::TEST_USER_PASSWORD, PASSWORD_DEFAULT),
         );
 
         $diary = new Diary('My first note', $user);
