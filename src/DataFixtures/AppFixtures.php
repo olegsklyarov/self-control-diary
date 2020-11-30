@@ -5,7 +5,6 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
 
 class AppFixtures extends Fixture
 {
@@ -15,7 +14,6 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User(
-            Uuid::uuid4(),
             self::TEST_USER_EMAIL,
             password_hash(self::TEST_USER_PASSWORD, PASSWORD_DEFAULT),
         );
