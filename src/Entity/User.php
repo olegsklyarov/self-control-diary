@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -40,9 +41,9 @@ class User
     private ?string $passwordHash;
 
 
-    public function __construct(UuidInterface $uuid, string $email, ?string $passwordHash = null)
+    public function __construct(string $email, ?string $passwordHash = null)
     {
-        $this->uuid = $uuid;
+        $this->uuid = Uuid::uuid4();
         $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->createdAt = new \DateTimeImmutable();
