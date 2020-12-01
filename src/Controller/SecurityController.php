@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/api/login")
+     * @Route("/api/login", methods={"POST"})
      */
     public function index(): Response
     {
