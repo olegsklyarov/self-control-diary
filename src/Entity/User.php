@@ -85,7 +85,7 @@ class User implements UserInterface
         return $this->lastVisitAt;
     }
 
-    public function setLastVisitAt(?\DateTimeInterface $lastVisitAt): self
+    public function setLastVisitAt(\DateTimeInterface $lastVisitAt): self
     {
         $this->lastVisitAt = $lastVisitAt;
 
