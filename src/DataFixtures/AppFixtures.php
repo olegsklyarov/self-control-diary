@@ -9,18 +9,28 @@ use App\Entity\Running;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
-    private const TEST_USER_EMAIL = 'test@example.com';
-    private const TEST_USER_PASSWORD = 'strong-password';
+    private const ADMIN_USER_EMAIL = 'admin@example.com';
+    private const ADMIN_USER_PASSWORD = 'admin';
+    private const ADMIN_USER_ROLES = ['ROLE_ADMIN'];
+
+    private UserPasswordEncoderInterface $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     public function load(ObjectManager $manager)
     {
         $user = new User(
-            self::TEST_USER_EMAIL,
-            password_hash(self::TEST_USER_PASSWORD, PASSWORD_DEFAULT),
+            self::ADMIN_USER_EMAIL,
+            self::ADMIN_USER_ROLES,
         );
+        $user->setPassword($this->passwordEncoder->encodePassword($user,self::ADMIN_USER_PASSWORD));
         $manager->persist($user);
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);

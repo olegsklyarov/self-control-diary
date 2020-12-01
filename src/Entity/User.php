@@ -6,13 +6,16 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
-class User
+class User implements UserInterface
 {
+    private const ROLE_USER = 'ROLE_USER';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -40,12 +43,18 @@ class User
      */
     private ?string $passwordHash;
 
+    /**
+     * @ORM\Column(type="json")
+     * @var string[]
+     */
+    private array $roles;
 
-    public function __construct(string $email, ?string $passwordHash = null)
+
+    public function __construct(string $email, array $roles = [])
     {
         $this->uuid = Uuid::uuid4();
         $this->email = $email;
-        $this->passwordHash = $passwordHash;
+        $this->roles = $roles;
         $this->createdAt = new \DateTimeImmutable();
     }
 
@@ -83,15 +92,43 @@ class User
         return $this;
     }
 
-    public function getPasswordHash(): ?string
+    public function getPassword(): string
     {
         return $this->passwordHash;
     }
 
-    public function setPasswordHash(?string $passwordHash): self
+    public function setPassword(string $encodedPassword): self
     {
-        $this->passwordHash = $passwordHash;
+        $this->passwordHash = $encodedPassword;
 
         return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = self::ROLE_USER;
+
+        return array_unique($roles);
+    }
+
+    public function getSalt()
+    {
+        // not needed when using the "bcrypt" algorithm in security.yaml
+    }
+
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
