@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,6 +21,9 @@ class AppFixtures extends Fixture
         );
         $manager->persist($user);
 
+        $diary = new Diary('My first note', $user);
+        $manager->persist($diary);
+
         $manager->persist(new MenchoMantra('Будда Шакьямуни', 1));
         $manager->persist(new MenchoMantra('Будда Медицины', 1));
         $manager->persist(new MenchoMantra('Амитаба', 1));
@@ -30,6 +34,7 @@ class AppFixtures extends Fixture
         $manager->persist(new MenchoMantra('Красная Дакиня Симкхамукха', 2));
         $manager->persist(new MenchoMantra('Зеленая Тара', 2));
         $manager->persist(new MenchoMantra('Белый Махакала', 2));
+
         $manager->flush();
     }
 }
