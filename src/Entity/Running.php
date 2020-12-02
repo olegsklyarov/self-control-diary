@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\RunningRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=RunningRepository::class)
@@ -12,102 +14,96 @@ class Running
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
      */
-    private $id;
-
-    /**
-     * @ORM\Column(type="uuid")
-     */
-    private $diary_uuid;
+    private UuidInterface $diaryUuid;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $distance_meters;
+    private int $distanceMeters;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $time_minutes;
+    private int $timeMinutes;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $temperature_celsius;
+    private int $temperatureCelsius;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $health_notes;
+    private ?string $healthNotes;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $party;
+    private ?string $party;
 
-    public function getId(): ?int
+
+    public function __construct(int $distanceMeters, int $timeMinutes, int $temperatureCelsius,
+        ?string $healthNotes = null, ?string $party = null)
     {
-        return $this->id;
+        $this->diaryUuid = Uuid::uuid4();
+        $this->distanceMeters = $distanceMeters;
+        $this->timeMinutes = $timeMinutes;
+        $this->temperatureCelsius = $temperatureCelsius;
+        $this->healthNotes = $healthNotes;
+        $this->party = $party;
     }
 
     public function getDiaryUuid()
     {
-        return $this->diary_uuid;
-    }
-
-    public function setDiaryUuid($diary_uuid): self
-    {
-        $this->diary_uuid = $diary_uuid;
-
-        return $this;
+        return $this->diaryUuid;
     }
 
     public function getDistanceMeters(): ?int
     {
-        return $this->distance_meters;
+        return $this->distanceMeters;
     }
 
-    public function setDistanceMeters(int $distance_meters): self
+    public function setDistanceMeters(int $distanceMeters): self
     {
-        $this->distance_meters = $distance_meters;
+        $this->distanceMeters = $distanceMeters;
 
         return $this;
     }
 
     public function getTimeMinutes(): ?int
     {
-        return $this->time_minutes;
+        return $this->timeMinutes;
     }
 
-    public function setTimeMinutes(int $time_minutes): self
+    public function setTimeMinutes(int $timeMinutes): self
     {
-        $this->time_minutes = $time_minutes;
+        $this->timeMinutes = $timeMinutes;
 
         return $this;
     }
 
     public function getTemperatureCelsius(): ?int
     {
-        return $this->temperature_celsius;
+        return $this->temperatureCelsius;
     }
 
-    public function setTemperatureCelsius(int $temperature_celsius): self
+    public function setTemperatureCelsius(int $temperatureCelsius): self
     {
-        $this->temperature_celsius = $temperature_celsius;
+        $this->temperatureCelsius = $temperatureCelsius;
 
         return $this;
     }
 
     public function getHealthNotes(): ?string
     {
-        return $this->health_notes;
+        return $this->healthNotes;
     }
 
-    public function setHealthNotes(?string $health_notes): self
+    public function setHealthNotes(?string $healthNotes): self
     {
-        $this->health_notes = $health_notes;
+        $this->healthNotes = $healthNotes;
 
         return $this;
     }
