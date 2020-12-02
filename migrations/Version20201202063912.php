@@ -26,6 +26,9 @@ final class Version20201202063912 extends AbstractMigration
         $tableRunning->addColumn('temperature_celsius', 'integer');
         $tableRunning->addColumn('health_notes', 'text', ['notnull' => false]);
         $tableRunning->addColumn('party', 'text', ['notnull' => false]);
+
+        $tableDiary = $schema->getTable('diary');
+        $tableDiary->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
     }
 
     public function down(Schema $schema) : void
