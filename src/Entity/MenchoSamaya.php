@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MenchoSamayaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=MenchoSamayaRepository::class)
@@ -12,78 +14,69 @@ class MenchoSamaya
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="uuid", unique=true)
      */
-    private $id;
+    private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="uuid")
      */
-    private $uuid;
+    private UuidInterface $diaryUuid;
 
     /**
      * @ORM\Column(type="uuid")
      */
-    private $diary_uuid;
-
-    /**
-     * @ORM\Column(type="uuid")
-     */
-    private $mantra_uuid;
+    private UuidInterface $mantraUuid;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $count;
+    private int $count;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $time_minutes;
+    private int $timeMinutes;
 
-    public function getId(): ?int
+    public function __construct(UuidInterface $diaryUuid, UuidInterface $mantraUuid, int $count, int $timeMinutes)
     {
-        return $this->id;
+        $this->uuid = Uuid::uuid4();
+        $this->diaryUuid = $diaryUuid;
+        $this->mantraUuid = $mantraUuid;
+        $this->count = $count;
+        $this->timeMinutes = $timeMinutes;
     }
 
-    public function getUuid()
+    public function getUuid(): UuidInterface
     {
         return $this->uuid;
     }
 
-    public function setUuid($uuid): self
+    public function getDiaryUuid(): UuidInterface
     {
-        $this->uuid = $uuid;
+        return $this->diaryUuid;
+    }
+
+    public function setDiaryUuid($diaryUuid): self
+    {
+        $this->diaryUuid = $diaryUuid;
 
         return $this;
     }
 
-    public function getDiaryUuid()
+    public function getMantraUuid(): UuidInterface
     {
-        return $this->diary_uuid;
+        return $this->mantraUuid;
     }
 
-    public function setDiaryUuid($diary_uuid): self
+    public function setMantraUuid($mantraUuid): self
     {
-        $this->diary_uuid = $diary_uuid;
+        $this->mantraUuid = $mantraUuid;
 
         return $this;
     }
 
-    public function getMantraUuid()
-    {
-        return $this->mantra_uuid;
-    }
-
-    public function setMantraUuid($mantra_uuid): self
-    {
-        $this->mantra_uuid = $mantra_uuid;
-
-        return $this;
-    }
-
-    public function getCount(): ?int
+    public function getCount(): int
     {
         return $this->count;
     }
@@ -95,14 +88,14 @@ class MenchoSamaya
         return $this;
     }
 
-    public function getTimeMinutes(): ?int
+    public function getTimeMinutes(): int
     {
-        return $this->time_minutes;
+        return $this->timeMinutes;
     }
 
-    public function setTimeMinutes(int $time_minutes): self
+    public function setTimeMinutes(int $timeMinutes): self
     {
-        $this->time_minutes = $time_minutes;
+        $this->timeMinutes = $timeMinutes;
 
         return $this;
     }
