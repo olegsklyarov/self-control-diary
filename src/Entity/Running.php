@@ -52,7 +52,7 @@ class Running
         $this->temperatureCelsius = $temperatureCelsius;
     }
 
-    public function getDiaryUuid(): Uuid
+    public function getDiaryUuid(): UuidInterface
     {
         return $this->diaryUuid;
     }
