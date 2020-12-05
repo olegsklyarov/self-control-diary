@@ -28,12 +28,11 @@ final class Version20201202063912 extends AbstractMigration
         $tableRunning->addColumn('party', 'text', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
-        $tableDiary->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
+        $tableRunning->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
     }
 
     public function down(Schema $schema) : void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $schema->dropTable('running');
     }
 }

@@ -44,23 +44,20 @@ class Running
     private ?string $party;
 
 
-    public function __construct(int $distanceMeters, int $timeMinutes, int $temperatureCelsius,
-        ?string $healthNotes = null, ?string $party = null)
+    public function __construct(int $distanceMeters, int $timeMinutes, int $temperatureCelsius)
     {
         $this->diaryUuid = Uuid::uuid4();
         $this->distanceMeters = $distanceMeters;
         $this->timeMinutes = $timeMinutes;
         $this->temperatureCelsius = $temperatureCelsius;
-        $this->healthNotes = $healthNotes;
-        $this->party = $party;
     }
 
-    public function getDiaryUuid()
+    public function getDiaryUuid(): Uuid
     {
         return $this->diaryUuid;
     }
 
-    public function getDistanceMeters(): ?int
+    public function getDistanceMeters(): int
     {
         return $this->distanceMeters;
     }
@@ -72,7 +69,7 @@ class Running
         return $this;
     }
 
-    public function getTimeMinutes(): ?int
+    public function getTimeMinutes(): int
     {
         return $this->timeMinutes;
     }
@@ -84,7 +81,7 @@ class Running
         return $this;
     }
 
-    public function getTemperatureCelsius(): ?int
+    public function getTemperatureCelsius(): int
     {
         return $this->temperatureCelsius;
     }
