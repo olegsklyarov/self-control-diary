@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20201202063912 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Create running table';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $tableRunning = $schema->createTable('running');
 
@@ -31,7 +31,7 @@ final class Version20201202063912 extends AbstractMigration
         $tableRunning->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('running');
     }
