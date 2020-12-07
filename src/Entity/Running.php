@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\RunningRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=RunningRepository::class)
