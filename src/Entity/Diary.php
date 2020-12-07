@@ -36,11 +36,10 @@ class Diary
     private User $user;
 
 
-    public function __construct(?string $notes, User $user)
+    public function __construct(User $user)
     {
         $this->uuid = Uuid::uuid4();
         $this->notedAt = new \DateTimeImmutable();
-        $this->notes = $notes;
         $this->user = $user;
     }
 
