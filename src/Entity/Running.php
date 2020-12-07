@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\RunningRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -16,7 +15,7 @@ class Running
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      */
-    private UuidInterface $diaryUuid;
+    private Diary $diary;
 
     /**
      * @ORM\Column(type="integer")
@@ -44,17 +43,17 @@ class Running
     private ?string $party;
 
 
-    public function __construct(int $distanceMeters, int $timeMinutes, int $temperatureCelsius)
+    public function __construct(Diary $diary, int $distanceMeters, int $timeMinutes, int $temperatureCelsius)
     {
-        $this->diaryUuid = Uuid::uuid4();
+        $this->diary = $diary;
         $this->distanceMeters = $distanceMeters;
         $this->timeMinutes = $timeMinutes;
         $this->temperatureCelsius = $temperatureCelsius;
     }
 
-    public function getDiaryUuid(): UuidInterface
+    public function getDiary(): Diary
     {
-        return $this->diaryUuid;
+        return $this->diary;
     }
 
     public function getDistanceMeters(): int
