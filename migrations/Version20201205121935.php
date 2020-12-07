@@ -31,6 +31,8 @@ final class Version20201205121935 extends AbstractMigration
 
         $tableMenchoMantra = $schema->getTable('mencho_mantra');
         $tableMenchoSamaya->addForeignKeyConstraint($tableMenchoMantra, ['mantra_uuid'], ['uuid']);
+
+        $tableMenchoSamaya->addUniqueIndex(['diary_uuid', 'mantra_uuid']);
     }
 
     public function down(Schema $schema): void
