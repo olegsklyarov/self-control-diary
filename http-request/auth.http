@@ -8,6 +8,21 @@ Content-Type: application/json
 
 > {%
 client.global.set("token", response.body.token);
+client.global.set("refresh_token", response.body.refresh_token);
+%}
+
+###
+
+POST {{host}}/api/token/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refresh_token}}"
+}
+
+> {%
+client.global.set("token", response.body.token);
+client.global.set("refresh_token", response.body.refresh_token);
 %}
 
 ###

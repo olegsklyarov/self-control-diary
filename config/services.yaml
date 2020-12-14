@@ -29,3 +29,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    gesdinet.jwtrefreshtoken.refresh_token_manager:
+        class: App\Doctrine\RefreshTokenManager
+        public: true
+        arguments:
+            - '@gesdinet.jwtrefreshtoken.object_manager'
+            - '%gesdinet.jwtrefreshtoken.refresh_token.class%'
