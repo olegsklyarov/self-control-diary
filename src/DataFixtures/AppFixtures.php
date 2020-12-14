@@ -26,7 +26,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User(self::ADMIN_USER_EMAIL);
-        $user->setPassword($this->passwordEncoder->encodePassword($user,self::ADMIN_USER_PASSWORD));
+        $user->setPassword($this->passwordEncoder->encodePassword($user, self::ADMIN_USER_PASSWORD));
         $manager->persist($user);
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
