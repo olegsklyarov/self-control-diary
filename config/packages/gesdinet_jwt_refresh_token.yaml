@@ -1,0 +1,5 @@
+gesdinet_jwt_refresh_token:
+  ttl: '%env(int:JWT_REFRESH_TOKEN_TTL)%'
+  ttl_update: true
+  single_use: true
+  firewall: token_refresh
