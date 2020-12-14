@@ -49,16 +49,6 @@ class User implements UserInterface
      */
     private array $roles;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $apiToken = null;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?\DateTimeInterface $apiTokenExpiresAt = null;
-
 
     public function __construct(string $email, array $roles = [])
     {
@@ -135,29 +125,5 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getApiToken(): ?string
-    {
-        return $this->apiToken;
-    }
-
-    public function setApiToken(?string $apiToken): self
-    {
-        $this->apiToken = $apiToken;
-
-        return $this;
-    }
-
-    public function getApiTokenExpiresAt(): ?\DateTimeInterface
-    {
-        return $this->apiTokenExpiresAt;
-    }
-
-    public function setApiTokenExpiresAt(?\DateTimeInterface $apiTokenExpiresAt): self
-    {
-        $this->apiTokenExpiresAt = $apiTokenExpiresAt;
-
-        return $this;
     }
 }

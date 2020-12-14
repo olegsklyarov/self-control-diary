@@ -10,3 +10,6 @@
 ###< symfony/framework-bundle ###
 
 /.idea/
+
+/http-request/http-client.env.json
+/http-request/http-client.private.env.json

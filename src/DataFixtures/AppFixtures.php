@@ -15,7 +15,6 @@ class AppFixtures extends Fixture
 {
     private const ADMIN_USER_EMAIL = 'admin@example.com';
     private const ADMIN_USER_PASSWORD = 'admin';
-    private const ADMIN_USER_ROLES = ['ROLE_ADMIN'];
 
     private UserPasswordEncoderInterface $passwordEncoder;
 
@@ -26,10 +25,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user = new User(
-            self::ADMIN_USER_EMAIL,
-            self::ADMIN_USER_ROLES,
-        );
+        $user = new User(self::ADMIN_USER_EMAIL);
         $user->setPassword($this->passwordEncoder->encodePassword($user,self::ADMIN_USER_PASSWORD));
         $manager->persist($user);
 
