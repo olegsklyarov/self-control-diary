@@ -35,6 +35,25 @@ class AppFixtures extends Fixture
         $manager->persist(new MenchoMantra('Зеленая Тара', 2));
         $manager->persist(new MenchoMantra('Белый Махакала', 2));
 
+        $manager->persist(new MenchoMantra('Махавайрочана', 3));
+        $manager->persist(new MenchoMantra('Золотой Манджушри', 3));
+        $manager->persist(new MenchoMantra('Амитаюс', 3));
+        $manager->persist(new MenchoMantra('Кшитигарба', 3));
+        $manager->persist(new MenchoMantra('Гуру Драгпо', 3));
+        $manager->persist(new MenchoMantra('Синяя Дакиня Симкхамукха', 3));
+        $manager->persist(new MenchoMantra('Миева/Ачала', 3));
+        $manager->persist(new MenchoMantra('Фудо Дайкоку', 3));
+        $manager->persist(new MenchoMantra('Хатчиман', 3));
+        $manager->persist(new MenchoMantra('Курукулле', 3));
+        $manager->persist(new MenchoMantra('Тсугтор Намджялма', 3));
+        $manager->persist(new MenchoMantra('Ритрома', 3));
+        $manager->persist(new MenchoMantra('Тройной-Воинственный/ТаЧагКьюнгСум', 3));
+        $manager->persist(new MenchoMantra('Синганата', 3));
+        $manager->persist(new MenchoMantra('Черный Махакала', 3));
+
+        $manager->persist(new MenchoMantra('Белый Манджушри', 4));
+        $manager->persist(new MenchoMantra('Защитник Ваджракилайя', 4));
+
         $diary = new Diary($user);
         $diary->setNotes('My first note');
         $manager->persist($diary);
