@@ -16,9 +16,9 @@ final class Version20201216150157 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $schema->getTable('running')->addColumn('isSwam', 'boolean');
-        $schema->getTable('running')->addColumn('waterTemperatureCelsius', 'integer');
-        $schema->getTable('running')->addColumn('startedAt', 'integer');
+        $schema->getTable('running')->addColumn('isSwam', 'boolean', ['notnull' => false]);
+        $schema->getTable('running')->addColumn('waterTemperatureCelsius', 'integer', ['notnull' => false]);
+        $schema->getTable('running')->addColumn('startedAt', 'integer', ['notnull' => false]);
     }
 
     public function down(Schema $schema): void
