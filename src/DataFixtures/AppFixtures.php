@@ -7,6 +7,7 @@ use App\Entity\MenchoMantra;
 use App\Entity\MenchoSamaya;
 use App\Entity\Running;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -66,6 +67,7 @@ class AppFixtures extends Fixture
 
         $running = new Running($diary, 4.7, 32, -11);
         $running->setHealthNotes('Чувствую себя великолепно! 🚀');
+        $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new DateTimeImmutable());
         $manager->persist($running);
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
