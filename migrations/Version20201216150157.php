@@ -11,7 +11,7 @@ final class Version20201216150157 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add isSwam (boolean, optional), waterTemperatureCelsius (integer, optional), startedAt (datetime) at Running table';
+        return 'Add swimming, water temperature and started at Running table';
     }
 
     public function up(Schema $schema): void
