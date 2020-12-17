@@ -19,12 +19,12 @@ class Sleeping
     private Diary $diary;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="time", nullable=true)
      */
     private ?DateTimeInterface $awakeAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="time", nullable=true)
      */
     private ?DateTimeInterface $sleepAt;
 
