@@ -75,7 +75,7 @@ class AppFixtures extends Fixture
 
         $sleeping = new Sleeping($diary);
         $awakeAt = new DateTimeImmutable('17.12.2020 9:00:00');
-        $sleepAt = new DateTimeImmutable('16.12.2020 23:00:00');
+        $sleepAt = new DateTimeImmutable('17.12.2020 23:00:00');
         $sleeping->setAwakeAt($awakeAt)->setSleepAt($sleepAt);
         $manager->persist($sleeping);
 
