@@ -68,6 +68,7 @@ class AppFixtures extends Fixture
 
         $running = new Running($diary, 4.7, 32, -11);
         $running->setHealthNotes('Чувствую себя великолепно! 🚀');
+        $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new DateTimeImmutable());
         $manager->persist($running);
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);

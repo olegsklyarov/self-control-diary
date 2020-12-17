@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RunningRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,21 @@ class Running
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $party;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $isSwam;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $waterTemperatureCelsius;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTimeInterface $startedAt;
 
 
     public function __construct(Diary $diary, int $distanceMeters, int $timeMinutes, int $temperatureCelsius)
@@ -112,6 +128,42 @@ class Running
     public function setParty(?string $party): self
     {
         $this->party = $party;
+
+        return $this;
+    }
+
+    public function getIsSwam(): ?bool
+    {
+        return $this->isSwam;
+    }
+
+    public function setIsSwam(?bool $isSwam): self
+    {
+        $this->isSwam = $isSwam;
+
+        return $this;
+    }
+
+    public function getWaterTemperatureCelsius(): ?int
+    {
+        return $this->waterTemperatureCelsius;
+    }
+
+    public function setWaterTemperatureCelsius(?int $waterTemperatureCelsius): self
+    {
+        $this->waterTemperatureCelsius = $waterTemperatureCelsius;
+
+        return $this;
+    }
+
+    public function getStartedAt(): ?DateTimeInterface
+    {
+        return $this->startedAt;
+    }
+
+    public function setStartedAt(DateTimeInterface $startedAt): self
+    {
+        $this->startedAt = $startedAt;
 
         return $this;
     }
