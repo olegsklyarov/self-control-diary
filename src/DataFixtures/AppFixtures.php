@@ -6,7 +6,9 @@ use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Entity\MenchoSamaya;
 use App\Entity\Running;
+use App\Entity\Sleeping;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -70,6 +72,12 @@ class AppFixtures extends Fixture
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $manager->persist($menchoSamaya);
+
+        $sleeping = new Sleeping($diary);
+        $awakeAt = new DateTime('17.12.2020 9:00:00');
+        $sleepAt = new DateTime('16.12.2020 23:00:00');
+        $sleeping->setAwakeAt($awakeAt)->setSleepAt($sleepAt);
+        $manager->persist($sleeping);
 
         $manager->flush();
     }
