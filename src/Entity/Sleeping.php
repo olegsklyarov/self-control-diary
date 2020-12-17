@@ -33,7 +33,7 @@ class Sleeping
         $this->diary = $diary;
     }
 
-    public function getDiary()
+    public function getDiary(): Diary
     {
         return $this->diary;
     }
