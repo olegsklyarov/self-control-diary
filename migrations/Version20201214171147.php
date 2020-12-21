@@ -23,10 +23,12 @@ final class Version20201214171147 extends AbstractMigration
         $table->addColumn('username', 'string');
         $table->addColumn('valid', 'datetime');
         $table->addUniqueIndex(['refresh_token']);
+        $schema->createSequence('refresh_tokens_id_seq');
     }
 
     public function down(Schema $schema): void
     {
+        $schema->dropSequence('refresh_tokens_id_seq');
         $schema->dropTable('refresh_tokens');
     }
 }
