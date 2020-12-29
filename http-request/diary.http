@@ -2,3 +2,12 @@ GET {{host}}/api/diary/2020-12-23
 Authorization: Bearer {{token}}
 
 ###
+
+POST {{host}}/api/diary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "noted_at": "2020-12-28",
+  "notes": "This is my diary note!"
+}

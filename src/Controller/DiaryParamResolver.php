@@ -3,23 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Diary;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\DiaryService;
+use App\Service\Util;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
-use Symfony\Component\Security\Core\Security;
 
-class DiaryParamResolver implements ArgumentValueResolverInterface
+final class DiaryParamResolver implements ArgumentValueResolverInterface
 {
     private const PARAM_NOTED_AT = 'noted_at';
 
-    private EntityManagerInterface $entityManagerInterface;
-    private Security $security;
+    private DiaryService $diaryService;
 
-    public function __construct(EntityManagerInterface $entityManagerInterface, Security $security)
+    public function __construct(DiaryService $diaryService)
     {
-        $this->entityManagerInterface = $entityManagerInterface;
-        $this->security = $security;
+        $this->diaryService = $diaryService;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -31,19 +29,8 @@ class DiaryParamResolver implements ArgumentValueResolverInterface
     {
         $paramNotedAt = $request->get(self::PARAM_NOTED_AT);
 
-        yield $this->isValidDateFormat($paramNotedAt)
-            ? $this->entityManagerInterface->getRepository(Diary::class)->findOneBy([
-                'notedAt' => new \DateTimeImmutable($paramNotedAt),
-                'user' => $this->security->getUser(),
-            ])
+        yield Util::isValidDateFormat($paramNotedAt)
+            ? $this->diaryService->findByDateAndCurrentUser(new \DateTimeImmutable($paramNotedAt))
             : null;
-    }
-
-    private function isValidDateFormat(string $date): bool
-    {
-        if (preg_match("/(\d{4})-(\d{2})-(\d{2})/", $date, $matches)) {
-            return checkdate((int)$matches[2], (int)$matches[3], (int)$matches[1]);
-        }
-        return false;
     }
 }
