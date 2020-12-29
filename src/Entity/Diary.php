@@ -6,6 +6,8 @@ use App\Repository\DiaryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=DiaryRepository::class)
@@ -16,16 +18,19 @@ class Diary
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"api"})
      */
     private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"api"})
      */
     private ?string $notes;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"api"})
      */
     private \DateTimeInterface $notedAt;
 

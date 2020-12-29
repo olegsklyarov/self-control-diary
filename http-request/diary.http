@@ -1,0 +1,4 @@
+GET {{host}}/api/diary/2020-12-23
+Authorization: Bearer {{token}}
+
+###
