@@ -32,7 +32,7 @@ final class DiaryParamResolver implements ArgumentValueResolverInterface
         $paramNotedAt = $request->get(self::PARAM_NOTED_AT);
 
         yield Util::isValidDateFormat($paramNotedAt)
-            ? $this->diaryService->findByDateAndCurrentUser(new \DateTimeImmutable($paramNotedAt))
+            ? $this->diaryService->findByNotedAtForCurrentUser(new \DateTimeImmutable($paramNotedAt))
             : null;
     }
 }

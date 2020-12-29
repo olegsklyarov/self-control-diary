@@ -24,7 +24,7 @@ final class DiaryService
 
     private function isDiaryExists(\DateTimeInterface $notedAt): bool
     {
-        return null !== $this->findByDateAndCurrentUser($notedAt);
+        return null !== $this->findByNotedAtForCurrentUser($notedAt);
     }
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
@@ -33,7 +33,7 @@ final class DiaryService
         $this->security = $security;
     }
 
-    public function findByDateAndCurrentUser(\DateTimeInterface $notedAt): ?Diary
+    public function findByNotedAtForCurrentUser(\DateTimeInterface $notedAt): ?Diary
     {
         /** @var Diary|null $diary */
         $diary = $this->entityManager->getRepository(Diary::class)->findOneBy([
@@ -47,19 +47,17 @@ final class DiaryService
     public function persistFromDto(DiaryDTO $diaryDTO): ?Diary
     {
         $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
+        $createdDiary = null;
+        $this->entityManager->transactional(function(EntityManagerInterface $em) use ($notedAt, $diaryDTO, &$createdDiary) {
+            if ($this->isDiaryExists($notedAt)) {
+                return;
+            }
+            $createdDiary = new Diary($this->getCurrentUser(), $notedAt);
+            $createdDiary->setNotes($diaryDTO->notes);
+            $em->persist($createdDiary);
+        });
 
-        // TODO transaction
-        if ($this->isDiaryExists($notedAt)) {
-            return null;
-        }
-
-        $diary = new Diary($this->getCurrentUser(), $notedAt);
-        $diary->setNotes($diaryDTO->notes);
-
-        $this->entityManager->persist($diary);
-        $this->entityManager->flush();
-
-        return $diary;
+        return $createdDiary;
     }
 
 }
