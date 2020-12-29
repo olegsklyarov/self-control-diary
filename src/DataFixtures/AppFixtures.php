@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
         $manager->persist(new MenchoMantra('Белый Манджушри', 4));
         $manager->persist(new MenchoMantra('Защитник Ваджракилайя', 4));
 
-        $diary = new Diary($user);
+        $diary = new Diary($user, new DateTimeImmutable());
         $diary->setNotes('My first note');
         $manager->persist($diary);
 

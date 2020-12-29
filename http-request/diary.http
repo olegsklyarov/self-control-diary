@@ -8,6 +8,6 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "noted_at": "2020-12-28",
+  "notedAt": "2020-12-28",
   "notes": "This is my diary note!"
 }

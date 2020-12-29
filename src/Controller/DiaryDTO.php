@@ -9,24 +9,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class DiaryDTO
 {
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      */
-    private ?string $notes;
+    public ?string $notes;
 
     /**
-     * @Assert\Date()
-     * @Assert\NotNull()
-     * @Assert\NotBlank()
+     * @Assert\Date
+     * @Assert\NotNull
+     * @Assert\NotBlank
      */
-    private \DateTimeImmutable $notedAt;
-
-    public function getNotedAt(): \DateTimeImmutable
-    {
-        return $this->notedAt;
-    }
-
-    public function getNotes(): ?string
-    {
-        return $this->notes;
-    }
+    public string $notedAt;
 }

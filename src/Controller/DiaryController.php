@@ -24,12 +24,7 @@ class DiaryController extends AbstractController
     {
         return $diary === null
             ? new Response('', Response::HTTP_NOT_FOUND)
-            : $this->json(
-                $diary,
-                Response::HTTP_OK,
-                [],
-                ['groups' => 'api'],
-            );
+            : $this->json($diary, Response::HTTP_OK, [], ['groups' => 'api']);
     }
 
     /**
@@ -37,17 +32,9 @@ class DiaryController extends AbstractController
      */
     public function postDiary(DiaryDTO $diaryDto): Response
     {
-        if ($this->diaryService->isDiaryExistsByDto($diaryDto)) {
-            return new Response('', Response::HTTP_CONFLICT);
-        }
-
         $createdDiary = $this->diaryService->persistFromDto($diaryDto);
-
-        return $this->json(
-            $createdDiary,
-            Response::HTTP_CREATED,
-            [],
-            ['groups' => 'api'],
-        );
+        return null === $createdDiary
+            ? new Response('', Response::HTTP_CONFLICT)
+            : $this->json($createdDiary, Response::HTTP_CREATED, [], ['groups' => 'api']);
     }
 }
