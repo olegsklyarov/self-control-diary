@@ -45,7 +45,7 @@ class DiaryController extends AbstractController
     {
         $updatedDiary = $this->diaryService->updateFromDTO($diaryDto);
         return null === $updatedDiary
-            ? new Response('', Response::HTTP_CONFLICT)
+            ? new Response('', Response::HTTP_NOT_FOUND)
             : $this->json($updatedDiary, Response::HTTP_OK, [], ['groups' => 'api']);
     }
 }
