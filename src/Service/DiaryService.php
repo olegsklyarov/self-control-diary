@@ -60,4 +60,16 @@ final class DiaryService
         return $createdDiary;
     }
 
+    public function updateFromDTO(DiaryDTO $diaryDTO): ?Diary
+    {
+        $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
+        $diary = $this->findByNotedAtForCurrentUser($notedAt);
+        if (!$diary) {
+            return null;
+        }
+        $diary->setNotes($diaryDTO->notes);
+        $this->entityManager->flush();
+        return $diary;
+    }
+
 }
