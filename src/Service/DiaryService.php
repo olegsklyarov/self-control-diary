@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Controller\DiaryDTO;
 use App\Entity\Diary;
 use App\Entity\User;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -22,7 +23,7 @@ final class DiaryService
         return $user;
     }
 
-    private function isDiaryExists(\DateTimeInterface $notedAt): bool
+    private function isDiaryExists(DateTimeInterface $notedAt): bool
     {
         return null !== $this->findByNotedAtForCurrentUser($notedAt);
     }
@@ -33,7 +34,7 @@ final class DiaryService
         $this->security = $security;
     }
 
-    public function findByNotedAtForCurrentUser(\DateTimeInterface $notedAt): ?Diary
+    public function findByNotedAtForCurrentUser(DateTimeInterface $notedAt): ?Diary
     {
         /** @var Diary|null $diary */
         $diary = $this->entityManager->getRepository(Diary::class)->findOneBy([
