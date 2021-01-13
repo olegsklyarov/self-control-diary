@@ -11,3 +11,14 @@ Content-Type: application/json
   "notedAt": "2020-12-28",
   "notes": "This is my diary note!"
 }
+
+###
+
+PATCH {{host}}/api/diary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "notedAt": "2020-12-28",
+  "notes": "This is my updated note!)"
+}
