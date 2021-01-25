@@ -13,8 +13,3 @@
 
 /http-request/http-client.env.json
 /http-request/http-client.private.env.json
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
