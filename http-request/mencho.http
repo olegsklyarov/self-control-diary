@@ -2,3 +2,6 @@ GET {{host}}/api/mencho/mantra
 Authorization: Bearer {{token}}
 
 ###
+
+GET {{host}}/api/mencho/2020-12-23
+Authorization: Bearer {{token}}

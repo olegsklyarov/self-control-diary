@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Diary;
 use App\Entity\MenchoSamaya;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,22 +20,20 @@ class MenchoSamayaRepository extends ServiceEntityRepository
         parent::__construct($registry, MenchoSamaya::class);
     }
 
-    // /**
-    //  * @return MenchoSamaya[] Returns an array of MenchoSamaya objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return MenchoSamaya[] Returns an array of MenchoSamaya objects
+      */
+
+    public function findByDiaryUuid(Diary $diary): array
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('m.diary = :val')
+            ->setParameter('val', $diary->getUuid())
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?MenchoSamaya
