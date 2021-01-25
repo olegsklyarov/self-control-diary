@@ -8,10 +8,25 @@ use App\Service\Util;
 
 class isValidDateFormatTest extends \Codeception\Test\Unit
 {
-    public function testIsValidDateFormat()
+    public function testValidDateFormat()
     {
         self::assertTrue(Util::isValidDateFormat('2021-01-26'));
-        self::assertFalse(Util::isValidDateFormat(''));
-        self::assertFalse(Util::isValidDateFormat('57079b9d-47da-4071-802f-d32b35068ae5'));
+    }
+
+    /**
+     * @dataProvider invalidDateFormatProvider
+     */
+    public function testInvalidDateFormat(string $invalidDate)
+    {
+        self::assertFalse(Util::isValidDateFormat($invalidDate));
+    }
+
+    public function invalidDateFormatProvider(): array
+    {
+        return [
+            ['20210126'],
+            ['26.01.2021'],
+            ['57079b9d-47da-4071-802f-d32b35068ae5'],
+        ];
     }
 }
