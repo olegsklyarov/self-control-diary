@@ -11,6 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MenchoController extends AbstractController
 {
+    private MenchoService $menchoService;
+
+    public function __construct(MenchoService $menchoService)
+    {
+        $this->menchoService = $menchoService;
+    }
+
     /**
      * @Route("/api/mencho/mantra", name="mencho", methods={"GET"})
      */
@@ -28,13 +35,9 @@ class MenchoController extends AbstractController
     {
         if ($diary === null){
            return new Response('', Response::HTTP_NOT_FOUND);
-        } else {
-            $menschService = new MenchoService($this->getDoctrine());
-            $data = $menschService->getSamaya($diary);
-            $dump = $data;
-            $data = json_encode($data, true);
-            dump($dump);
-            return $this->json($data, Response::HTTP_OK, [], ['groups' => 'api']);
         }
+        $menchoSamaya = $this->menchoService->getSamaya($diary);
+
+        return $this->json($menchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);
     }
 }

@@ -2,19 +2,23 @@
 
 declare(strict_types=1);
 
-
 namespace App\Service;
 
-
 use App\Entity\Diary;
-use App\Repository\MenchoSamayaRepository;
+use App\Entity\MenchoSamaya;
+use Doctrine\ORM\EntityManagerInterface;
 
-
-class MenchoService extends MenchoSamayaRepository
+final class MenchoService
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function getSamaya(Diary $diary): array
     {
-        return $this->findByDiaryUuid($diary);
+        return $this->entityManager->getRepository(MenchoSamaya::class)->findByDiaryUuid($diary);
     }
 }

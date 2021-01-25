@@ -20,18 +20,16 @@ class MenchoSamayaRepository extends ServiceEntityRepository
         parent::__construct($registry, MenchoSamaya::class);
     }
 
-     /**
-      * @return MenchoSamaya[] Returns an array of MenchoSamaya objects
-      */
-
+    /**
+     * @return MenchoSamaya[] Returns an array of MenchoSamaya objects
+     */
     public function findByDiaryUuid(Diary $diary): array
     {
         return $this->createQueryBuilder('m')
-            ->where('m.diary = :val')
-            ->setParameter('val', $diary->getUuid())
+            ->where('m.diary = :uuid')
+            ->setParameter('uuid', $diary->getUuid())
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
