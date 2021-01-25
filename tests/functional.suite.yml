@@ -10,8 +10,14 @@ modules:
     enabled:
         - Symfony:
             app_path: 'src'
+            var_path: 'var'
             environment: 'test'
-#        - Doctrine2:
-#            depends: Symfony
-#            cleanup: true
+        - REST:
+              url: ''
+              depends: Symfony
+              part: Json
+        - Doctrine2:
+            depends: Symfony
+            cleanup: true
         - \App\Tests\Helper\Functional
+        - Asserts
