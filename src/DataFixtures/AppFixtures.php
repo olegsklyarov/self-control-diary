@@ -33,7 +33,8 @@ class AppFixtures extends Fixture
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $manager->persist($mantraBuddhaShakyamuni);
-        $manager->persist(new MenchoMantra('Будда Медицины', 1));
+        $mantraBuddhaMedicine = new MenchoMantra('Будда Медицины', 1);
+        $manager->persist($mantraBuddhaMedicine);
         $manager->persist(new MenchoMantra('Амитаба', 1));
         $manager->persist(new MenchoMantra('Ченрезиг', 1));
         $manager->persist(new MenchoMantra('Ваджрапани', 1));
@@ -71,8 +72,8 @@ class AppFixtures extends Fixture
         $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new DateTimeImmutable());
         $manager->persist($running);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
-        $manager->persist($menchoSamaya);
+        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100));
+        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaMedicine, 200));
 
         $sleeping = new Sleeping($diary);
         $awakeAt = new DateTimeImmutable('17.12.2020 9:00:00');

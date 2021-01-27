@@ -6,6 +6,8 @@ use App\Repository\MenchoSamayaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=MenchoSamayaRepository::class)
@@ -16,16 +18,19 @@ class MenchoSamaya
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
+     * @Groups({"api"})
      */
     private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"api"})
      */
     private int $count;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"api"})
      */
     private ?int $timeMinutes;
 
@@ -38,6 +43,7 @@ class MenchoSamaya
     /**
      * @ORM\ManyToOne(targetEntity=MenchoMantra::class)
      * @ORM\JoinColumn(name="mantra_uuid", nullable=false, referencedColumnName="uuid")
+     * @Groups({"api"})
      */
     private MenchoMantra $menchoMantra;
 
