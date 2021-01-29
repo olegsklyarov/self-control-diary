@@ -5,7 +5,7 @@
 # Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
 # Remove this suite if you don't use frameworks
 
-actor: FunctionalTester
+actor: ApiTester
 modules:
     enabled:
         - Symfony:
@@ -19,5 +19,5 @@ modules:
         - Doctrine2:
             depends: Symfony
             cleanup: true
-        - \App\Tests\Helper\Functional
+        - \App\Tests\Helper\Api
         - Asserts
