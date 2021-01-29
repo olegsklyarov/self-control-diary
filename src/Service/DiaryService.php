@@ -19,6 +19,7 @@ final class DiaryService
     {
         /** @var User $user */
         $user = $this->security->getUser();
+
         return $user;
     }
 
@@ -48,7 +49,7 @@ final class DiaryService
     {
         $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
         $createdDiary = null;
-        $this->entityManager->transactional(function(EntityManagerInterface $em) use ($notedAt, $diaryDTO, &$createdDiary) {
+        $this->entityManager->transactional(function (EntityManagerInterface $em) use ($notedAt, $diaryDTO, &$createdDiary): void {
             if ($this->isDiaryExists($notedAt)) {
                 return;
             }
@@ -65,7 +66,6 @@ final class DiaryService
         $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
         $diary = $this->findByNotedAtForCurrentUser($notedAt);
         if (!$diary) {
-
             return null;
         }
         $diary->setNotes($diaryDTO->notes);
@@ -74,5 +74,4 @@ final class DiaryService
 
         return $diary;
     }
-
 }

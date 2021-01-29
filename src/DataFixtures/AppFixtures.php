@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\Entity\Diary;
@@ -8,7 +10,6 @@ use App\Entity\MenchoSamaya;
 use App\Entity\Running;
 use App\Entity\Sleeping;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -25,7 +26,7 @@ class AppFixtures extends Fixture
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $user = new User(self::ADMIN_USER_EMAIL);
         $user->setPassword($this->passwordEncoder->encodePassword($user, self::ADMIN_USER_PASSWORD));
@@ -63,21 +64,21 @@ class AppFixtures extends Fixture
         $manager->persist(new MenchoMantra('Белый Манджушри', 4));
         $manager->persist(new MenchoMantra('Защитник Ваджракилайя', 4));
 
-        $diary = new Diary($user, new DateTimeImmutable());
+        $diary = new Diary($user, new \DateTimeImmutable());
         $diary->setNotes('My first note');
         $manager->persist($diary);
 
-        $running = new Running($diary, 4.7, 32, -11);
+        $running = new Running($diary, 4700, 32, -11);
         $running->setHealthNotes('Чувствую себя великолепно! 🚀');
-        $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new DateTimeImmutable());
+        $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new \DateTimeImmutable());
         $manager->persist($running);
 
         $manager->persist(new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100));
         $manager->persist(new MenchoSamaya($diary, $mantraBuddhaMedicine, 200));
 
         $sleeping = new Sleeping($diary);
-        $awakeAt = new DateTimeImmutable('17.12.2020 9:00:00');
-        $sleepAt = new DateTimeImmutable('17.12.2020 23:00:00');
+        $awakeAt = new \DateTimeImmutable('17.12.2020 9:00:00');
+        $sleepAt = new \DateTimeImmutable('17.12.2020 23:00:00');
         $sleeping->setAwakeAt($awakeAt)->setSleepAt($sleepAt);
         $manager->persist($sleeping);
 

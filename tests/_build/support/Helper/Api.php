@@ -8,5 +8,4 @@ use Codeception\Module;
 
 class Api extends Module
 {
-
 }

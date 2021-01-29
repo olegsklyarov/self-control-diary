@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20201217095449 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Change datetime to time where its necessary';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $schema->getTable('running')
             ->dropColumn('started_at')
@@ -29,7 +29,7 @@ final class Version20201217095449 extends AbstractMigration
             ->addColumn('sleep_at', 'time', ['notnull' => false]);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->getTable('running')
             ->dropColumn('started_at')

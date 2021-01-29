@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -45,10 +47,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json", options={"default": "[]"})
+     *
      * @var string[]
      */
     private array $roles;
-
 
     public function __construct(string $email, array $roles = [])
     {
@@ -111,7 +113,7 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function getSalt()
+    public function getSalt(): void
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
@@ -121,7 +123,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

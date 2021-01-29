@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20201130173722 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Create mencho_mantra table';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $tableMenchoMantra = $schema->createTable('mencho_mantra');
         $tableMenchoMantra->addColumn('uuid', 'uuid');
@@ -27,7 +27,7 @@ final class Version20201130173722 extends AbstractMigration
         $tableMenchoMantra->addColumn('description', 'text', ['notnull' => false]);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('mencho_mantra');
     }

@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-
 final class HttpRequestValidationException extends BadRequestHttpException
 {
     public function __construct(ConstraintViolationListInterface $violations, \Exception $previous = null)
@@ -24,7 +23,7 @@ final class HttpRequestValidationException extends BadRequestHttpException
     private function violationsToString(ConstraintViolationListInterface $violations): string
     {
         return implode(', ', array_map(
-            fn(ConstraintViolationInterface $violation): string => sprintf(
+            fn (ConstraintViolationInterface $violation): string => sprintf(
                 '"%s" - %s',
                 $violation->getPropertyPath(),
                 $violation->getMessage()

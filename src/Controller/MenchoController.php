@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Diary;
@@ -33,8 +35,8 @@ class MenchoController extends AbstractController
      */
     public function getSamaya(?Diary $diary): Response
     {
-        if ($diary === null){
-           return new Response('', Response::HTTP_NOT_FOUND);
+        if (null === $diary) {
+            return new Response('', Response::HTTP_NOT_FOUND);
         }
         $menchoSamaya = $this->menchoService->getSamaya($diary);
 

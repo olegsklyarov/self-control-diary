@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20201217051531 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Create sleeping table';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $tableSleeping = $schema->createTable('sleeping');
         $tableSleeping->addColumn('diary_uuid', 'uuid');
@@ -26,7 +26,7 @@ final class Version20201217051531 extends AbstractMigration
         $tableSleeping->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('sleeping');
     }

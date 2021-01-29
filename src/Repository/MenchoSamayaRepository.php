@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Diary;
@@ -31,7 +33,6 @@ class MenchoSamayaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 
     /*
     public function findOneBySomeField($value): ?MenchoSamaya

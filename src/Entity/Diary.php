@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\DiaryRepository;
@@ -7,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
  * @ORM\Entity(repositoryClass=DiaryRepository::class)
@@ -39,7 +40,6 @@ class Diary
      * @ORM\JoinColumn(name="user_uuid", nullable=false, referencedColumnName="uuid")
      */
     private User $user;
-
 
     public function __construct(User $user, \DateTimeImmutable $notedAt)
     {

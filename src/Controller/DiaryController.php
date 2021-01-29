@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Diary;
@@ -22,7 +24,7 @@ class DiaryController extends AbstractController
      */
     public function getDiary(?Diary $diary): Response
     {
-        return $diary === null
+        return null === $diary
             ? new Response('', Response::HTTP_NOT_FOUND)
             : $this->json($diary, Response::HTTP_OK, [], ['groups' => 'api']);
     }
@@ -33,6 +35,7 @@ class DiaryController extends AbstractController
     public function postDiary(DiaryDTO $diaryDto): Response
     {
         $createdDiary = $this->diaryService->persistFromDto($diaryDto);
+
         return null === $createdDiary
             ? new Response('', Response::HTTP_CONFLICT)
             : $this->json($createdDiary, Response::HTTP_CREATED, [], ['groups' => 'api']);
@@ -44,6 +47,7 @@ class DiaryController extends AbstractController
     public function patchDiary(DiaryDTO $diaryDto): Response
     {
         $updatedDiary = $this->diaryService->updateFromDTO($diaryDto);
+
         return null === $updatedDiary
             ? new Response('', Response::HTTP_NOT_FOUND)
             : $this->json($updatedDiary, Response::HTTP_OK, [], ['groups' => 'api']);

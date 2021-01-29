@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\MenchoSamayaRepository;
@@ -7,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 
 /**
  * @ORM\Entity(repositoryClass=MenchoSamayaRepository::class)
@@ -59,7 +60,6 @@ class MenchoSamaya
     {
         return $this->uuid;
     }
-
 
     public function getCount(): int
     {

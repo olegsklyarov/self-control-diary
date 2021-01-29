@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\RunningRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,8 +57,7 @@ class Running
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    private ?DateTimeInterface $startedAt;
-
+    private ?\DateTimeInterface $startedAt;
 
     public function __construct(Diary $diary, int $distanceMeters, int $timeMinutes, int $temperatureCelsius)
     {
@@ -156,12 +156,12 @@ class Running
         return $this;
     }
 
-    public function getStartedAt(): ?DateTimeInterface
+    public function getStartedAt(): ?\DateTimeInterface
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(DateTimeInterface $startedAt): self
+    public function setStartedAt(\DateTimeInterface $startedAt): self
     {
         $this->startedAt = $startedAt;
 
