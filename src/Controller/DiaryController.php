@@ -58,6 +58,9 @@ class DiaryController extends AbstractController
      */
     public function deleteDiary(?Diary $diary): Response
     {
+        if (null === $diary) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
         $this->diaryService->delete($diary);
 
         return new Response('', Response::HTTP_NO_CONTENT);

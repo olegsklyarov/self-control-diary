@@ -65,4 +65,31 @@ class ApiDiaryDeleteCest
         $I->seeInRepository(MenchoMantra::class, ['uuid' => $mantraBuddhaShakyamuni->getUuid()]);
         $I->seeInRepository(User::class, ['uuid' => $user->getUuid()]);
     }
+
+    public function testDiaryNotFound(ApiTester $I): void
+    {
+        $I->wantToTest('DELETE /api/diary/{noted_at} (diary not found)');
+
+        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
+        $userPasswordEncoder = $I->grabService('security.password_encoder');
+        $user = new User('user@example.com');
+        $user->setPassword(
+            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
+        );
+        $I->haveInRepository($user);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendDelete('/api/diary/2021-01-30');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+    }
 }
