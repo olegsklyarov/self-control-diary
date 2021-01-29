@@ -1,12 +1,13 @@
-<?php namespace App\Tests;
+<?php namespace App\Tests\Api;
 
 use App\Entity\User;
+use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class JwtAuthCest
 {
-    public function _before(FunctionalTester $I)
+    public function _before(ApiTester $I)
     {
         /** @var UserPasswordEncoderInterface $userPasswordEncoder */
         $userPasswordEncoder = $I->grabService('security.password_encoder');
@@ -17,7 +18,7 @@ final class JwtAuthCest
         $I->haveInRepository($user);
     }
 
-    public function testSuccessAuth(FunctionalTester $I)
+    public function testSuccessAuth(ApiTester $I)
     {
         $I->wantToTest('login with valid credentials');
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -30,7 +31,7 @@ final class JwtAuthCest
         $I->seeResponseJsonMatchesJsonPath('$.refresh_token');
     }
 
-    public function testIncorrectPassword(FunctionalTester $I)
+    public function testIncorrectPassword(ApiTester $I)
     {
         $I->wantToTest('login with invalid credentials');
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -48,7 +49,7 @@ final class JwtAuthCest
         ]);
     }
 
-    public function testInvalidMethod(FunctionalTester $I)
+    public function testInvalidMethod(ApiTester $I)
     {
         $I->wantToTest('login with invalid method');
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -56,7 +57,7 @@ final class JwtAuthCest
         $I->seeResponseCodeIs(HttpCode::METHOD_NOT_ALLOWED);
     }
 
-    public function testInvalidBody(FunctionalTester $I)
+    public function testInvalidBody(ApiTester $I)
     {
         $I->wantToTest('login with invalid body');
         $I->haveHttpHeader('Content-Type', 'application/json');
