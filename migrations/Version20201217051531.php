@@ -19,8 +19,8 @@ final class Version20201217051531 extends AbstractMigration
         $tableSleeping = $schema->createTable('sleeping');
         $tableSleeping->addColumn('diary_uuid', 'uuid');
         $tableSleeping->setPrimaryKey(['diary_uuid']);
-        $tableSleeping->addColumn('awake_at', 'datetime', ['notnull' => false]);
-        $tableSleeping->addColumn('sleep_at', 'datetime', ['notnull' => false]);
+        $tableSleeping->addColumn('awake_at', 'time', ['notnull' => false]);
+        $tableSleeping->addColumn('sleep_at', 'time', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
         $tableSleeping->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
