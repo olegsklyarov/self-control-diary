@@ -26,6 +26,9 @@ final class Version20201202063912 extends AbstractMigration
         $tableRunning->addColumn('temperature_celsius', 'integer');
         $tableRunning->addColumn('health_notes', 'text', ['notnull' => false]);
         $tableRunning->addColumn('party', 'text', ['notnull' => false]);
+        $tableRunning->addColumn('is_swam', 'boolean', ['notnull' => false]);
+        $tableRunning->addColumn('water_temperature_celsius', 'integer', ['notnull' => false]);
+        $tableRunning->addColumn('started_at', 'time', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
         $tableRunning->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
