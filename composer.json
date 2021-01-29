@@ -33,6 +33,7 @@
         "codeception/module-rest": "^1.2",
         "codeception/module-symfony": "^1.6",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "friendsofphp/php-cs-fixer": "^2.18",
         "symfony/maker-bundle": "^1.23",
         "symfony/stopwatch": "^5.1",
         "symfony/twig-bundle": "^5.1",
