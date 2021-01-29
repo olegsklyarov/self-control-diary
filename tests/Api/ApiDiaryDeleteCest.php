@@ -55,6 +55,14 @@ class ApiDiaryDeleteCest
 
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/diary/2021-01-30');
-        $I->seeResponseCodeIs(HttpCode::INTERNAL_SERVER_ERROR);
+        $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+
+        $I->dontSeeInRepository(Diary::class, ['uuid' => $diary->getUuid()]);
+        $I->dontSeeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamaya->getUuid()]);
+        $I->dontSeeInRepository(Sleeping::class, ['diary' => $sleeping->getDiary()]);
+        $I->dontSeeInRepository(Running::class, ['diary' => $running->getDiary()]);
+
+        $I->seeInRepository(MenchoMantra::class, ['uuid' => $mantraBuddhaShakyamuni->getUuid()]);
+        $I->seeInRepository(User::class, ['uuid' => $user->getUuid()]);
     }
 }

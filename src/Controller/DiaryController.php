@@ -58,6 +58,8 @@ class DiaryController extends AbstractController
      */
     public function deleteDiary(?Diary $diary): Response
     {
-        return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $this->diaryService->delete($diary);
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
