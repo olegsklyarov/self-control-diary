@@ -92,4 +92,11 @@ class ApiDiaryDeleteCest
         $I->sendDelete('/api/diary/2021-01-30');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
     }
+
+    public function testNotAuthorized(ApiTester $I): void
+    {
+        $I->wantToTest('DELETE /api/diary/{noted_at} (not authorized)');
+        $I->sendDelete('/api/diary/2021-01-30');
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+    }
 }
