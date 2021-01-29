@@ -37,13 +37,13 @@ class MenchoSamaya
 
     /**
      * @ORM\ManyToOne(targetEntity=Diary::class)
-     * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid")
+     * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      */
     private Diary $diary;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenchoMantra::class)
-     * @ORM\JoinColumn(name="mantra_uuid", nullable=false, referencedColumnName="uuid")
+     * @ORM\JoinColumn(name="mantra_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      * @Groups({"api"})
      */
     private MenchoMantra $menchoMantra;

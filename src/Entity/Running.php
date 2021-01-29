@@ -15,7 +15,7 @@ class Running
     /**
      * @ORM\Id
      * @ORM\OneToOne(targetEntity=Diary::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid")
+     * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      */
     private Diary $diary;
 

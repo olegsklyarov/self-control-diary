@@ -31,7 +31,7 @@ final class Version20201202063912 extends AbstractMigration
         $tableRunning->addColumn('started_at', 'time', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
-        $tableRunning->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
+        $tableRunning->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid'], ['onDelete' => 'CASCADE']);
     }
 
     public function down(Schema $schema): void
