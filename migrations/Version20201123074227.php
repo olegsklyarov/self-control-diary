@@ -9,12 +9,12 @@ use Doctrine\Migrations\AbstractMigration;
 
 final class Version20201123074227 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Create user table';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $tableUser = $schema->createTable('user');
         $tableUser->addColumn('uuid', 'uuid');
@@ -26,7 +26,7 @@ final class Version20201123074227 extends AbstractMigration
         $tableUser->addUniqueIndex(['email']);
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         $schema->dropTable('user');
     }

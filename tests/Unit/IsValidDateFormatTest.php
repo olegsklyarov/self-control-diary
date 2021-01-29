@@ -9,7 +9,7 @@ use Codeception\Test\Unit;
 
 class IsValidDateFormatTest extends Unit
 {
-    public function testValidDateFormat()
+    public function testValidDateFormat(): void
     {
         self::assertTrue(Util::isValidDateFormat('2021-01-26'));
     }
@@ -17,7 +17,7 @@ class IsValidDateFormatTest extends Unit
     /**
      * @dataProvider invalidDateFormatProvider
      */
-    public function testInvalidDateFormat(string $invalidDate)
+    public function testInvalidDateFormat(string $invalidDate): void
     {
         self::assertFalse(Util::isValidDateFormat($invalidDate));
     }

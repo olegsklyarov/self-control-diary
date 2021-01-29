@@ -26,7 +26,7 @@ final class DiaryDTOParamResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return $argument->getType() === DiaryDTO::class;
+        return DiaryDTO::class === $argument->getType();
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable

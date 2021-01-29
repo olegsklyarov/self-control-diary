@@ -24,7 +24,7 @@ final class DiaryParamResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return $argument->getType() === Diary::class && $request->get(self::PARAM_NOTED_AT) !== null;
+        return Diary::class === $argument->getType() && null !== $request->get(self::PARAM_NOTED_AT);
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable

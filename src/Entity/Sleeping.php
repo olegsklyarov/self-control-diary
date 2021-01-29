@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\SleepingRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,12 +22,12 @@ class Sleeping
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    private ?DateTimeInterface $awakeAt;
+    private ?\DateTimeInterface $awakeAt;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    private ?DateTimeInterface $sleepAt;
+    private ?\DateTimeInterface $sleepAt;
 
     public function __construct(Diary $diary)
     {
@@ -38,24 +39,24 @@ class Sleeping
         return $this->diary;
     }
 
-    public function getAwakeAt(): ?DateTimeInterface
+    public function getAwakeAt(): ?\DateTimeInterface
     {
         return $this->awakeAt;
     }
 
-    public function setAwakeAt(?DateTimeInterface $awakeAt): self
+    public function setAwakeAt(?\DateTimeInterface $awakeAt): self
     {
         $this->awakeAt = $awakeAt;
 
         return $this;
     }
 
-    public function getSleepAt(): ?DateTimeInterface
+    public function getSleepAt(): ?\DateTimeInterface
     {
         return $this->sleepAt;
     }
 
-    public function setSleepAt(?DateTimeInterface $sleepAt): self
+    public function setSleepAt(?\DateTimeInterface $sleepAt): self
     {
         $this->sleepAt = $sleepAt;
 

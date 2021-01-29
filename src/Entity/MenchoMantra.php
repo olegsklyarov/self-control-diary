@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\MenchoMantraRepository;
@@ -36,7 +38,6 @@ class MenchoMantra
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description;
-
 
     public function __construct(string $name, int $level, ?string $description = null)
     {
