@@ -79,7 +79,9 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "fix-cs" : "./vendor/bin/php-cs-fixer fix",
+        "test": "./vendor/bin/codecept run"
     },
     "conflict": {
         "symfony/symfony": "*"
