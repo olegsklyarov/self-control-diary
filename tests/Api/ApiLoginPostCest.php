@@ -9,7 +9,7 @@ use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-final class JwtAuthCest
+final class ApiLoginPostCest
 {
     public function _before(ApiTester $I): void
     {

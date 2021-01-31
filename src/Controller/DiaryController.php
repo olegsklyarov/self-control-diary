@@ -52,4 +52,17 @@ class DiaryController extends AbstractController
             ? new Response('', Response::HTTP_NOT_FOUND)
             : $this->json($updatedDiary, Response::HTTP_OK, [], ['groups' => 'api']);
     }
+
+    /**
+     * @Route("/api/diary/{noted_at}", name="delete_diary", methods={"DELETE"})
+     */
+    public function deleteDiary(?Diary $diary): Response
+    {
+        if (null === $diary) {
+            return new Response('', Response::HTTP_NOT_FOUND);
+        }
+        $this->diaryService->delete($diary);
+
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
 }

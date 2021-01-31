@@ -74,4 +74,10 @@ final class DiaryService
 
         return $diary;
     }
+
+    public function delete(Diary $diary): void
+    {
+        $this->entityManager->remove($diary);
+        $this->entityManager->flush();
+    }
 }

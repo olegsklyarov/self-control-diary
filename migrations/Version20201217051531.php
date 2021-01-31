@@ -23,7 +23,7 @@ final class Version20201217051531 extends AbstractMigration
         $tableSleeping->addColumn('sleep_at', 'time', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
-        $tableSleeping->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid']);
+        $tableSleeping->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid'], ['onDelete' => 'CASCADE']);
     }
 
     public function down(Schema $schema): void
