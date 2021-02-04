@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Service\MenchoService;
+use App\Service\MenchoServiceDiaryNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,7 +49,17 @@ class MenchoController extends AbstractController
      */
     public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
-        $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
+        try {
+            $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
+        } catch (MenchoServiceDiaryNotFoundException $e) {
+            return $this->json(
+                [
+                    'code' => 400,
+                    'message' => 'Diary not found.'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        }
 
         return $this->json($createdMenchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);
     }

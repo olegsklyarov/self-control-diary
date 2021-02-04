@@ -16,7 +16,7 @@ class ApiSamayaPostCest
 {
     public function testSuccessPost(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya');
+        $I->wantToTest('POST /api/mencho/samaya success');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -76,5 +76,46 @@ class ApiSamayaPostCest
         $I->assertEquals(100, $menchoSamayaInRepository->getCount());
         $I->assertEquals(15, $menchoSamayaInRepository->getTimeMinutes());
         $I->assertEquals($mantraBuddhaShakyamuni->getUuid(), $menchoSamayaInRepository->getMenchoMantra()->getUuid());
+    }
+
+    public function testDiaryNotFound(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/mencho/samaya diary not found');
+
+        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
+        $I->haveInRepository($mantraBuddhaShakyamuni);
+
+        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
+        $userPasswordEncoder = $I->grabService('security.password_encoder');
+        $user = new User('user@example.com');
+        $user->setPassword(
+            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
+        );
+        $I->haveInRepository($user);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendPOST('/api/mencho/samaya', [
+            'notedAt' => '2021-02-04',
+            'mantraUuid' => $mantraBuddhaShakyamuni->getUuid(),
+            'count' => 100,
+            'timeMinutes' => 15,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Diary not found.',
+        ]);
     }
 }

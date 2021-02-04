@@ -33,21 +33,20 @@ final class MenchoService
 
     public function persistFromDto(MenchoSamayaDTO $menchoSamayaDTO): ?MenchoSamaya
     {
-        $diaryService = $this->diaryService;
-        $menchoMantraService = $this->menchoMantraService;
         $createdMenchoSamaya = null;
-        $this->entityManager->transactional(function (EntityManagerInterface $em) use ($menchoSamayaDTO, $diaryService, $menchoMantraService, &$createdMenchoSamaya): void {
-            $diary = $diaryService->findByNotedAtForCurrentUser(
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $diary = $this->diaryService->findByNotedAtForCurrentUser(
                 new \DateTimeImmutable($menchoSamayaDTO->notedAt)
             );
             if (null === $diary) {
-                return;
+                throw new MenchoServiceDiaryNotFoundException();
             }
-            $menchoMantra = $menchoMantraService->findByUuid(
+            $menchoMantra = $this->menchoMantraService->findByUuid(
                 Uuid::fromString($menchoSamayaDTO->mantraUuid)
             );
             if (null === $menchoMantra) {
-                return;
+                return $createdMenchoSamaya;
             }
             $createdMenchoSamaya = new MenchoSamaya(
                 $diary,
@@ -55,9 +54,13 @@ final class MenchoService
                 $menchoSamayaDTO->count
             );
             $createdMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes);
-            $em->persist($createdMenchoSamaya);
-            $em->flush();
-        });
+            $this->entityManager->persist($createdMenchoSamaya);
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->entityManager->getConnection()->rollBack();
+            throw $e;
+        }
 
         return $createdMenchoSamaya;
     }
