@@ -31,7 +31,7 @@ class MenchoController extends AbstractController
     }
 
     /**
-     * @Route("/api/mencho/{noted_at}", name="getSamaya", methods={"GET"})
+     * @Route("/api/mencho/{noted_at}", name="get_samaya", methods={"GET"})
      */
     public function getSamaya(?Diary $diary): Response
     {
@@ -41,5 +41,13 @@ class MenchoController extends AbstractController
         $menchoSamaya = $this->menchoService->getSamaya($diary);
 
         return $this->json($menchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);
+    }
+
+    /**
+     * @Route("/api/mencho/samaya", name="post_samaya", methods={"POST"})
+     */
+    public function postSamaya(): Response
+    {
+        return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
