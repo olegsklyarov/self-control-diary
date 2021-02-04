@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\Api;
+
 use App\Entity\Diary;
 use App\Entity\User;
 use App\Tests\ApiTester;
@@ -10,7 +12,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DiaryGetCest
 {
-    public function _before(ApiTester $I)
+    public function _before(ApiTester $I): void
     {
         /** @var UserPasswordEncoderInterface $userPasswordEncoder */
         $userPasswordEncoder = $I->grabService('security.password_encoder');
@@ -24,7 +26,7 @@ class DiaryGetCest
         $I->haveInRepository($diary);
     }
 
-    public function testSuccess(ApiTester $I)
+    public function testSuccess(ApiTester $I): void
     {
         $I->wantToTest('GET /api/diary/{noted_at} Success');
 
@@ -44,7 +46,7 @@ class DiaryGetCest
         $I->seeResponseCodeIs(HttpCode::OK);
     }
 
-    public function testInvalidNotedAt(ApiTester $I)
+    public function testInvalidNotedAt(ApiTester $I): void
     {
         $I->wantToTest('GET /api/diary/{noted_at} Invalid NotedAt');
 
@@ -64,7 +66,7 @@ class DiaryGetCest
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
     }
 
-    public function testUnauthorised(ApiTester $I)
+    public function testUnauthorised(ApiTester $I): void
     {
         $I->wantToTest('GET /api/diary/{noted_at} Unauthorised');
 
