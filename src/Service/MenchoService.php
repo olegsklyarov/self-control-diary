@@ -46,7 +46,7 @@ final class MenchoService
                 Uuid::fromString($menchoSamayaDTO->mantraUuid)
             );
             if (null === $menchoMantra) {
-                return $createdMenchoSamaya;
+                throw new MenchoServiceMantraNotFoundException();
             }
             $createdMenchoSamaya = new MenchoSamaya(
                 $diary,

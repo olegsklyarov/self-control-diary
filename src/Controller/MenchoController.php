@@ -8,6 +8,7 @@ use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Service\MenchoService;
 use App\Service\MenchoServiceDiaryNotFoundException;
+use App\Service\MenchoServiceMantraNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,6 +57,14 @@ class MenchoController extends AbstractController
                 [
                     'code' => 400,
                     'message' => 'Diary not found.'
+                ],
+                Response::HTTP_BAD_REQUEST
+            );
+        } catch (MenchoServiceMantraNotFoundException $e) {
+            return $this->json(
+                [
+                    'code' => 400,
+                    'message' => 'Mantra not found.'
                 ],
                 Response::HTTP_BAD_REQUEST
             );
