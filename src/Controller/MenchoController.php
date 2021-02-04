@@ -46,8 +46,10 @@ class MenchoController extends AbstractController
     /**
      * @Route("/api/mencho/samaya", name="post_samaya", methods={"POST"})
      */
-    public function postSamaya(): Response
+    public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
-        return new Response('', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
+
+        return $this->json($createdMenchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);
     }
 }

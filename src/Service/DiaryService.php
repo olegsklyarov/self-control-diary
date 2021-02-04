@@ -56,6 +56,7 @@ final class DiaryService
             $createdDiary = new Diary($this->getCurrentUser(), $notedAt);
             $createdDiary->setNotes($diaryDTO->notes);
             $em->persist($createdDiary);
+            $em->flush();
         });
 
         return $createdDiary;
