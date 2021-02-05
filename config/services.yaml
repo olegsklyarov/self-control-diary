@@ -37,3 +37,7 @@ services:
         arguments:
             - '@gesdinet.jwtrefreshtoken.object_manager'
             - '%gesdinet.jwtrefreshtoken.refresh_token.class%'
+
+    App\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
