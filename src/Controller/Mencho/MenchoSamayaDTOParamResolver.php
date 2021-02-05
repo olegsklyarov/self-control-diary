@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Mencho;
 
 use App\Exception\HttpRequestValidationException;
 use Symfony\Component\HttpFoundation\Request;

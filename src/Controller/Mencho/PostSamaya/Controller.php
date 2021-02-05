@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Mencho\PostSamaya;
 
-use App\Entity\Diary;
-use App\Entity\MenchoMantra;
-use App\Service\MenchoService;
-use App\Service\MenchoServiceDiaryNotFoundException;
-use App\Service\MenchoServiceExceptionAlreadyExists;
-use App\Service\MenchoServiceMantraNotFoundException;
+use App\Controller\Mencho\MenchoSamayaDTO;
+use App\Service\Mencho\Exception\DiaryNotFoundException;
+use App\Service\Mencho\Exception\MantraNotFoundException;
+use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
+use App\Service\Mencho\MenchoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MenchoController extends AbstractController
+class Controller extends AbstractController
 {
     private MenchoService $menchoService;
 
@@ -24,36 +23,13 @@ class MenchoController extends AbstractController
     }
 
     /**
-     * @Route("/api/mencho/mantra", name="mencho", methods={"GET"})
-     */
-    public function getAllMantras(): Response
-    {
-        return $this->json(
-            $this->getDoctrine()->getRepository(MenchoMantra::class)->findAll()
-        );
-    }
-
-    /**
-     * @Route("/api/mencho/{noted_at}", name="get_samaya", methods={"GET"})
-     */
-    public function getSamaya(?Diary $diary): Response
-    {
-        if (null === $diary) {
-            return new Response('', Response::HTTP_NOT_FOUND);
-        }
-        $menchoSamaya = $this->menchoService->getSamaya($diary);
-
-        return $this->json($menchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);
-    }
-
-    /**
      * @Route("/api/mencho/samaya", name="post_samaya", methods={"POST"})
      */
     public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
-        } catch (MenchoServiceDiaryNotFoundException $e) {
+        } catch (DiaryNotFoundException $e) {
             return $this->json(
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
@@ -61,7 +37,7 @@ class MenchoController extends AbstractController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        } catch (MenchoServiceMantraNotFoundException $e) {
+        } catch (MantraNotFoundException $e) {
             return $this->json(
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
@@ -69,7 +45,7 @@ class MenchoController extends AbstractController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        } catch (MenchoServiceExceptionAlreadyExists $e) {
+        } catch (MenchoSamayaAlreadyExistsException $e) {
             return $this->json(
                 [
                     'code' => Response::HTTP_CONFLICT,

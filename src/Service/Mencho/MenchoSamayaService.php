@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Mencho;
 
 use App\Entity\Diary;
 use App\Entity\MenchoMantra;

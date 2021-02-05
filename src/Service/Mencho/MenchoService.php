@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Mencho;
 
-use App\Controller\MenchoSamayaDTO;
+use App\Controller\Mencho\MenchoSamayaDTO;
 use App\Entity\Diary;
 use App\Entity\MenchoSamaya;
+use App\Service\DiaryService;
+use App\Service\Mencho\Exception\DiaryNotFoundException;
+use App\Service\Mencho\Exception\MantraNotFoundException;
+use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -43,16 +47,16 @@ final class MenchoService
                 new \DateTimeImmutable($menchoSamayaDTO->notedAt)
             );
             if (null === $diary) {
-                throw new MenchoServiceDiaryNotFoundException();
+                throw new DiaryNotFoundException();
             }
             $menchoMantra = $this->menchoMantraService->findByUuid(
                 Uuid::fromString($menchoSamayaDTO->mantraUuid)
             );
             if (null === $menchoMantra) {
-                throw new MenchoServiceMantraNotFoundException();
+                throw new MantraNotFoundException();
             }
             if (null !== $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra)) {
-                throw new MenchoServiceExceptionAlreadyExists();
+                throw new MenchoSamayaAlreadyExistsException();
             }
             $createdMenchoSamaya = new MenchoSamaya(
                 $diary,

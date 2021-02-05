@@ -12,7 +12,7 @@ use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ApiSamayaPostCest
+class ApiMenchoSamayaPostCest
 {
     public function testSuccessPost(ApiTester $I): void
     {
@@ -340,7 +340,7 @@ class ApiSamayaPostCest
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseContainsJson([
             'code' => HttpCode::BAD_REQUEST,
-            'message' => 'The type of the "notedAt" attribute for class "App\Controller\MenchoSamayaDTO" must be one of "string" ("int" given).',
+            'message' => 'The type of the "notedAt" attribute for class "App\Controller\Mencho\MenchoSamayaDTO" must be one of "string" ("int" given).',
         ]);
     }
 }

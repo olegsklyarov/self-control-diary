@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Mencho;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
