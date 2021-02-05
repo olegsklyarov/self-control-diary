@@ -141,6 +141,51 @@ class ApiSamayaPostCest
         $I->assertEquals($mantraBuddhaShakyamuni->getUuid(), $menchoSamayaInRepository->getMenchoMantra()->getUuid());
     }
 
+    public function testAlreadyExists(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/mencho/samaya already exists');
+
+        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
+        $I->haveInRepository($mantraBuddhaShakyamuni);
+
+        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
+        $userPasswordEncoder = $I->grabService('security.password_encoder');
+        $user = new User('user@example.com');
+        $user->setPassword(
+            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
+        );
+        $I->haveInRepository($user);
+
+        $diary = new Diary($user, new \DateTimeImmutable('2021-02-05'));
+        $I->haveInRepository($diary);
+
+        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $I->haveInRepository($menchoSamaya);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendPOST('/api/mencho/samaya', [
+            'notedAt' => '2021-02-05',
+            'mantraUuid' => $mantraBuddhaShakyamuni->getUuid(),
+            'count' => 100,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::CONFLICT);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::CONFLICT,
+            'message' => 'Already exists.',
+        ]);
+    }
+
     public function testDiaryNotFound(ApiTester $I): void
     {
         $I->wantToTest('POST /api/mencho/samaya diary not found');

@@ -8,6 +8,7 @@ use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Service\MenchoService;
 use App\Service\MenchoServiceDiaryNotFoundException;
+use App\Service\MenchoServiceExceptionAlreadyExists;
 use App\Service\MenchoServiceMantraNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +56,7 @@ class MenchoController extends AbstractController
         } catch (MenchoServiceDiaryNotFoundException $e) {
             return $this->json(
                 [
-                    'code' => 400,
+                    'code' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Diary not found.',
                 ],
                 Response::HTTP_BAD_REQUEST
@@ -63,10 +64,18 @@ class MenchoController extends AbstractController
         } catch (MenchoServiceMantraNotFoundException $e) {
             return $this->json(
                 [
-                    'code' => 400,
+                    'code' => Response::HTTP_BAD_REQUEST,
                     'message' => 'Mantra not found.',
                 ],
                 Response::HTTP_BAD_REQUEST
+            );
+        } catch (MenchoServiceExceptionAlreadyExists $e) {
+            return $this->json(
+                [
+                    'code' => Response::HTTP_CONFLICT,
+                    'message' => 'Already exists.',
+                ],
+                Response::HTTP_CONFLICT
             );
         }
 
