@@ -5,6 +5,7 @@ before_script:
   - psql -c 'CREATE DATABASE self_control_diary;' -U postgres
   - psql -c "CREATE USER test_user with encrypted password 'test_user_password';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE self_control_diary TO test_user;" -U postgres
+
 env:
   - DATABASE_URL=postgresql://test_user:test_user_password@127.0.0.1:5432/self_control_diary?serverVersion=11&charset=utf8
   - JWT_SECRET_KEY=LVmVQcZHnSA5whe5XioZa0FeQVRJ7GZ6
