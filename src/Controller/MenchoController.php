@@ -56,7 +56,7 @@ class MenchoController extends AbstractController
             return $this->json(
                 [
                     'code' => 400,
-                    'message' => 'Diary not found.'
+                    'message' => 'Diary not found.',
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -64,7 +64,7 @@ class MenchoController extends AbstractController
             return $this->json(
                 [
                     'code' => 400,
-                    'message' => 'Mantra not found.'
+                    'message' => 'Mantra not found.',
                 ],
                 Response::HTTP_BAD_REQUEST
             );

@@ -6,5 +6,4 @@ namespace App\Service;
 
 final class MenchoServiceMantraNotFoundException extends \Exception
 {
-
 }
