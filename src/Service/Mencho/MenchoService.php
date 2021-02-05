@@ -7,7 +7,7 @@ namespace App\Service\Mencho;
 use App\Controller\Mencho\MenchoSamayaDTO;
 use App\Entity\Diary;
 use App\Entity\MenchoSamaya;
-use App\Service\DiaryService;
+use App\Service\Diary\DiaryService;
 use App\Service\Mencho\Exception\DiaryNotFoundException;
 use App\Service\Mencho\Exception\MantraNotFoundException;
 use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
