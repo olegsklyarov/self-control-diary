@@ -38,7 +38,7 @@ final class MenchoSamayaDTOParamResolver implements ArgumentValueResolverInterfa
                 JsonEncoder::FORMAT
             );
         } catch (\Throwable $e) {
-            throw new BadRequestHttpException(null, $e, $e->getCode());
+            throw new BadRequestHttpException($e->getMessage(), $e, $e->getCode());
         }
 
         $violations = $this->validator->validate($menchoSamayaDTO);

@@ -32,5 +32,5 @@ final class MenchoSamayaDTO
     /**
      * @Assert\Positive
      */
-    public int $timeMinutes;
+    public ?int $timeMinutes = null;
 }
