@@ -158,4 +158,44 @@ class ApiSamayaPostCest
             'message' => 'Mantra not found.',
         ]);
     }
+
+    public function testMenchoMantraInvalidUuid(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/mencho/samaya mantra uuid invalid');
+
+        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
+        $userPasswordEncoder = $I->grabService('security.password_encoder');
+        $user = new User('user@example.com');
+        $user->setPassword(
+            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
+        );
+        $I->haveInRepository($user);
+
+        $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
+        $I->haveInRepository($diary);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendPOST('/api/mencho/samaya', [
+            'notedAt' => '2021-02-04',
+            'mantraUuid' => 'invalid-uuid',
+            'count' => 100,
+            'timeMinutes' => 15,
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Validation errors: "mantraUuid" - This is not a valid UUID.',
+        ]);
+    }
 }
