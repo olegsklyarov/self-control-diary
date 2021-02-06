@@ -8,7 +8,6 @@ before_script:
   - psql -c "CREATE USER test_user with encrypted password 'test_user_password';" -U postgres
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE self_control_diary TO test_user;" -U postgres
   - mysql -e "CREATE DATABASE self_control_diary;"
-  - mysql -e "SET GLOBAL sql_mode = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
   - mysql -e "CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'test_user_password';"
   - mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'localhost' WITH GRANT OPTION;"
 
