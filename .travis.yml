@@ -8,6 +8,8 @@ before_script:
 
 install:
   - composer install
+  - php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
+  - touch /opt/app/.env.test
 
 script:
   - vendor/bin/codecept run
