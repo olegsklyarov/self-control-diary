@@ -10,8 +10,8 @@ extensions:
     enabled:
         - Codeception\Extension\RunFailed
 params:
+    - .env.local
     - .env.test
-    - .env.test.local
 settings:
     colors: true
     report_useless_tests: true
