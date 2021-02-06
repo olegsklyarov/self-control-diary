@@ -6,7 +6,8 @@ namespace App\Controller\Diary;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class DiaryDTO {
+final class DiaryDTO
+{
     /**
      * @Assert\NotBlank
      */
