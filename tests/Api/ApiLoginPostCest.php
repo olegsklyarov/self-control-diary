@@ -89,7 +89,7 @@ final class ApiLoginPostCest
         $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
         $I->amBearerAuthenticated($token);
 
-        // set JWT_TOKEN_TTL=2 in .env.test.local file
+        // set JWT_TOKEN_TTL=2 in .env.test file
         sleep(2);
 
         $I->sendGet('/api/mencho/mantra');
@@ -121,7 +121,7 @@ final class ApiLoginPostCest
 
         $I->amBearerAuthenticated($token);
 
-        // set JWT_TOKEN_TTL=2 in .env.test.local file
+        // set JWT_TOKEN_TTL=2 in .env.test file
         sleep(2);
 
         $I->sendGet('/api/mencho/mantra');
