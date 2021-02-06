@@ -12,6 +12,7 @@ extensions:
 params:
     - .env
     - .env.test
+    - .env.test.local
 settings:
     colors: true
     report_useless_tests: true
