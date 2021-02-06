@@ -7,7 +7,9 @@ before_script:
   - psql -c "GRANT ALL PRIVILEGES ON DATABASE self_control_diary TO test_user;" -U postgres
 
 env:
-  - DATABASE_URL=postgresql://test_user:test_user_password@127.0.0.1:5432/self_control_diary?serverVersion=9&charset=utf8
+  - >
+    DATABASE_URL=postgresql://test_user:test_user_password@127.0.0.1:5432/self_control_diary?serverVersion=9&charset=utf8
+    APP_ENV=test
 
 script:
   - composer install
