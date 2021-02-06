@@ -9,10 +9,8 @@ before_script:
 env:
   - DATABASE_URL=postgresql://test_user:test_user_password@127.0.0.1:5432/self_control_diary?serverVersion=9&charset=utf8
 
-install:
+script:
   - composer install
   - php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
-
-script:
   - vendor/bin/codecept run
   - vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no
