@@ -5,3 +5,15 @@ Authorization: Bearer {{token}}
 
 GET {{host}}/api/mencho/2020-12-23
 Authorization: Bearer {{token}}
+
+###
+
+POST {{host}}/api/mencho/samaya
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "notedAt": "2021-02-05",
+  "mantraUuid": "01cff1c8-d006-41fe-9ae5-03ee0ec71b74",
+  "count": 100
+}

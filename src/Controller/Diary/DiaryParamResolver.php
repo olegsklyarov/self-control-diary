@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Diary;
 
 use App\Entity\Diary;
-use App\Service\DiaryService;
+use App\Service\Diary\DiaryService;
 use App\Service\Util;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;

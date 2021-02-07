@@ -10,6 +10,7 @@ $finder = PhpCsFixer\Finder::create()
                 'bin',
                 'templates',
                 'vendor',
+                'tests/_build/support/_generated',
             ]
 );
 

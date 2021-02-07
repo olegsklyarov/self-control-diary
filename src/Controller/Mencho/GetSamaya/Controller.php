@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Mencho\GetSamaya;
 
 use App\Entity\Diary;
-use App\Entity\MenchoMantra;
-use App\Service\MenchoService;
+use App\Service\Mencho\MenchoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MenchoController extends AbstractController
+class Controller extends AbstractController
 {
     private MenchoService $menchoService;
 
@@ -21,17 +20,7 @@ class MenchoController extends AbstractController
     }
 
     /**
-     * @Route("/api/mencho/mantra", name="mencho", methods={"GET"})
-     */
-    public function getAllMantras(): Response
-    {
-        return $this->json(
-            $this->getDoctrine()->getRepository(MenchoMantra::class)->findAll()
-        );
-    }
-
-    /**
-     * @Route("/api/mencho/{noted_at}", name="getSamaya", methods={"GET"})
+     * @Route("/api/mencho/{noted_at}", name="get_samaya", methods={"GET"})
      */
     public function getSamaya(?Diary $diary): Response
     {

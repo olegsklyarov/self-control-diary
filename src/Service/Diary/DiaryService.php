@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Diary;
 
-use App\Controller\DiaryDTO;
+use App\Controller\Diary\DiaryDTO;
 use App\Entity\Diary;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,6 +56,7 @@ final class DiaryService
             $createdDiary = new Diary($this->getCurrentUser(), $notedAt);
             $createdDiary->setNotes($diaryDTO->notes);
             $em->persist($createdDiary);
+            $em->flush();
         });
 
         return $createdDiary;

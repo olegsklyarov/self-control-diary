@@ -22,7 +22,7 @@ final class Version20201123074227 extends AbstractMigration
         $tableUser->addColumn('password_hash', 'string', ['notnull' => false]);
         $tableUser->addColumn('created_at', 'datetime');
         $tableUser->addColumn('last_visit_at', 'datetime', ['notnull' => false]);
-        $tableUser->addColumn('roles', 'json', ['default' => '[]']);
+        $tableUser->addColumn('roles', 'json');
         $tableUser->setPrimaryKey(['uuid']);
         $tableUser->addUniqueIndex(['email']);
     }

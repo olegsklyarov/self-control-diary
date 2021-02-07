@@ -46,7 +46,7 @@ class User implements UserInterface
     private ?string $passwordHash;
 
     /**
-     * @ORM\Column(type="json", options={"default": "[]"})
+     * @ORM\Column(type="json")
      *
      * @var string[]
      */

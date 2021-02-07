@@ -1,0 +1,28 @@
+language: php
+php: 7.4
+services:
+  - postgresql
+  - mysql
+before_script:
+  - psql -c "CREATE DATABASE self_control_diary;" -U postgres
+  - psql -c "CREATE USER test_user with encrypted password 'test_user_password';" -U postgres
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE self_control_diary TO test_user;" -U postgres
+  - mysql -e "CREATE DATABASE self_control_diary;"
+  - mysql -e "SET GLOBAL sql_mode = 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';"
+  - mysql -e "CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'test_user_password';"
+  - mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'test_user'@'localhost' WITH GRANT OPTION;"
+  - touch .env.local
+
+env:
+  - >
+    DATABASE_URL="postgresql://test_user:test_user_password@127.0.0.1:5432/self_control_diary?serverVersion=9&charset=utf8"
+    APP_ENV=test
+  - >
+    DATABASE_URL=mysql://test_user:test_user_password@127.0.0.1:3306/self_control_diary?serverVersion=5.7
+    APP_ENV=test
+
+script:
+  - composer install
+  - vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no
+  - php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
+  - vendor/bin/codecept run
