@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiDiaryGetCest
 {
+    private ?Diary $diary = null;
+
     public function _before(ApiTester $I): void
     {
         /** @var UserPasswordEncoderInterface $userPasswordEncoder */
@@ -22,8 +24,8 @@ class ApiDiaryGetCest
         );
         $I->haveInRepository($user);
 
-        $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
-        $I->haveInRepository($diary);
+        $this->diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
+        $I->haveInRepository($this->diary);
     }
 
     public function testSuccess(ApiTester $I): void
@@ -44,6 +46,18 @@ class ApiDiaryGetCest
 
         $I->sendGet('/api/diary/2021-02-04');
         $I->seeResponseCodeIs(HttpCode::OK);
+
+        $I->seeResponseJsonMatchesJsonPath('$.uuid');
+        $I->seeResponseJsonMatchesJsonPath('$.notes');
+        $I->seeResponseJsonMatchesJsonPath('$.notedAt');
+
+        $actualResponseDiaryUuid = $I->grabDataFromResponseByJsonPath('$.uuid')[0];
+        $actualResponseNotes = $I->grabDataFromResponseByJsonPath('$.notes')[0];
+        $actualResponseNotedAt = $I->grabDataFromResponseByJsonPath('$.notedAt')[0];
+
+        $I->assertEquals($this->diary->getUuid(), $actualResponseDiaryUuid);
+        $I->assertEquals($this->diary->getNotes(), $actualResponseNotes);
+        $I->assertEquals($this->diary->getNotedAt(), new \DateTimeImmutable($actualResponseNotedAt));
     }
 
     public function testInvalidNotedAt(ApiTester $I): void
