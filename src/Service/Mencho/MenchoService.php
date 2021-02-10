@@ -11,6 +11,7 @@ use App\Service\Diary\DiaryService;
 use App\Service\Mencho\Exception\DiaryNotFoundException;
 use App\Service\Mencho\Exception\MantraNotFoundException;
 use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
+use App\Service\Mencho\Exception\MenchoSamayaNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -92,15 +93,11 @@ final class MenchoService
             if (null === $menchoMantra) {
                 throw new MantraNotFoundException();
             }
-            if (null !== $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra)) {
-                throw new MenchoSamayaAlreadyExistsException();
+            if (null === $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra)) {
+                throw new MenchoSamayaNotFoundException();
             }
-            $updatedMenchoSamaya = new MenchoSamaya(
-                $diary,
-                $menchoMantra,
-                $menchoSamayaDTO->count
-            );
-            $updatedMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes);
+            $updatedMenchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
+            $updatedMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes)->setCount($menchoSamayaDTO->count);
             $this->entityManager->persist($updatedMenchoSamaya);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
