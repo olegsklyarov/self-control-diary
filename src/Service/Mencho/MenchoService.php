@@ -74,4 +74,41 @@ final class MenchoService
 
         return $createdMenchoSamaya;
     }
+
+    public function updateFromDto(MenchoSamayaDTO $menchoSamayaDTO): ?MenchoSamaya
+    {
+        $updatedMenchoSamaya = null;
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $diary = $this->diaryService->findByNotedAtForCurrentUser(
+                new \DateTimeImmutable($menchoSamayaDTO->notedAt)
+            );
+            if (null === $diary) {
+                throw new DiaryNotFoundException();
+            }
+            $menchoMantra = $this->menchoMantraService->findByUuid(
+                Uuid::fromString($menchoSamayaDTO->mantraUuid)
+            );
+            if (null === $menchoMantra) {
+                throw new MantraNotFoundException();
+            }
+            if (null !== $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra)) {
+                throw new MenchoSamayaAlreadyExistsException();
+            }
+            $updatedMenchoSamaya = new MenchoSamaya(
+                $diary,
+                $menchoMantra,
+                $menchoSamayaDTO->count
+            );
+            $updatedMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes);
+            $this->entityManager->persist($updatedMenchoSamaya);
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->entityManager->getConnection()->rollBack();
+            throw $e;
+        }
+
+        return $updatedMenchoSamaya;
+    }
 }
