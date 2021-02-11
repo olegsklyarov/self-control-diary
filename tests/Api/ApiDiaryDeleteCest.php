@@ -40,7 +40,7 @@ class ApiDiaryDeleteCest
         $sleeping = new Sleeping($diary);
         $I->haveInRepository($sleeping);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100, 10);
         $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');

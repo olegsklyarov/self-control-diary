@@ -62,9 +62,9 @@ final class MenchoService
             $createdMenchoSamaya = new MenchoSamaya(
                 $diary,
                 $menchoMantra,
-                $menchoSamayaDTO->count
+                $menchoSamayaDTO->count,
+                $menchoSamayaDTO->timeMinutes
             );
-            $createdMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes);
             $this->entityManager->persist($createdMenchoSamaya);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
@@ -93,12 +93,13 @@ final class MenchoService
             if (null === $menchoMantra) {
                 throw new MantraNotFoundException();
             }
-            if (null === $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra)) {
+            $existingMenchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
+            if (null === $existingMenchoSamaya) {
                 throw new MenchoSamayaNotFoundException();
             }
-            $updatedMenchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
-            $updatedMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes)->setCount($menchoSamayaDTO->count);
-            $this->entityManager->persist($updatedMenchoSamaya);
+            $existingMenchoSamaya->setCount($menchoSamayaDTO->count);
+
+            $this->entityManager->persist($existingMenchoSamaya);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
         } catch (\Throwable $e) {
@@ -106,6 +107,6 @@ final class MenchoService
             throw $e;
         }
 
-        return $updatedMenchoSamaya;
+        return $existingMenchoSamaya;
     }
 }

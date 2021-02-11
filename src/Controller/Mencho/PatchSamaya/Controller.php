@@ -25,7 +25,7 @@ class Controller extends AbstractController
     /**
      * @Route("/api/mencho/samaya", name="patch_samaya", methods={"PATCH"})
      */
-    public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
+    public function patchSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $updatedMenchoSamaya = $this->menchoService->updateFromDto($menchoSamayaDTO);

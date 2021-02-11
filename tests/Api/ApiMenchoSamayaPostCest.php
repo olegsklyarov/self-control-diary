@@ -111,6 +111,7 @@ class ApiMenchoSamayaPostCest
             'notedAt' => '2021-02-04',
             'mantraUuid' => $mantraBuddhaShakyamuni->getUuid(),
             'count' => 100,
+            'timeMinutes' => null,
         ]);
 
         $I->seeResponseCodeIs(HttpCode::OK);
@@ -159,7 +160,7 @@ class ApiMenchoSamayaPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-05'));
         $I->haveInRepository($diary);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100, 10);
         $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -177,6 +178,7 @@ class ApiMenchoSamayaPostCest
             'notedAt' => '2021-02-05',
             'mantraUuid' => $mantraBuddhaShakyamuni->getUuid(),
             'count' => 100,
+            'timeMinutes' => 10,
         ]);
 
         $I->seeResponseCodeIs(HttpCode::CONFLICT);
