@@ -56,7 +56,7 @@ class ApiMenchoSamayaPostCest
         $I->seeResponseContainsJson([
             'count' => 100,
             'menchoMantra' => [
-                'uuid' => $mantraBuddhaShakyamuni->getUuid(),
+                'uuid' => $mantraBuddhaShakyamuni->getUuid()->toString(),
             ],
         ]);
 
