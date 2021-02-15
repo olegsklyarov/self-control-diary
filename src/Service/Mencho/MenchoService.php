@@ -97,7 +97,7 @@ final class MenchoService
             if (null === $existingMenchoSamaya) {
                 throw new MenchoSamayaNotFoundException();
             }
-            $existingMenchoSamaya->setCount($menchoSamayaDTO->count);
+            $existingMenchoSamaya->setCount($menchoSamayaDTO->count)->setTimeMinutes($menchoSamayaDTO->timeMinutes);
 
             $this->entityManager->persist($existingMenchoSamaya);
             $this->entityManager->flush();
