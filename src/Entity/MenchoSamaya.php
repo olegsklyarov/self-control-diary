@@ -48,7 +48,7 @@ class MenchoSamaya
      */
     private MenchoMantra $menchoMantra;
 
-    public function __construct(Diary $diary, MenchoMantra $menchoMantra, int $count, int $timeMinutes)
+    public function __construct(Diary $diary, MenchoMantra $menchoMantra, int $count, ?int $timeMinutes)
     {
         $this->uuid = Uuid::uuid4();
         $this->diary = $diary;
