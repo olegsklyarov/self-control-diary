@@ -32,7 +32,7 @@ class ApiMenchoSamayaPatchCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-10'));
         $I->haveInRepository($diary);
 
-        $menchoSamaya = new MenchoSamaya($diary,$mantraBuddhaShakyamuni, 100, 10);
+        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100, 10);
         $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
