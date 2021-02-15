@@ -24,7 +24,6 @@ final class Version20201205121935 extends AbstractMigration
         $tableMenchoSamaya->addColumn('diary_uuid', 'uuid');
         $tableMenchoSamaya->addColumn('mantra_uuid', 'uuid');
         $tableMenchoSamaya->addColumn('count', 'integer');
-        $tableMenchoSamaya->addColumn('time_minutes', 'integer', ['notnull' => false]);
 
         $tableDiary = $schema->getTable('diary');
         $tableMenchoSamaya->addForeignKeyConstraint($tableDiary, ['diary_uuid'], ['uuid'], ['onDelete' => 'CASCADE']);

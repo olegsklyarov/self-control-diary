@@ -32,6 +32,7 @@ final class MenchoSamayaDTOParamResolver implements ArgumentValueResolverInterfa
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
         try {
+            /** @var MenchoSamayaDTO $menchoSamayaDTO */
             $menchoSamayaDTO = $this->serializer->deserialize(
                 $request->getContent(),
                 MenchoSamayaDTO::class,

@@ -30,12 +30,6 @@ class MenchoSamaya
     private int $count;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"api"})
-     */
-    private ?int $timeMinutes;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Diary::class)
      * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      */
@@ -69,18 +63,6 @@ class MenchoSamaya
     public function setCount(int $count): self
     {
         $this->count = $count;
-
-        return $this;
-    }
-
-    public function getTimeMinutes(): ?int
-    {
-        return $this->timeMinutes;
-    }
-
-    public function setTimeMinutes(?int $timeMinutes): self
-    {
-        $this->timeMinutes = $timeMinutes;
 
         return $this;
     }

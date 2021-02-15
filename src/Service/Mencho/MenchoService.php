@@ -11,6 +11,7 @@ use App\Service\Diary\DiaryService;
 use App\Service\Mencho\Exception\DiaryNotFoundException;
 use App\Service\Mencho\Exception\MantraNotFoundException;
 use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
+use App\Service\Mencho\Exception\MenchoSamayaNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 
@@ -61,9 +62,8 @@ final class MenchoService
             $createdMenchoSamaya = new MenchoSamaya(
                 $diary,
                 $menchoMantra,
-                $menchoSamayaDTO->count
+                $menchoSamayaDTO->count,
             );
-            $createdMenchoSamaya->setTimeMinutes($menchoSamayaDTO->timeMinutes);
             $this->entityManager->persist($createdMenchoSamaya);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
@@ -73,5 +73,39 @@ final class MenchoService
         }
 
         return $createdMenchoSamaya;
+    }
+
+    public function updateFromDto(MenchoSamayaDTO $menchoSamayaDTO): ?MenchoSamaya
+    {
+        $updatedMenchoSamaya = null;
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
+            $diary = $this->diaryService->findByNotedAtForCurrentUser(
+                new \DateTimeImmutable($menchoSamayaDTO->notedAt)
+            );
+            if (null === $diary) {
+                throw new DiaryNotFoundException();
+            }
+            $menchoMantra = $this->menchoMantraService->findByUuid(
+                Uuid::fromString($menchoSamayaDTO->mantraUuid)
+            );
+            if (null === $menchoMantra) {
+                throw new MantraNotFoundException();
+            }
+            $existingMenchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
+            if (null === $existingMenchoSamaya) {
+                throw new MenchoSamayaNotFoundException();
+            }
+            $existingMenchoSamaya->setCount($menchoSamayaDTO->count);
+
+            $this->entityManager->persist($existingMenchoSamaya);
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->entityManager->getConnection()->rollBack();
+            throw $e;
+        }
+
+        return $existingMenchoSamaya;
     }
 }
