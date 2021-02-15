@@ -30,12 +30,6 @@ class MenchoSamaya
     private int $count;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"api"})
-     */
-    private ?int $timeMinutes;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Diary::class)
      * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      */
@@ -48,13 +42,12 @@ class MenchoSamaya
      */
     private MenchoMantra $menchoMantra;
 
-    public function __construct(Diary $diary, MenchoMantra $menchoMantra, int $count, ?int $timeMinutes)
+    public function __construct(Diary $diary, MenchoMantra $menchoMantra, int $count)
     {
         $this->uuid = Uuid::uuid4();
         $this->diary = $diary;
         $this->menchoMantra = $menchoMantra;
         $this->count = $count;
-        $this->timeMinutes = $timeMinutes;
     }
 
     public function getUuid(): UuidInterface
@@ -70,18 +63,6 @@ class MenchoSamaya
     public function setCount(int $count): self
     {
         $this->count = $count;
-
-        return $this;
-    }
-
-    public function getTimeMinutes(): ?int
-    {
-        return $this->timeMinutes;
-    }
-
-    public function setTimeMinutes(?int $timeMinutes): self
-    {
-        $this->timeMinutes = $timeMinutes;
 
         return $this;
     }

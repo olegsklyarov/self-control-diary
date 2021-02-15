@@ -63,7 +63,6 @@ final class MenchoService
                 $diary,
                 $menchoMantra,
                 $menchoSamayaDTO->count,
-                $menchoSamayaDTO->timeMinutes
             );
             $this->entityManager->persist($createdMenchoSamaya);
             $this->entityManager->flush();
@@ -97,7 +96,7 @@ final class MenchoService
             if (null === $existingMenchoSamaya) {
                 throw new MenchoSamayaNotFoundException();
             }
-            $existingMenchoSamaya->setCount($menchoSamayaDTO->count)->setTimeMinutes($menchoSamayaDTO->timeMinutes);
+            $existingMenchoSamaya->setCount($menchoSamayaDTO->count);
 
             $this->entityManager->persist($existingMenchoSamaya);
             $this->entityManager->flush();

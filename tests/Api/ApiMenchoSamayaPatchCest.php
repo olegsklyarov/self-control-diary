@@ -32,7 +32,7 @@ class ApiMenchoSamayaPatchCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-10'));
         $I->haveInRepository($diary);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100, 10);
+        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
@@ -51,18 +51,15 @@ class ApiMenchoSamayaPatchCest
             'notedAt' => '2021-02-10',
             'mantraUuid' => $mantraBuddhaShakyamuni->getUuid(),
             'count' => 200,
-            'timeMinutes' => 20,
         ]);
         $I->seeResponseCodeIs(HttpCode::OK);
 
         $I->seeResponseJsonMatchesJsonPath('$.uuid');
         $I->seeResponseJsonMatchesJsonPath('$.count');
-        $I->seeResponseJsonMatchesJsonPath('$.timeMinutes');
 
         $I->seeResponseContainsJson([
             'uuid' => $menchoSamaya->getUuid()->toString(),
             'count' => 200,
-            'timeMinutes' => 20,
         ]);
 
         $I->seeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamaya->getUuid()]);
@@ -75,7 +72,6 @@ class ApiMenchoSamayaPatchCest
 
         $I->assertEquals($menchoSamaya->getUuid()->toString(), $menchoSamayaInRepository->getUuid());
         $I->assertEquals(200, $menchoSamayaInRepository->getCount());
-        $I->assertEquals(20, $menchoSamayaInRepository->getTimeMinutes());
         $I->assertEquals($mantraBuddhaShakyamuni->getUuid(), $menchoSamayaInRepository->getMenchoMantra()->getUuid());
     }
 }

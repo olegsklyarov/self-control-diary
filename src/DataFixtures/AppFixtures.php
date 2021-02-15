@@ -73,8 +73,8 @@ class AppFixtures extends Fixture
         $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new \DateTimeImmutable());
         $manager->persist($running);
 
-        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100, 10));
-        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaMedicine, 200, 10));
+        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100));
+        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaMedicine, 200));
 
         $sleeping = new Sleeping($diary);
         $awakeAt = new \DateTimeImmutable('17.12.2020 9:00:00');
