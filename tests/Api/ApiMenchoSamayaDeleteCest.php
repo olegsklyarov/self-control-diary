@@ -34,10 +34,10 @@ class ApiMenchoSamayaDeleteCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-18'));
         $I->haveInRepository($diary);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
-        $I->haveInRepository($menchoSamaya);
-        $menchoSamaya = new MenchoSamaya($diary, $mantraChenrezig, 200);
-        $I->haveInRepository($menchoSamaya);
+        $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $I->haveInRepository($menchoSamayaBuddaShakyamuni);
+        $mantraSamayaChenrezig = new MenchoSamaya($diary, $mantraChenrezig, 200);
+        $I->haveInRepository($mantraSamayaChenrezig);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
@@ -51,6 +51,8 @@ class ApiMenchoSamayaDeleteCest
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-18');
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
+        $I->dontSeeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamayaBuddaShakyamuni->getUuid()]);
+        $I->dontSeeInRepository(MenchoSamaya::class, ['uuid' => $mantraSamayaChenrezig->getUuid()]);
     }
 
     public function testDiaryNotFound(ApiTester $I): void
