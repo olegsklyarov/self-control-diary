@@ -20,6 +20,8 @@ class ApiMenchoSamayaDeleteCest
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
+        $mantraChenrezig = new MenchoMantra('Ченрезиг', 1);
+        $I->haveInRepository($mantraChenrezig);
 
         /** @var UserPasswordEncoderInterface $userPasswordEncoder */
         $userPasswordEncoder = $I->grabService('security.password_encoder');
@@ -33,6 +35,8 @@ class ApiMenchoSamayaDeleteCest
         $I->haveInRepository($diary);
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $I->haveInRepository($menchoSamaya);
+        $menchoSamaya = new MenchoSamaya($diary, $mantraChenrezig, 200);
         $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
