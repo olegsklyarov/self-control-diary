@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Api;
-
 
 use App\Entity\Diary;
 use App\Entity\MenchoMantra;
