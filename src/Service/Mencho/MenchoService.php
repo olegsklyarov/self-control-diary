@@ -108,4 +108,14 @@ final class MenchoService
 
         return $existingMenchoSamaya;
     }
+
+    public function deleteSamayaByDiary(Diary $diary): void
+    {
+        /** @var Diary[] $menchoMantras */
+        $menchoMantras = $this->getSamaya($diary);
+        foreach ($menchoMantras as $menchoMantra) {
+            $this->entityManager->remove($menchoMantra);
+        }
+        $this->entityManager->flush();
+    }
 }

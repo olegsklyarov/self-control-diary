@@ -17,3 +17,8 @@ Content-Type: application/json
   "mantraUuid": "01cff1c8-d006-41fe-9ae5-03ee0ec71b74",
   "count": 100
 }
+
+###
+
+DELETE {{host}}/api/mencho/samaya/2021-02-18
+Authorization: Bearer {{token}}
