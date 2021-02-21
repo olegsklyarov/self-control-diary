@@ -99,4 +99,31 @@ class ApiDiaryPostCest
         ]);
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
+
+    public function testBadRequest(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/diary bad request');
+
+        $user = $I->createUser();
+        $I->haveInRepository($user);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendPOST('/api/diary');
+
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Validation errors: "notes" - This value should not be blank., "notedAt" - This value should not be null., "notedAt" - This value should not be blank.',
+        ]);
+    }
 }
