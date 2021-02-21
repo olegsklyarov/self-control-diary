@@ -89,4 +89,14 @@ class ApiDiaryPostCest
             'message' => 'Diary already exists',
         ]);
     }
+
+    public function testNotAuthorized(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/diary unauthorized');
+        $I->sendPOST('/api/diary', [
+            'notedAt' => '2021-02-21',
+            'notes' => 'My diary note',
+        ]);
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
+    }
 }
