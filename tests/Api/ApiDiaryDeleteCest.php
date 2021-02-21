@@ -12,7 +12,6 @@ use App\Entity\Sleeping;
 use App\Entity\User;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiDiaryDeleteCest
 {
@@ -23,12 +22,7 @@ class ApiDiaryDeleteCest
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
 
-        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
-        $userPasswordEncoder = $I->grabService('security.password_encoder');
-        $user = new User('user@example.com');
-        $user->setPassword(
-            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
-        );
+        $user = $I->createUser();
         $I->haveInRepository($user);
 
         $diary = new Diary($user, new \DateTimeImmutable('2021-01-30'));
@@ -70,12 +64,7 @@ class ApiDiaryDeleteCest
     {
         $I->wantToTest('DELETE /api/diary/{noted_at} (diary not found)');
 
-        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
-        $userPasswordEncoder = $I->grabService('security.password_encoder');
-        $user = new User('user@example.com');
-        $user->setPassword(
-            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
-        );
+        $user = $I->createUser();
         $I->haveInRepository($user);
 
         $I->haveHttpHeader('Content-Type', 'application/json');

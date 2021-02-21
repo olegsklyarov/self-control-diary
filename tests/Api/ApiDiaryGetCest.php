@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Api;
 
 use App\Entity\Diary;
-use App\Entity\User;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class ApiDiaryGetCest
 {
@@ -16,12 +14,7 @@ class ApiDiaryGetCest
 
     public function _before(ApiTester $I): void
     {
-        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
-        $userPasswordEncoder = $I->grabService('security.password_encoder');
-        $user = new User('user@example.com');
-        $user->setPassword(
-            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
-        );
+        $user = $I->createUser();
         $I->haveInRepository($user);
 
         $this->diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
