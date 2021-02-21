@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: self-control-diary
+      POSTGRES_PASSWORD: self-control-diary
+      POSTGRES_DB: self-control-diary
+    ports:
+    - 5443:5432
