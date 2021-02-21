@@ -7,6 +7,7 @@ namespace App\Service\Diary;
 use App\Controller\Diary\DiaryDTO;
 use App\Entity\Diary;
 use App\Entity\User;
+use App\Service\Diary\Exception\DiaryAlreadyExistsException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -45,19 +46,26 @@ final class DiaryService
         return $diary;
     }
 
-    public function persistFromDto(DiaryDTO $diaryDTO): ?Diary
+    /**
+     * @throws DiaryAlreadyExistsException
+     */
+    public function persistFromDto(DiaryDTO $diaryDTO): Diary
     {
         $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
-        $createdDiary = null;
-        $this->entityManager->transactional(function (EntityManagerInterface $em) use ($notedAt, $diaryDTO, &$createdDiary): void {
+        $this->entityManager->getConnection()->beginTransaction();
+        try {
             if ($this->isDiaryExists($notedAt)) {
-                return;
+                throw new DiaryAlreadyExistsException();
             }
             $createdDiary = new Diary($this->getCurrentUser(), $notedAt);
             $createdDiary->setNotes($diaryDTO->notes);
-            $em->persist($createdDiary);
-            $em->flush();
-        });
+            $this->entityManager->persist($createdDiary);
+            $this->entityManager->flush();
+            $this->entityManager->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->entityManager->getConnection()->rollBack();
+            throw $e;
+        }
 
         return $createdDiary;
     }
