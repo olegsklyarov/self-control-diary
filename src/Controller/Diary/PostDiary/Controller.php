@@ -37,6 +37,6 @@ class Controller extends AbstractController
             );
         }
 
-        return $this->json($createdDiary, Response::HTTP_OK, [], ['groups' => 'api']);
+        return $this->json($createdDiary, Response::HTTP_CREATED, [], ['groups' => 'api']);
     }
 }

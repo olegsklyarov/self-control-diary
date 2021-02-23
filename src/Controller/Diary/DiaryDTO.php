@@ -9,9 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class DiaryDTO
 {
     /**
-     * @Assert\NotBlank
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Length(min=1),
+     *     @Assert\IsNull
+     * })
      */
-    public ?string $notes;
+    public ?string $notes = null;
 
     /**
      * @Assert\Date
