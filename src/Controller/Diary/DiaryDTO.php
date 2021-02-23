@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Diary;
 
+use App\SelfValidationInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class DiaryDTO
+final class DiaryDTO implements SelfValidationInterface
 {
     /**
-     * @Assert\NotBlank
+     * @Assert\AtLeastOneOf({
+     *     @Assert\Length(min=1),
+     *     @Assert\IsNull
+     * })
      */
     public ?string $notes;
 
@@ -19,4 +23,15 @@ final class DiaryDTO
      * @Assert\NotBlank
      */
     public string $notedAt;
+
+    public function validate(): array
+    {
+        if (!array_key_exists('notes', get_object_vars($this))) {
+            return [
+                'notes' => 'property should exists',
+            ];
+        }
+
+        return [];
+    }
 }

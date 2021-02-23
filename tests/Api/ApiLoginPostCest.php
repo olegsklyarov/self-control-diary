@@ -5,21 +5,14 @@ declare(strict_types=1);
 namespace App\Tests\Api;
 
 use App\Entity\MenchoMantra;
-use App\Entity\User;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class ApiLoginPostCest
 {
     public function _before(ApiTester $I): void
     {
-        /** @var UserPasswordEncoderInterface $userPasswordEncoder */
-        $userPasswordEncoder = $I->grabService('security.password_encoder');
-        $user = new User('user@example.com');
-        $user->setPassword(
-            $userPasswordEncoder->encodePassword($user, 'my-strong-password')
-        );
+        $user = $I->createUser();
         $I->haveInRepository($user);
     }
 
