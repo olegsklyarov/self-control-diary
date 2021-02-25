@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Mencho;
 
-use App\Entity\Diary;
+use App\Entity\MenchoSamaya;
 use App\Service\Diary\DiaryService;
+use App\Service\Mencho\MenchoMantraService;
 use App\Service\Mencho\MenchoSamayaService;
 use App\Service\Util;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -19,16 +21,21 @@ class MenchoSamayaParamResolver implements ArgumentValueResolverInterface
 
     private DiaryService $diaryService;
     private MenchoSamayaService $menchoSamayaService;
+    private MenchoMantraService $menchoMantraService;
 
-    public function __construct(DiaryService $diaryService, MenchoSamayaService $menchoSamayaService)
-    {
+    public function __construct(
+        DiaryService $diaryService,
+        MenchoSamayaService $menchoSamayaService,
+        MenchoMantraService $menchoMantraService
+    ) {
         $this->diaryService = $diaryService;
         $this->menchoSamayaService = $menchoSamayaService;
+        $this->menchoMantraService = $menchoMantraService;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return Diary::class === $argument->getType() &&
+        return MenchoSamaya::class === $argument->getType() &&
             null !== $request->get(self::PARAM_NOTED_AT) &&
             null !== $request->get(self::PARAM_MANTRA_UUID);
     }
@@ -40,7 +47,8 @@ class MenchoSamayaParamResolver implements ArgumentValueResolverInterface
 
         if (Util::isValidDateFormat($paramNotedAt)) {
             $diary = $this->diaryService->findByNotedAtForCurrentUser(new \DateTimeImmutable($paramNotedAt));
-            yield $this->menchoSamayaService->findByDiaryAndMantra($diary, $paramMantraUuid);
+            $mantra = $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid));
+            yield $this->menchoSamayaService->findByDiaryAndMantra($diary, $mantra);
         }
 
         yield null;
