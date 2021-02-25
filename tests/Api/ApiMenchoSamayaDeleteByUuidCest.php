@@ -38,7 +38,7 @@ class ApiMenchoSamayaDeleteByUuidCest
         $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
 
         $I->amBearerAuthenticated($token);
-        $I->sendDelete('/api/mencho/samaya/2021-02-18/' . $menchoSamayaBuddaShakyamuni->getUuid());
+        $I->sendDelete('/api/mencho/samaya/2021-02-18/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
         $I->dontSeeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamayaBuddaShakyamuni->getUuid()]);
     }

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Controller\Mencho\DeleteSamayaByUuid;
-
 
 use App\Entity\MenchoSamaya;
 use App\Service\Mencho\MenchoService;
