@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Diary;
 
+use App\Exception\HttpRequestSelfValidationException;
 use App\Exception\HttpRequestValidationException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -32,6 +33,7 @@ final class DiaryDTOParamResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         try {
+            /** @var DiaryDTO $diaryDTO */
             $diaryDTO = $this->serializer->deserialize(
                 $request->getContent(),
                 DiaryDTO::class,
@@ -39,6 +41,11 @@ final class DiaryDTOParamResolver implements ArgumentValueResolverInterface
             );
         } catch (\Throwable $e) {
             throw new BadRequestHttpException(null, $e, $e->getCode());
+        }
+
+        $selfViolations = $diaryDTO->validate();
+        if (count($selfViolations) > 0) {
+            throw new HttpRequestSelfValidationException($selfViolations);
         }
 
         $violations = $this->validator->validate($diaryDTO);

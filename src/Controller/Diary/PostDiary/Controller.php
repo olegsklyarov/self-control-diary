@@ -6,6 +6,7 @@ namespace App\Controller\Diary\PostDiary;
 
 use App\Controller\Diary\DiaryDTO;
 use App\Service\Diary\DiaryService;
+use App\Service\Diary\Exception\DiaryAlreadyExistsException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +25,18 @@ class Controller extends AbstractController
      */
     public function postDiary(DiaryDTO $diaryDto): Response
     {
-        $createdDiary = $this->diaryService->persistFromDto($diaryDto);
+        try {
+            $createdDiary = $this->diaryService->persistFromDto($diaryDto);
+        } catch (DiaryAlreadyExistsException $e) {
+            return $this->json(
+                [
+                    'code' => Response::HTTP_CONFLICT,
+                    'message' => 'Diary already exists',
+                ],
+                Response::HTTP_CONFLICT
+            );
+        }
 
-        return null === $createdDiary
-            ? new Response('', Response::HTTP_CONFLICT)
-            : $this->json($createdDiary, Response::HTTP_CREATED, [], ['groups' => 'api']);
+        return $this->json($createdDiary, Response::HTTP_CREATED, [], ['groups' => 'api']);
     }
 }
