@@ -13,21 +13,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    private DiaryService $diaryService;
-
-    public function __construct(DiaryService $diaryService)
+    public function __construct(private DiaryService $diaryService)
     {
-        $this->diaryService = $diaryService;
     }
 
-    /**
-     * @Route("/api/diary", name="post_diary", methods={"POST"})
-     */
+    #[Route('/api/diary', name: 'post_diary', methods: ['POST'])]
     public function postDiary(DiaryDTO $diaryDto): Response
     {
         try {
             $createdDiary = $this->diaryService->persistFromDto($diaryDto);
-        } catch (DiaryAlreadyExistsException $e) {
+        } catch (DiaryAlreadyExistsException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_CONFLICT,

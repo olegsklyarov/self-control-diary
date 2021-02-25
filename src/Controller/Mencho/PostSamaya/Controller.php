@@ -15,21 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    private MenchoService $menchoService;
-
-    public function __construct(MenchoService $menchoService)
+    public function __construct(private MenchoService $menchoService)
     {
-        $this->menchoService = $menchoService;
     }
 
-    /**
-     * @Route("/api/mencho/samaya", name="post_samaya", methods={"POST"})
-     */
+    #[Route('/api/mencho/samaya', name: 'post_samaya', methods: ['POST'])]
     public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
-        } catch (DiaryNotFoundException $e) {
+        } catch (DiaryNotFoundException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
@@ -37,7 +32,7 @@ class Controller extends AbstractController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        } catch (MantraNotFoundException $e) {
+        } catch (MantraNotFoundException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_BAD_REQUEST,
@@ -45,7 +40,7 @@ class Controller extends AbstractController
                 ],
                 Response::HTTP_BAD_REQUEST
             );
-        } catch (MenchoSamayaAlreadyExistsException $e) {
+        } catch (MenchoSamayaAlreadyExistsException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_CONFLICT,

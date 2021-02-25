@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    /**
-     * @Route("/api/mencho/mantra", name="mencho", methods={"GET"})
-     */
+    #[Route('/api/mencho/mantra', name: 'get_mencho_mantras', methods: ['GET'])]
     public function getAllMantras(): Response
     {
         return $this->json(

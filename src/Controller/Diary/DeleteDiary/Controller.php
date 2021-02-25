@@ -12,16 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class Controller extends AbstractController
 {
-    private DiaryService $diaryService;
-
-    public function __construct(DiaryService $diaryService)
+    public function __construct(private DiaryService $diaryService)
     {
-        $this->diaryService = $diaryService;
     }
 
-    /**
-     * @Route("/api/diary/{noted_at}", name="delete_diary", methods={"DELETE"})
-     */
+    #[Route('/api/diary/{noted_at}', name: 'delete_diary', methods: ['DELETE'])]
     public function deleteDiary(?Diary $diary): Response
     {
         if (null === $diary) {
