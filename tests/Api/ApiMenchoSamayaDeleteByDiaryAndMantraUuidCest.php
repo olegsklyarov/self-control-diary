@@ -10,7 +10,7 @@ use App\Entity\MenchoSamaya;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 
-class ApiMenchoSamayaDeleteByUuidCest
+class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 {
     public function testSuccessDelete(ApiTester $I): void
     {

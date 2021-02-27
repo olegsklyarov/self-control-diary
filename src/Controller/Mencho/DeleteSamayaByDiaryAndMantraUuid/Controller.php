@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Mencho\DeleteSamayaByUuid;
+namespace App\Controller\Mencho\DeleteSamayaByDiaryAndMantraUuid;
 
 use App\Entity\MenchoSamaya;
 use App\Service\Mencho\MenchoService;
