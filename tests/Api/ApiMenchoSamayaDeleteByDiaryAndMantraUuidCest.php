@@ -107,7 +107,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
     {
         $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (not authorized)');
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-        $I->sendDelete('/api/diary/2021-02-27/' . $mantraBuddhaShakyamuni->getUuid());
+        $I->sendDelete('/api/mencho/samaya/2021-02-27/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 }
