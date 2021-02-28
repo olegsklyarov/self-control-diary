@@ -45,7 +45,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 
     public function testDiaryNotFound(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (diary not found)');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (diary not found)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -75,7 +75,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 
     public function testMantraNotFound(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (mantra not found)');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (mantra not found)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -105,9 +105,9 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 
     public function testNotAuthorized(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (not authorized)');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (not authorized)');
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-        $I->sendDelete('/api/diary/2021-02-27/' . $mantraBuddhaShakyamuni->getUuid());
+        $I->sendDelete('/api/mencho/samaya/2021-02-27/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 }
