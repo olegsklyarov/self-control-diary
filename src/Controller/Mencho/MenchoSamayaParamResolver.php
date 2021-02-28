@@ -45,9 +45,10 @@ class MenchoSamayaParamResolver implements ArgumentValueResolverInterface
         $paramNotedAt = $request->get(self::PARAM_NOTED_AT);
         $paramMantraUuid = $request->get(self::PARAM_MANTRA_UUID);
 
-        if (Util::isValidDateFormat($paramNotedAt)) {
+        if (Util::isValidDateFormat($paramNotedAt) && Uuid::isValid($paramMantraUuid)) {
             $diary = $this->diaryService->findByNotedAtForCurrentUser(new \DateTimeImmutable($paramNotedAt));
             $mantra = $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid));
+
             yield $this->menchoSamayaService->findByDiaryAndMantra($diary, $mantra);
         }
 

@@ -73,6 +73,36 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
     }
 
+    public function testMantraNotFound(ApiTester $I): void
+    {
+        $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (mantra not found)');
+
+        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
+        $I->haveInRepository($mantraBuddhaShakyamuni);
+
+        $user = $I->createUser();
+        $I->haveInRepository($user);
+
+        $diary = new Diary($user, new \DateTimeImmutable('2021-02-28'));
+        $I->haveInRepository($diary);
+
+        $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $I->haveInRepository($menchoSamayaBuddaShakyamuni);
+
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/api/login', [
+            'username' => 'user@example.com',
+            'password' => 'my-strong-password',
+        ]);
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+
+        $I->amBearerAuthenticated($token);
+        $I->sendDelete('/api/mencho/samaya/2021-02-28/hello_WORLD');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+    }
+
     public function testNotAuthorized(ApiTester $I): void
     {
         $I->wantToTest('DELETE /api/diary/{noted_at}/{mantra_uuid} (not authorized)');
