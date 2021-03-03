@@ -31,4 +31,10 @@ final class Version20201130173722 extends AbstractMigration
     {
         $schema->dropTable('mencho_mantra');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

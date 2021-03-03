@@ -31,4 +31,10 @@ final class Version20201214171147 extends AbstractMigration
         $schema->dropSequence('refresh_tokens_id_seq');
         $schema->dropTable('refresh_tokens');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

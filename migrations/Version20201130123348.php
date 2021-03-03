@@ -32,4 +32,10 @@ final class Version20201130123348 extends AbstractMigration
     {
         $schema->dropTable('diary');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
