@@ -11,9 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    /**
-     * @Route("/api/diary/{noted_at}", name="get_diary", methods={"GET"})
-     */
+    #[Route('/api/diary/{noted_at}', name: 'get_diary', methods: ['GET'])]
     public function getDiary(?Diary $diary): Response
     {
         return null === $diary

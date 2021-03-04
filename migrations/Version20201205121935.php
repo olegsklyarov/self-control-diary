@@ -38,4 +38,10 @@ final class Version20201205121935 extends AbstractMigration
     {
         $schema->dropTable('mencho_samaya');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

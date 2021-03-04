@@ -17,21 +17,12 @@ use Ramsey\Uuid\Uuid;
 
 final class MenchoService
 {
-    private EntityManagerInterface $entityManager;
-    private DiaryService $diaryService;
-    private MenchoMantraService $menchoMantraService;
-    private MenchoSamayaService $menchoSamayaService;
-
     public function __construct(
-        EntityManagerInterface $entityManager,
-        DiaryService $diaryService,
-        MenchoMantraService $menchoMantraService,
-        MenchoSamayaService $menchoSamayaService
+        private EntityManagerInterface $entityManager,
+        private DiaryService $diaryService,
+        private MenchoMantraService $menchoMantraService,
+        private MenchoSamayaService $menchoSamayaService
     ) {
-        $this->entityManager = $entityManager;
-        $this->diaryService = $diaryService;
-        $this->menchoMantraService = $menchoMantraService;
-        $this->menchoSamayaService = $menchoSamayaService;
     }
 
     public function getSamaya(Diary $diary): array

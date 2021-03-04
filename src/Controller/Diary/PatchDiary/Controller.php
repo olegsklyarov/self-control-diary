@@ -12,16 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    private DiaryService $diaryService;
-
-    public function __construct(DiaryService $diaryService)
+    public function __construct(private DiaryService $diaryService)
     {
-        $this->diaryService = $diaryService;
     }
 
-    /**
-     * @Route("/api/diary", name="patch_diary", methods={"PATCH"})
-     */
+    #[Route('/api/diary', name: 'patch_diary', methods: ['PATCH'])]
     public function patchDiary(DiaryDTO $diaryDto): Response
     {
         $updatedDiary = $this->diaryService->updateFromDTO($diaryDto);

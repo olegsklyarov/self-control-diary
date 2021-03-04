@@ -38,4 +38,10 @@ final class Version20201202063912 extends AbstractMigration
     {
         $schema->dropTable('running');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
