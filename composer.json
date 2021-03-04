@@ -1,4 +1,6 @@
 {
+    "name": "olegsklyarov/self-control-diary",
+    "description": "Self Control Diary service backend",
     "type": "project",
     "license": "proprietary",
     "require": {
@@ -85,7 +87,8 @@
             "@auto-scripts"
         ],
         "fix-cs" : "php-cs-fixer fix",
-        "test": "codecept run"
+        "test": "codecept run",
+        "recreate-db": "bin/console doctrine:database:drop --force && bin/console doctrine:database:create && bin/console doctrine:migrations:migrate --no-interaction"
     },
     "conflict": {
         "symfony/symfony": "*"
