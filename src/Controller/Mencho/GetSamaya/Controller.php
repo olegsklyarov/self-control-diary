@@ -12,16 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    private MenchoService $menchoService;
-
-    public function __construct(MenchoService $menchoService)
+    public function __construct(private MenchoService $menchoService)
     {
-        $this->menchoService = $menchoService;
     }
 
-    /**
-     * @Route("/api/mencho/{noted_at}", name="get_samaya", methods={"GET"})
-     */
+    #[Route('/api/mencho/{noted_at}', name: 'get_samaya', methods: ['GET'])]
     public function getSamaya(?Diary $diary): Response
     {
         if (null === $diary) {

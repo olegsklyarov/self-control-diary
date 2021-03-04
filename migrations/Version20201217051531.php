@@ -30,4 +30,10 @@ final class Version20201217051531 extends AbstractMigration
     {
         $schema->dropTable('sleeping');
     }
+
+    // Fix: https://github.com/doctrine/migrations/issues/1104
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

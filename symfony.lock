@@ -238,7 +238,7 @@
         "version": "3.0.4"
     },
     "php": {
-        "version": "7.4"
+        "version": "8.0"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.1"

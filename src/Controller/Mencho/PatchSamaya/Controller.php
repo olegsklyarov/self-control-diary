@@ -15,21 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class Controller extends AbstractController
 {
-    private MenchoService $menchoService;
-
-    public function __construct(MenchoService $menchoService)
+    public function __construct(private MenchoService $menchoService)
     {
-        $this->menchoService = $menchoService;
     }
 
-    /**
-     * @Route("/api/mencho/samaya", name="patch_samaya", methods={"PATCH"})
-     */
+    #[Route('/api/mencho/samaya', name: 'patch_samaya', methods: ['PATCH'])]
     public function patchSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $updatedMenchoSamaya = $this->menchoService->updateFromDto($menchoSamayaDTO);
-        } catch (DiaryNotFoundException $e) {
+        } catch (DiaryNotFoundException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_NOT_FOUND,
@@ -37,7 +32,7 @@ class Controller extends AbstractController
                 ],
                 Response::HTTP_NOT_FOUND
             );
-        } catch (MantraNotFoundException $e) {
+        } catch (MantraNotFoundException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_NOT_FOUND,
@@ -45,7 +40,7 @@ class Controller extends AbstractController
                 ],
                 Response::HTTP_NOT_FOUND
             );
-        } catch (MenchoSamayaNotFoundException $e) {
+        } catch (MenchoSamayaNotFoundException) {
             return $this->json(
                 [
                     'code' => Response::HTTP_NOT_FOUND,
