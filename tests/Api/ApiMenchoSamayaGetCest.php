@@ -11,19 +11,9 @@ use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 
 class ApiMenchoSamayaGetCest
-{   
-
+{
     private ?Diary $diary = null;
-    
-   // public function _before(ApiTester $I): void
-   //{
-       // $user = $I->createUser();
-      //  $I->haveInRepository($user);
-
-      //  $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-       // $I->haveInRepository($mantraBuddhaShakyamuni);       
-   // }
-
+ 
     public function testSuccessPatch(ApiTester $I): void
     {
         $I->wantToTest('GET /api/mencho/2021-03-05 success');
@@ -55,16 +45,11 @@ class ApiMenchoSamayaGetCest
         $I->sendGet('/api/mencho/2021-03-05');
         $I->seeResponseCodeIs(HttpCode::OK);
 
-       
-        
-        //$I->seeResponseJsonMatchesJsonPath('$.uuid');
-        //$I->seeResponseJsonMatchesJsonPath('$.count');
-        
         $I->seeResponseContainsJson([
             'uuid' => $menchoSamaya->getUuid()->toString(),
             'count' => 100,
         ]);
-        
+
         $I->seeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamaya->getUuid()]);
 
         /** @var MenchoSamaya $menchoSamayaInRepository */
@@ -93,7 +78,7 @@ class ApiMenchoSamayaGetCest
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
-        
+
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
             'username' => 'user@example.com',
@@ -107,12 +92,10 @@ class ApiMenchoSamayaGetCest
         $I->amBearerAuthenticated($token);
         $I->sendGet('/api/mencho/2021-03-08');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
-        
     }
 
     public function testUnauthorised(ApiTester $I): void
     {
-        
         $I->wantToTest('GET /api/mencho/samaya/{noted at} (Unauthorised)');
 
         $user = $I->createUser();
@@ -126,9 +109,8 @@ class ApiMenchoSamayaGetCest
 
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
-        
+
         $I->sendGet('/api/mencho/2021-03-05');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
-
 }
