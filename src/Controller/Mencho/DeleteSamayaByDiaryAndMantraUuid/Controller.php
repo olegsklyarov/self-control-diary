@@ -24,10 +24,16 @@ class Controller extends AbstractController
     public function deleteSamayaByUuid(?Diary $diary, ?MenchoMantra $menchoMantra): Response
     {
         if (null === $diary) {
-            return new Response('Diary not found.', Response::HTTP_NOT_FOUND);
+            return $this->json([
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => 'Diary not found.',
+            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
         }
         if (null === $menchoMantra) {
-            return new Response('Mantra not found.', Response::HTTP_NOT_FOUND);
+            return $this->json([
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => 'Mantra not found.',
+            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
         }
         $menchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
         $this->menchoService->deleteSamayaByUuid($menchoSamaya);
