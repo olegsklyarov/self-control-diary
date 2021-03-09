@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Mencho;
 
 use App\Entity\MenchoMantra;
-use App\Service\Mencho\Exception\InvalidUuidException;
 use App\Service\Mencho\MenchoMantraService;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,9 +29,8 @@ class MenchoMantraParamResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $paramMantraUuid = $request->get(self::PARAM_MANTRA_UUID);
-        if (!(Uuid::isValid($paramMantraUuid))) {
-            throw new InvalidUuidException();
-        }
-        yield $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid));
+        yield Uuid::isValid($paramMantraUuid) ?
+        $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid))
+        : null;
     }
 }
