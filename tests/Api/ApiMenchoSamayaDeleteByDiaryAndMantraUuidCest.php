@@ -71,6 +71,10 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-26/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseContainsJson([
+            'code' => 404,
+            'message' => 'Diary not found.',
+        ]);
     }
 
     public function testMantraNotFound(ApiTester $I): void
@@ -101,6 +105,10 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-28/hello_WORLD');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseContainsJson([
+            'code' => 404,
+            'message' => 'Mantra not found.',
+        ]);
     }
 
     public function testNotAuthorized(ApiTester $I): void
