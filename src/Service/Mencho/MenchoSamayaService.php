@@ -17,8 +17,6 @@ final class MenchoSamayaService
 
     public function findByDiaryAndMantra(Diary $diary, MenchoMantra $menchoMantra): ?MenchoSamaya
     {
-        $menchoSamaya = null;
-
         /** @var MenchoSamaya|null $menchoSamaya */
         $menchoSamaya = $this->entityManager->getRepository(MenchoSamaya::class)->findOneBy([
             'diary' => $diary,

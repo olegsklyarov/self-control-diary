@@ -29,8 +29,8 @@ class MenchoMantraParamResolver implements ArgumentValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         $paramMantraUuid = $request->get(self::PARAM_MANTRA_UUID);
-        yield Uuid::isValid($paramMantraUuid) ?
-        $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid))
-        : null;
+        yield Uuid::isValid($paramMantraUuid)
+            ? $this->menchoMantraService->findByUuid(Uuid::fromString($paramMantraUuid))
+            : null;
     }
 }

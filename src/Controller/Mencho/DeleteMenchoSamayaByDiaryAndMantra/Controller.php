@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Mencho\DeleteSamayaByDiaryAndMantraUuid;
+namespace App\Controller\Mencho\DeleteMenchoSamayaByDiaryAndMantra;
 
 use App\Entity\Diary;
 use App\Entity\MenchoMantra;
@@ -20,8 +20,8 @@ class Controller extends AbstractController
     ) {
     }
 
-    #[Route('/api/mencho/samaya/{noted_at}/{mantra_uuid}', name: 'delete_samaya_by_uuid', methods: ['DELETE'])]
-    public function deleteSamayaByUuid(?Diary $diary, ?MenchoMantra $menchoMantra): Response
+    #[Route('/api/mencho/samaya/{noted_at}/{mantra_uuid}', name: 'delete_mencho_samaya_by_diary_and_mantra', methods: ['DELETE'])]
+    public function deleteMenchoSamayaByDiaryAndMantra(?Diary $diary, ?MenchoMantra $menchoMantra): Response
     {
         if (null === $diary) {
             return $this->json([
@@ -32,7 +32,7 @@ class Controller extends AbstractController
         if (null === $menchoMantra) {
             return $this->json([
                 'code' => Response::HTTP_NOT_FOUND,
-                'message' => 'Mantra not found.',
+                'message' => 'MenchoSamaya not found.',
             ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
         }
         $menchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);

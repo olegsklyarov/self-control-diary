@@ -113,5 +113,6 @@ final class MenchoService
     public function deleteSamayaByUuid(MenchoSamaya $menchoSamaya): void
     {
         $this->entityManager->remove($menchoSamaya->getMenchoMantra());
+        $this->entityManager->flush();
     }
 }
