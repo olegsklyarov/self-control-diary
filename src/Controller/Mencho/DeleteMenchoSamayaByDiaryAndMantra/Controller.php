@@ -40,7 +40,7 @@ class Controller extends AbstractController
         if (null === $menchoSamaya) {
             return $this->json([
                 'code' => Response::HTTP_NOT_FOUND,
-                'message' => 'MenchoSamaya not found in this diary.',
+                'message' => 'MenchoSamaya not found for diary and mantra.',
             ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
         }
         $this->menchoService->deleteSamayaByUuid($menchoSamaya);
