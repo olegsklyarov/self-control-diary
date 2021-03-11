@@ -36,6 +36,13 @@ class Controller extends AbstractController
             ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
         }
         $menchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
+
+        if (null === $menchoSamaya) {
+            return $this->json([
+                'code' => Response::HTTP_NOT_FOUND,
+                'message' => 'MenchoSamaya not found in this diary.',
+            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
+        }
         $this->menchoService->deleteSamayaByUuid($menchoSamaya);
 
         return $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'api']);
