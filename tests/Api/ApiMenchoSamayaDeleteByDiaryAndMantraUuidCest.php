@@ -144,7 +144,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseContainsJson([
             'code' => 404,
-            'message' => 'MenchoSamaya not found in this diary.',
+            'message' => 'MenchoSamaya not found for diary and mantra.',
         ]);
     }
 
