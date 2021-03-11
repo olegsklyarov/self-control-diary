@@ -12,23 +12,33 @@ use Codeception\Util\HttpCode;
 
 class ApiMenchoSamayaGetCest
 {
-    private ?Diary $diary = null;
- 
-    public function testSuccessPatch(ApiTester $I): void
-    {
-        $I->wantToTest('GET /api/mencho/2021-03-05 success');
+    private ?MenchoSamaya $menchoSamayaShakyamuni = null;
+    private ?MenchoSamaya $menchoSamayaChenrezig = null;
 
+    public function _before(ApiTester $I): void
+    {
         $user = $I->createUser();
         $I->haveInRepository($user);
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
 
+        $mantraChenrezig = new MenchoMantra('Ченрезиг', 1);
+        $I->haveInRepository($mantraChenrezig);
+
         $diary = new Diary($user, new \DateTimeImmutable('2021-03-05'));
         $I->haveInRepository($diary);
 
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
-        $I->haveInRepository($menchoSamaya);
+        $this->menchoSamayaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
+        $I->haveInRepository($this->menchoSamayaShakyamuni);
+
+        $this->menchoSamayaChenrezig = new MenchoSamaya($diary, $mantraChenrezig, 300);
+        $I->haveInRepository($this->menchoSamayaChenrezig);
+    }
+
+    public function testSuccessPatch(ApiTester $I): void
+    {
+        $I->wantToTest('GET /api/mencho/{noted at} success');
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
@@ -46,38 +56,20 @@ class ApiMenchoSamayaGetCest
         $I->seeResponseCodeIs(HttpCode::OK);
 
         $I->seeResponseContainsJson([
-            'uuid' => $menchoSamaya->getUuid()->toString(),
-            'count' => 100,
+            [
+                'uuid' => $this->menchoSamayaShakyamuni->getUuid()->toString(),
+                'count' => 100,
+            ],
+            [
+                'uuid' => $this->menchoSamayaChenrezig->getUuid()->toString(),
+                'count' => 300,
+            ],
         ]);
-
-        $I->seeInRepository(MenchoSamaya::class, ['uuid' => $menchoSamaya->getUuid()]);
-
-        /** @var MenchoSamaya $menchoSamayaInRepository */
-        $menchoSamayaInRepository = $I->grabEntitiesFromRepository(
-            MenchoSamaya::class,
-            ['uuid' => $menchoSamaya->getUuid()]
-        )[0];
-
-        $I->assertEquals($menchoSamaya->getUuid()->toString(), $menchoSamayaInRepository->getUuid());
-        $I->assertEquals(100, $menchoSamayaInRepository->getCount());
-        $I->assertEquals($mantraBuddhaShakyamuni->getUuid(), $menchoSamayaInRepository->getMenchoMantra()->getUuid());
     }
 
     public function testDairyInvalidUuid(ApiTester $I): void
     {
         $I->wantToTest('GET /api/mencho/samaya/{noted at} (dairy not found)');
-
-        $user = $I->createUser();
-        $I->haveInRepository($user);
-
-        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-        $I->haveInRepository($mantraBuddhaShakyamuni);
-
-        $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
-        $I->haveInRepository($diary);
-
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
-        $I->haveInRepository($menchoSamaya);
 
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
@@ -97,18 +89,6 @@ class ApiMenchoSamayaGetCest
     public function testUnauthorised(ApiTester $I): void
     {
         $I->wantToTest('GET /api/mencho/samaya/{noted at} (Unauthorised)');
-
-        $user = $I->createUser();
-        $I->haveInRepository($user);
-
-        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-        $I->haveInRepository($mantraBuddhaShakyamuni);
-
-        $diary = new Diary($user, new \DateTimeImmutable('2021-03-05'));
-        $I->haveInRepository($diary);
-
-        $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
-        $I->haveInRepository($menchoSamaya);
 
         $I->sendGet('/api/mencho/2021-03-05');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
