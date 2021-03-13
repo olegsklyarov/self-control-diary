@@ -36,22 +36,12 @@ class ApiMenchoSamayaGetCest
         $I->haveInRepository($this->menchoSamayaChenrezig);
     }
 
-    public function testSuccessPatch(ApiTester $I): void
+    public function testSuccess(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/mencho/{noted at} success');
+        $I->wantToTest('GET /api/mencho/{noted_at} (success)');
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
-
         $I->sendGet('/api/mencho/2021-03-05');
         $I->seeResponseCodeIs(HttpCode::OK);
 
@@ -67,29 +57,23 @@ class ApiMenchoSamayaGetCest
         ]);
     }
 
-    public function testDairyInvalidUuid(ApiTester $I): void
+    public function testDairyNotFound(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/mencho/samaya/{noted at} (dairy not found)');
-
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $I->wantToTest('GET /api/mencho/{noted_at} (dairy not found)');
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendGet('/api/mencho/2021-03-08');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::NOT_FOUND,
+            'message' => 'Diary not found.',
+        ]);
     }
 
     public function testUnauthorised(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/mencho/samaya/{noted at} (Unauthorised)');
-
+        $I->wantToTest('GET /api/mencho/{noted_at} (unauthorized)');
         $I->sendGet('/api/mencho/2021-03-05');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

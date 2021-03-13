@@ -9,6 +9,7 @@ use App\Service\Mencho\Exception\DiaryNotFoundException;
 use App\Service\Mencho\Exception\MantraNotFoundException;
 use App\Service\Mencho\Exception\MenchoSamayaAlreadyExistsException;
 use App\Service\Mencho\MenchoService;
+use App\Service\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,29 +26,11 @@ class Controller extends AbstractController
         try {
             $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);
         } catch (DiaryNotFoundException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Diary not found.',
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
+            return Util::errorJsonResponse(Response::HTTP_BAD_REQUEST, 'Diary not found.');
         } catch (MantraNotFoundException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_BAD_REQUEST,
-                    'message' => 'Mantra not found.',
-                ],
-                Response::HTTP_BAD_REQUEST
-            );
+            return Util::errorJsonResponse(Response::HTTP_BAD_REQUEST, 'Mantra not found.');
         } catch (MenchoSamayaAlreadyExistsException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_CONFLICT,
-                    'message' => 'Already exists.',
-                ],
-                Response::HTTP_CONFLICT
-            );
+            return Util::errorJsonResponse(Response::HTTP_CONFLICT, 'Already exists.');
         }
 
         return $this->json($createdMenchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);

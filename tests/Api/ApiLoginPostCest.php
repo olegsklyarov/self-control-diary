@@ -18,7 +18,7 @@ final class ApiLoginPostCest
 
     public function testSuccessAuth(ApiTester $I): void
     {
-        $I->wantToTest('login with valid credentials');
+        $I->wantToTest('POST /api/login (valid credentials)');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
             'username' => 'user@example.com',
@@ -31,7 +31,7 @@ final class ApiLoginPostCest
 
     public function testIncorrectPassword(ApiTester $I): void
     {
-        $I->wantToTest('login with invalid credentials');
+        $I->wantToTest('POST /api/login (invalid credentials)');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [
             'username' => 'random@example.com',
@@ -49,7 +49,7 @@ final class ApiLoginPostCest
 
     public function testInvalidMethod(ApiTester $I): void
     {
-        $I->wantToTest('login with invalid method');
+        $I->wantToTest('POST /api/login (invalid method)');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/api/login');
         $I->seeResponseCodeIs(HttpCode::METHOD_NOT_ALLOWED);
@@ -57,7 +57,7 @@ final class ApiLoginPostCest
 
     public function testInvalidBody(ApiTester $I): void
     {
-        $I->wantToTest('login with invalid body');
+        $I->wantToTest('POST /api/login (invalid body)');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login');
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
@@ -65,7 +65,7 @@ final class ApiLoginPostCest
 
     public function testExpiredToken(ApiTester $I): void
     {
-        $I->wantToTest('login with expired token');
+        $I->wantToTest('POST /api/login (expired token)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -95,7 +95,7 @@ final class ApiLoginPostCest
 
     public function testTokenRefresh(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/token/refresh');
+        $I->wantToTest('POST /api/token/refresh (success)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);

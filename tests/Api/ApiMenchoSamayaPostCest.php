@@ -14,7 +14,7 @@ class ApiMenchoSamayaPostCest
 {
     public function testSuccessPost(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya success');
+        $I->wantToTest('POST /api/mencho/samaya (success)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -25,16 +25,7 @@ class ApiMenchoSamayaPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
         $I->haveInRepository($diary);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => '2021-02-04',
@@ -69,7 +60,7 @@ class ApiMenchoSamayaPostCest
 
     public function testAlreadyExists(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya already exists');
+        $I->wantToTest('POST /api/mencho/samaya (already exists)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -83,16 +74,7 @@ class ApiMenchoSamayaPostCest
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => '2021-02-05',
@@ -109,7 +91,7 @@ class ApiMenchoSamayaPostCest
 
     public function testDiaryNotFound(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya diary not found');
+        $I->wantToTest('POST /api/mencho/samaya (diary not found)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -117,16 +99,7 @@ class ApiMenchoSamayaPostCest
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => '2021-02-04',
@@ -144,7 +117,7 @@ class ApiMenchoSamayaPostCest
 
     public function testMenchoMantraNotFound(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya mantra not found');
+        $I->wantToTest('POST /api/mencho/samaya (mantra not found)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -152,16 +125,7 @@ class ApiMenchoSamayaPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
         $I->haveInRepository($diary);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => '2021-02-04',
@@ -178,7 +142,7 @@ class ApiMenchoSamayaPostCest
 
     public function testMenchoMantraInvalidUuid(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya mantra uuid invalid');
+        $I->wantToTest('POST /api/mencho/samaya (mantra uuid invalid)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -186,16 +150,7 @@ class ApiMenchoSamayaPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
         $I->haveInRepository($diary);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => '2021-02-04',
@@ -212,7 +167,7 @@ class ApiMenchoSamayaPostCest
 
     public function testDataValidationFailed(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/mencho/samaya data validation failed');
+        $I->wantToTest('POST /api/mencho/samaya (data validation failed)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -220,16 +175,7 @@ class ApiMenchoSamayaPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-04'));
         $I->haveInRepository($diary);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/mencho/samaya', [
             'notedAt' => 0,

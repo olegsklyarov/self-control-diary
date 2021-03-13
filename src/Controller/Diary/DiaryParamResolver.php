@@ -7,6 +7,7 @@ namespace App\Controller\Diary;
 use App\Entity\Diary;
 use App\Service\Diary\DiaryService;
 use App\Service\Util;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -28,8 +29,10 @@ final class DiaryParamResolver implements ArgumentValueResolverInterface
     {
         $paramNotedAt = $request->get(self::PARAM_NOTED_AT);
 
-        yield Util::isValidDateFormat($paramNotedAt)
-            ? $this->diaryService->findByNotedAtForCurrentUser(new \DateTimeImmutable($paramNotedAt))
-            : null;
+        if (!Util::isValidDateFormat($paramNotedAt)) {
+            throw new BadRequestException('Invalid noted_at value.');
+        }
+
+        yield $this->diaryService->findByNotedAtForCurrentUser(new \DateTimeImmutable($paramNotedAt));
     }
 }

@@ -10,20 +10,6 @@ use Codeception\Util\HttpCode;
 
 class ApiDiaryPostCest
 {
-    private function login(ApiTester $I): string
-    {
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-
-        return $I->grabDataFromResponseByJsonPath('$.token')[0];
-    }
-
     private function checkSuccessResponse(ApiTester $I, ?string $expectedNotes, \DateTimeImmutable $expectedNotedAt): void
     {
         $I->seeResponseCodeIs(HttpCode::CREATED);
@@ -68,12 +54,12 @@ class ApiDiaryPostCest
 
     public function testSuccess(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary success');
+        $I->wantToTest('POST /api/diary (success)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -86,12 +72,12 @@ class ApiDiaryPostCest
 
     public function testNullNotesSuccess(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary with null notes');
+        $I->wantToTest('POST /api/diary (with null notes)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -104,12 +90,12 @@ class ApiDiaryPostCest
 
     public function testMissedNotes(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary with missed notes');
+        $I->wantToTest('POST /api/diary (with missed notes)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -125,12 +111,12 @@ class ApiDiaryPostCest
 
     public function testBlankNotesSuccess(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary success with blank notes');
+        $I->wantToTest('POST /api/diary (success with blank notes)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -147,12 +133,12 @@ class ApiDiaryPostCest
 
     public function testMissedNotedAt(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary empty request body');
+        $I->wantToTest('POST /api/diary (empty request body)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -168,7 +154,7 @@ class ApiDiaryPostCest
 
     public function testConflictPost(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary conflict');
+        $I->wantToTest('POST /api/diary (conflict)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -176,7 +162,7 @@ class ApiDiaryPostCest
         $diary = new Diary($user, new \DateTimeImmutable('2021-02-21'));
         $I->haveInRepository($diary);
 
-        $token = $this->login($I);
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendPOST('/api/diary', [
@@ -187,13 +173,13 @@ class ApiDiaryPostCest
         $this->checkBadRequestResponse(
             $I,
             HttpCode::CONFLICT,
-            'Diary already exists'
+            'Diary already exists.'
         );
     }
 
     public function testNotAuthorized(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/diary unauthorized');
+        $I->wantToTest('POST /api/diary (unauthorized)');
         $I->sendPOST('/api/diary', [
             'notedAt' => '2021-02-21',
             'notes' => 'My diary note',

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 final class Util
 {
     public static function isValidDateFormat(string $date): bool
@@ -13,5 +15,13 @@ final class Util
         }
 
         return false;
+    }
+
+    public static function errorJsonResponse(int $code, string $message): JsonResponse
+    {
+        return new JsonResponse([
+            'code' => $code,
+            'message' => $message,
+        ], $code);
     }
 }

@@ -14,7 +14,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 {
     public function testSuccessDelete(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid}');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (success)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -28,15 +28,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamayaBuddaShakyamuni);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-18/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
@@ -59,14 +51,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamayaBuddaShakyamuni);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-26/' . $mantraBuddhaShakyamuni->getUuid());
@@ -93,14 +78,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamayaBuddaShakyamuni);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-28/hello_WORLD');
@@ -130,14 +108,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
         $menchoSamayaBuddaShakyamuni = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamayaBuddaShakyamuni);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-03-11/' . $mantraChenrezig->getUuid());
@@ -150,7 +121,7 @@ class ApiMenchoSamayaDeleteByDiaryAndMantraUuidCest
 
     public function testNotAuthorized(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (not authorized)');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}/{mantra_uuid} (unauthorized)');
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->sendDelete('/api/mencho/samaya/2021-02-27/' . $mantraBuddhaShakyamuni->getUuid());
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);

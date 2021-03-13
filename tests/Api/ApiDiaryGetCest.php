@@ -23,60 +23,50 @@ class ApiDiaryGetCest
 
     public function testSuccess(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} Success');
-
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $I->wantToTest('GET /api/diary/{noted_at} (success)');
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
-
         $I->sendGet('/api/diary/2021-02-04');
         $I->seeResponseCodeIs(HttpCode::OK);
-
-        $I->seeResponseJsonMatchesJsonPath('$.uuid');
-        $I->seeResponseJsonMatchesJsonPath('$.notes');
-        $I->seeResponseJsonMatchesJsonPath('$.notedAt');
-
-        $actualResponseDiaryUuid = $I->grabDataFromResponseByJsonPath('$.uuid')[0];
-        $actualResponseNotes = $I->grabDataFromResponseByJsonPath('$.notes')[0];
-        $actualResponseNotedAt = $I->grabDataFromResponseByJsonPath('$.notedAt')[0];
-
-        $I->assertEquals($this->diary->getUuid(), $actualResponseDiaryUuid);
-        $I->assertEquals($this->diary->getNotes(), $actualResponseNotes);
-        $I->assertEquals($this->diary->getNotedAt(), new \DateTimeImmutable($actualResponseNotedAt));
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'uuid' => $this->diary->getUuid()->toString(),
+            'notes' => $this->diary->getNotes(),
+            'notedAt' => $this->diary->getNotedAt()->format(\DateTime::ATOM),
+        ]);
     }
 
-    public function testInvalidNotedAt(ApiTester $I): void
+    public function testInvalidNotedAtValue(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} Invalid NotedAt');
-
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $I->wantToTest('GET /api/diary/{noted_at} (invalid noted_at value)');
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
+        $I->sendGet('/api/diary/20210201');
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Invalid noted_at value.',
+        ]);
+    }
 
+    public function testDiaryNotFound(ApiTester $I): void
+    {
+        $I->wantToTest('GET /api/diary/{noted_at} (diary not found)');
+        $token = $I->doAuthAndGetJwtToken($I);
+        $I->amBearerAuthenticated($token);
         $I->sendGet('/api/diary/2021-02-01');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::NOT_FOUND,
+            'message' => 'Diary not found.',
+        ]);
     }
 
     public function testUnauthorised(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} Unauthorised');
-
+        $I->wantToTest('GET /api/diary/{noted_at} (unauthorised)');
         $I->sendGet('/api/diary/2021-02-04');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

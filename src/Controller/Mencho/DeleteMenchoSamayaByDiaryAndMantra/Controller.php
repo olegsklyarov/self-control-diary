@@ -8,6 +8,7 @@ use App\Entity\Diary;
 use App\Entity\MenchoMantra;
 use App\Service\Mencho\MenchoSamayaService;
 use App\Service\Mencho\MenchoService;
+use App\Service\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,24 +25,15 @@ class Controller extends AbstractController
     public function deleteMenchoSamayaByDiaryAndMantra(?Diary $diary, ?MenchoMantra $menchoMantra): Response
     {
         if (null === $diary) {
-            return $this->json([
-                'code' => Response::HTTP_NOT_FOUND,
-                'message' => 'Diary not found.',
-            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');
         }
         if (null === $menchoMantra) {
-            return $this->json([
-                'code' => Response::HTTP_NOT_FOUND,
-                'message' => 'MenchoSamaya not found.',
-            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'MenchoSamaya not found.');
         }
         $menchoSamaya = $this->menchoSamayaService->findByDiaryAndMantra($diary, $menchoMantra);
 
         if (null === $menchoSamaya) {
-            return $this->json([
-                'code' => Response::HTTP_NOT_FOUND,
-                'message' => 'MenchoSamaya not found for diary and mantra.',
-            ], Response::HTTP_NOT_FOUND, [], ['groups' => 'api']);
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'MenchoSamaya not found for diary and mantra.');
         }
         $this->menchoService->deleteSamayaByUuid($menchoSamaya);
 

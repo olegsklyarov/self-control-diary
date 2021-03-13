@@ -6,6 +6,7 @@ namespace App\Controller\Mencho\GetSamaya;
 
 use App\Entity\Diary;
 use App\Service\Mencho\MenchoService;
+use App\Service\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,7 @@ class Controller extends AbstractController
     public function getSamaya(?Diary $diary): Response
     {
         if (null === $diary) {
-            return new Response('', Response::HTTP_NOT_FOUND);
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');
         }
         $menchoSamaya = $this->menchoService->getSamaya($diary);
 
