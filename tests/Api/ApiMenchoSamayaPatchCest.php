@@ -14,7 +14,7 @@ class ApiMenchoSamayaPatchCest
 {
     public function testSuccessPatch(ApiTester $I): void
     {
-        $I->wantToTest('PATCH /api/mencho/samaya success');
+        $I->wantToTest('PATCH /api/mencho/samaya (success)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -28,15 +28,7 @@ class ApiMenchoSamayaPatchCest
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
 

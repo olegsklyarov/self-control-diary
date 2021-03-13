@@ -37,16 +37,7 @@ class ApiDiaryDeleteCest
         $menchoSamaya = new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100);
         $I->haveInRepository($menchoSamaya);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/diary/2021-01-30');
         $I->seeResponseCodeIs(HttpCode::NO_CONTENT);
@@ -67,16 +58,7 @@ class ApiDiaryDeleteCest
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/diary/2021-01-30');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
@@ -84,7 +66,7 @@ class ApiDiaryDeleteCest
 
     public function testNotAuthorized(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/diary/{noted_at} (not authorized)');
+        $I->wantToTest('DELETE /api/diary/{noted_at} (unauthorized)');
         $I->sendDelete('/api/diary/2021-01-30');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

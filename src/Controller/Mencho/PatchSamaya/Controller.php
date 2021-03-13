@@ -9,6 +9,7 @@ use App\Service\Mencho\Exception\DiaryNotFoundException;
 use App\Service\Mencho\Exception\MantraNotFoundException;
 use App\Service\Mencho\Exception\MenchoSamayaNotFoundException;
 use App\Service\Mencho\MenchoService;
+use App\Service\Util;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,29 +26,11 @@ class Controller extends AbstractController
         try {
             $updatedMenchoSamaya = $this->menchoService->updateFromDto($menchoSamayaDTO);
         } catch (DiaryNotFoundException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_NOT_FOUND,
-                    'message' => 'Diary not found.',
-                ],
-                Response::HTTP_NOT_FOUND
-            );
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');
         } catch (MantraNotFoundException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_NOT_FOUND,
-                    'message' => 'Mantra not found.',
-                ],
-                Response::HTTP_NOT_FOUND
-            );
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Mantra not found.');
         } catch (MenchoSamayaNotFoundException) {
-            return $this->json(
-                [
-                    'code' => Response::HTTP_NOT_FOUND,
-                    'message' => 'MenchoSamaya not found',
-                ],
-                Response::HTTP_NOT_FOUND
-            );
+            return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'MenchoSamaya not found.');
         }
 
         return $this->json($updatedMenchoSamaya, Response::HTTP_OK, [], ['groups' => 'api']);

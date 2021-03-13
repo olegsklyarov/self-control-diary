@@ -14,7 +14,7 @@ class ApiMenchoSamayaDeleteCest
 {
     public function testSuccessDelete(ApiTester $I): void
     {
-        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at}');
+        $I->wantToTest('DELETE /api/mencho/samaya/{noted_at} (success)');
 
         $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
         $I->haveInRepository($mantraBuddhaShakyamuni);
@@ -32,14 +32,7 @@ class ApiMenchoSamayaDeleteCest
         $menchoSamayaChenrezig = new MenchoSamaya($diary, $mantraChenrezig, 200);
         $I->haveInRepository($menchoSamayaChenrezig);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
+        $token = $I->doAuthAndGetJwtToken($I);
 
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-18');
@@ -58,15 +51,7 @@ class ApiMenchoSamayaDeleteCest
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/api/login', [
-            'username' => 'user@example.com',
-            'password' => 'my-strong-password',
-        ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $token = $I->grabDataFromResponseByJsonPath('$.token')[0];
-
+        $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendDelete('/api/mencho/samaya/2021-02-18');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
