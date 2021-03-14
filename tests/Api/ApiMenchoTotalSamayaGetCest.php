@@ -61,4 +61,50 @@ class ApiMenchoTotalSamayaGetCest
             ],
         ]);
     }
+
+    public function testCrossUser(ApiTester $I): void
+    {
+        $I->wantToTest('GET /api/mencho/samaya (cross user test)');
+
+        $user1 = $I->createUser();
+        $I->haveInRepository($user1);
+
+        $user2 = $I->createUser('user2@example.com', 'another-strong-password');
+        $I->haveInRepository($user2);
+
+        $mantra = new MenchoMantra('Будда Шакьямуни', 1);
+        $I->haveInRepository($mantra);
+
+        $diary1 = new Diary($user1, new \DateTimeImmutable('2021-03-14'));
+        $I->haveInRepository($diary1);
+        $diary2 = new Diary($user2, new \DateTimeImmutable('2021-03-14'));
+        $I->haveInRepository($diary2);
+
+        $I->haveInRepository(new MenchoSamaya($diary1, $mantra, 100));
+        $I->haveInRepository(new MenchoSamaya($diary2, $mantra, 700));
+
+        $token = $I->doAuthAndGetJwtToken($I);
+        $I->amBearerAuthenticated($token);
+        $I->sendGet('/api/mencho/samaya');
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseContainsJson([
+            [
+                'mantraUuid' => $mantra->getUuid()->toString(),
+                'count' => 100,
+            ],
+        ]);
+
+        $token = $I->doAuthAndGetJwtToken($I, 'user2@example.com', 'another-strong-password');
+        $I->amBearerAuthenticated($token);
+        $I->sendGet('/api/mencho/samaya');
+
+        $I->seeResponseCodeIs(HttpCode::OK);
+        $I->seeResponseContainsJson([
+            [
+                'mantraUuid' => $mantra->getUuid()->toString(),
+                'count' => 700,
+            ],
+        ]);
+    }
 }
