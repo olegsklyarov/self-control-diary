@@ -19,22 +19,27 @@ class ApiMenchoTotalSamayaGetCest
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $mantraBuddhaShakyamuni = new MenchoMantra('Будда Шакьямуни', 1);
-        $I->haveInRepository($mantraBuddhaShakyamuni);
+        $mantra1 = new MenchoMantra('Будда Шакьямуни', 1);
+        $I->haveInRepository($mantra1);
+        $mantra2 = new MenchoMantra('Амитаба', 1);
+        $I->haveInRepository($mantra2);
+        $mantra3 = new MenchoMantra('Ченрезиг', 1);
+        $I->haveInRepository($mantra3);
 
-        $mantraChenrezig = new MenchoMantra('Ченрезиг', 1);
-        $I->haveInRepository($mantraChenrezig);
+        $diary1 = new Diary($user, new \DateTimeImmutable('2021-03-12'));
+        $I->haveInRepository($diary1);
+        $diary2 = new Diary($user, new \DateTimeImmutable('2021-03-13'));
+        $I->haveInRepository($diary2);
+        $diary3 = new Diary($user, new \DateTimeImmutable('2021-03-14'));
+        $I->haveInRepository($diary3);
 
-        $diary20210312 = new Diary($user, new \DateTimeImmutable('2021-03-12'));
-        $I->haveInRepository($diary20210312);
-
-        $diary20210313 = new Diary($user, new \DateTimeImmutable('2021-03-13'));
-        $I->haveInRepository($diary20210313);
-
-        $I->haveInRepository(new MenchoSamaya($diary20210312, $mantraBuddhaShakyamuni, 100));
-        $I->haveInRepository(new MenchoSamaya($diary20210312, $mantraChenrezig, 700));
-
-        $I->haveInRepository(new MenchoSamaya($diary20210313, $mantraBuddhaShakyamuni, 400));
+        $I->haveInRepository(new MenchoSamaya($diary1, $mantra1, 100));
+        $I->haveInRepository(new MenchoSamaya($diary1, $mantra2, 100));
+        $I->haveInRepository(new MenchoSamaya($diary1, $mantra3, 100));
+        $I->haveInRepository(new MenchoSamaya($diary2, $mantra1, 100));
+        $I->haveInRepository(new MenchoSamaya($diary2, $mantra2, 200));
+        $I->haveInRepository(new MenchoSamaya($diary2, $mantra3, 300));
+        $I->haveInRepository(new MenchoSamaya($diary3, $mantra2, 700));
 
         $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
@@ -43,12 +48,16 @@ class ApiMenchoTotalSamayaGetCest
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseContainsJson([
             [
-                'mantraUuid' => $mantraBuddhaShakyamuni->getUuid()->toString(),
-                'count' => 500,
+                'mantraUuid' => $mantra1->getUuid()->toString(),
+                'count' => 200,
             ],
             [
-                'mantraUuid' => $mantraChenrezig->getUuid()->toString(),
-                'count' => 700,
+                'mantraUuid' => $mantra2->getUuid()->toString(),
+                'count' => 1000,
+            ],
+            [
+                'mantraUuid' => $mantra3->getUuid()->toString(),
+                'count' => 400,
             ],
         ]);
     }
