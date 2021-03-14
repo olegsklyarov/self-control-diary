@@ -14,7 +14,7 @@ class ApiMenchoTotalSamayaGetCest
 {
     public function testSuccess(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/mecnho/samaya/total (success)');
+        $I->wantToTest('GET /api/mencho/samaya (success)');
 
         $user = $I->createUser();
         $I->haveInRepository($user);
