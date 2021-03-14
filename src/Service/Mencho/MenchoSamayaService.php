@@ -37,15 +37,15 @@ final class MenchoSamayaService
 
         $queryBuilder = $this->entityManager->createQueryBuilder()
             ->select([
-                'IDENTITY(mencho_samaya.menchoMantra) as mantraUuid',
-                'SUM(mencho_samaya.count) as count',
+                'IDENTITY(samaya.menchoMantra) as mantraUuid',
+                'SUM(samaya.count) as count',
             ])
-            ->from(MenchoSamaya::class, 'mencho_samaya')
-            ->innerJoin(Diary::class, 'diary', 'WITH', 'mencho_samaya.diary = diary')
-            ->innerJoin(User::class, 'u', 'WITH', 'diary.user = u')
-            ->andWhere('u = :user')
+            ->from(MenchoSamaya::class, 'samaya')
+            ->innerJoin(Diary::class, 'diary', 'WITH', 'samaya.diary = diary')
+            ->innerJoin(User::class, 'user', 'WITH', 'diary.user = user')
+            ->andWhere('user = :user')
             ->setParameter('user', $user)
-            ->groupBy('mencho_samaya.menchoMantra');
+            ->groupBy('samaya.menchoMantra');
 
         return $queryBuilder->getQuery()->getArrayResult();
     }
