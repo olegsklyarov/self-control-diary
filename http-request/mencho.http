@@ -22,3 +22,8 @@ Content-Type: application/json
 
 DELETE {{host}}/api/mencho/samaya/2021-02-18
 Authorization: Bearer {{token}}
+
+###
+
+GET {{host}}/api/mencho/samaya
+Authorization: Bearer {{token}}

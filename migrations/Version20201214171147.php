@@ -17,7 +17,7 @@ final class Version20201214171147 extends AbstractMigration
     public function up(Schema $schema): void
     {
         $table = $schema->createTable('refresh_tokens');
-        $table->addColumn('id', 'integer');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->setPrimaryKey(['id']);
         $table->addColumn('refresh_token', 'string', ['length' => 128]);
         $table->addColumn('username', 'string');
