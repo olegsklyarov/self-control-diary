@@ -25,5 +25,10 @@ Authorization: Bearer {{token}}
 
 ###
 
+DELETE {{host}}/api/mencho/samaya/2021-03-11/01cff1c8-d006-41fe-9ae5-03ee0ec71b74
+Authorization: Bearer {{token}}
+
+###
+
 GET {{host}}/api/mencho/samaya
 Authorization: Bearer {{token}}
