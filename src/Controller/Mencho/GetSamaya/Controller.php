@@ -17,7 +17,7 @@ class Controller extends AbstractController
     {
     }
 
-    #[Route('/api/mencho/{noted_at}', name: 'get_samaya', methods: ['GET'])]
+    #[Route('/api/mencho/{noted_at}', name: 'get_samaya', requirements: ['noted_at' => '\d{4}-\d{2}-\d{2}'], methods: ['GET'])]
     public function getSamaya(?Diary $diary): Response
     {
         if (null === $diary) {

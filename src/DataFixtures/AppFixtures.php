@@ -33,7 +33,8 @@ class AppFixtures extends Fixture
         $manager->persist($mantraBuddhaShakyamuni);
         $mantraBuddhaMedicine = new MenchoMantra('Будда Медицины', 1);
         $manager->persist($mantraBuddhaMedicine);
-        $manager->persist(new MenchoMantra('Амитаба', 1));
+        $mantraBuddhaAmitaba = new MenchoMantra('Амитаба', 1);
+        $manager->persist($mantraBuddhaAmitaba);
         $manager->persist(new MenchoMantra('Ченрезиг', 1));
         $manager->persist(new MenchoMantra('Ваджрапани', 1));
         $manager->persist(new MenchoMantra('Хайягрива', 1));
@@ -61,19 +62,25 @@ class AppFixtures extends Fixture
         $manager->persist(new MenchoMantra('Белый Манджушри', 4));
         $manager->persist(new MenchoMantra('Защитник Ваджракилайя', 4));
 
-        $diary = new Diary($user, new \DateTimeImmutable());
-        $diary->setNotes('My first note');
-        $manager->persist($diary);
+        $diary1 = new Diary($user, new \DateTimeImmutable());
+        $diary1->setNotes('My first note');
+        $manager->persist($diary1);
 
-        $running = new Running($diary, 4700, 32, -11);
+        $diary2 = new Diary($user, new \DateTimeImmutable('-1 day'));
+        $manager->persist($diary2);
+
+        $running = new Running($diary1, 4700, 32, -11);
         $running->setHealthNotes('Чувствую себя великолепно! 🚀');
         $running->setIsSwam(true)->setWaterTemperatureCelsius(10)->setStartedAt(new \DateTimeImmutable());
         $manager->persist($running);
 
-        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaShakyamuni, 100));
-        $manager->persist(new MenchoSamaya($diary, $mantraBuddhaMedicine, 200));
+        $manager->persist(new MenchoSamaya($diary1, $mantraBuddhaShakyamuni, 100));
+        $manager->persist(new MenchoSamaya($diary1, $mantraBuddhaMedicine, 200));
 
-        $sleeping = new Sleeping($diary);
+        $manager->persist(new MenchoSamaya($diary2, $mantraBuddhaShakyamuni, 400));
+        $manager->persist(new MenchoSamaya($diary2, $mantraBuddhaAmitaba, 100));
+
+        $sleeping = new Sleeping($diary1);
         $awakeAt = new \DateTimeImmutable('17.12.2020 9:00:00');
         $sleepAt = new \DateTimeImmutable('17.12.2020 23:00:00');
         $sleeping->setAwakeAt($awakeAt)->setSleepAt($sleepAt);
