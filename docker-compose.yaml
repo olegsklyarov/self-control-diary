@@ -21,3 +21,21 @@ services:
       MYSQL_PASSWORD: self-control-diary
     ports:
       - 3366:3306
+
+  php-fpm:
+    build: ./deploy
+    volumes:
+      - .:/var/www:cached
+    links:
+      - postgres
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./deploy/nginx-hosts:/etc/nginx/conf.d/
+      - .:/var/www:cached
+    ports:
+      - 8080:80
+    links:
+      - php-fpm
