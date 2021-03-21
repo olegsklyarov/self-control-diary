@@ -17,7 +17,7 @@ class ApiDiaryPathCest
         $user = $I->createUser();
         $I->haveInRepository($user);
 
-        $this->diary = new Diary($user, new \DateTimeImmutable('2021-03-18'));
+        $this->diary = new Diary($user, new \DateTimeImmutable('2021-03-21'));
         $I->haveInRepository($this->diary);
     }
 
@@ -29,7 +29,7 @@ class ApiDiaryPathCest
 
         $I->amBearerAuthenticated($token);
         $I->sendPatch('/api/diary', [
-            'notedAt' => '2021-03-18',
+            'notedAt' => '2021-03-21',
             'notes' => 'My diary note',
         ]);
 
@@ -47,7 +47,7 @@ class ApiDiaryPathCest
         $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendPatch('/api/diary', [
-            'notedAt' => '2021-03-18',
+            'notedAt' => '2021-03-21',
             'notes' => 'New note in my diary',
         ]);
         $I->seeResponseCodeIs(HttpCode::OK);
