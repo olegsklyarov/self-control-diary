@@ -12,17 +12,12 @@ class ApiDiaryPathCest
 {
     private ?Diary $diary = null;
 
-    public function _before(ApiTester $I): void
+    public function testSuccess(ApiTester $I): void
     {
         $user = $I->createUser();
         $I->haveInRepository($user);
-
-        $this->diary = new Diary($user, new \DateTimeImmutable('2021-03-21'));
-        $I->haveInRepository($this->diary);
-    }
-
-    public function testSuccess(ApiTester $I): void
-    {
+        $diary = new Diary($user, new \DateTimeImmutable('2021-03-21'));
+        $I->haveInRepository($diary);
         $I->wantToTest('PATCH /api/diary (success)');
 
         $token = $I->doAuthAndGetJwtToken($I);
@@ -35,26 +30,36 @@ class ApiDiaryPathCest
 
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseContainsJson([
-            'uuid' => $this->diary->getUuid()->toString(),
+            'uuid' => $diary->getUuid()->toString(),
             'notes' => 'My diary note',
-            'notedAt' => $this->diary->getNotedAt()->format(\DateTime::ATOM),
+            'notedAt' => $diary->getNotedAt()->format(\DateTime::ATOM),
         ]);
+        $I->seeInRepository(Diary::class, ['uuid' => $diary->getUuid()]);
+
+        /** @var Diary $diaryInRepository */
+        $diaryInRepository = $I->grabEntitiesFromRepository(
+            Diary ::class,
+            ['uuid' => $diary->getUuid()]
+        )[0];
+
+        $I->assertEquals($diary->getUuid()->toString(), $diaryInRepository->getUuid());
+        $I->assertEquals('My diary note', $diaryInRepository->getNotes());
+        $I->assertEquals('2021-03-21T00:00:00+00:00', $diaryInRepository->getNotedAt()->format(\DateTime::ATOM));
     }
 
-    public function testSuccessPath(ApiTester $I): void
+    public function testNotAuthorized(ApiTester $I): void
     {
-        $I->wantToTest('PATCH /api/diary/{noted_at} (success)');
-        $token = $I->doAuthAndGetJwtToken($I);
-        $I->amBearerAuthenticated($token);
+        $user = $I->createUser();
+        $I->haveInRepository($user);
+        $diary = new Diary($user, new \DateTimeImmutable('2021-03-21'));
+        $I->haveInRepository($diary);
+        $I->wantToTest('PATCH /api/diary (unauthorized)');
+
         $I->sendPatch('/api/diary', [
             'notedAt' => '2021-03-21',
-            'notes' => 'New note in my diary',
+            'notes' => 'My diary new note',
         ]);
-        $I->seeResponseCodeIs(HttpCode::OK);
-        $I->seeResponseContainsJson([
-            'uuid' => $this->diary->getUuid()->toString(),
-            'notes' => 'New note in my diary',
-            'notedAt' => $this->diary->getNotedAt()->format(\DateTime::ATOM),
-        ]);
+
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 }
