@@ -24,6 +24,7 @@ services:
 
   php-fpm:
     build: ./deploy
+    restart: always
     volumes:
       - .:/var/www:cached
     links:
@@ -32,6 +33,7 @@ services:
 
   nginx:
     image: nginx:latest
+    restart: always
     volumes:
       - ./deploy/nginx-hosts:/etc/nginx/conf.d/
       - .:/var/www:cached
