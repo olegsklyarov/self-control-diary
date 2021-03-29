@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "20b45e085806f3504201b213b5084ded",
+    "content-hash": "05a40b46cbd942694881132bf4e60d91",
     "packages": [
         {
             "name": "brick/math",
@@ -2747,6 +2747,55 @@
                 "wiki": "https://github.com/ramsey/uuid/wiki"
             },
             "time": "2020-01-27T05:09:17+00:00"
+        },
+        {
+            "name": "sendpulse/rest-api",
+            "version": "1.0.22",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sendpulse/sendpulse-rest-api-php.git",
+                "reference": "fb9a6804fa6d3328067d4a7dbd86d46062757eeb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sendpulse/sendpulse-rest-api-php/zipball/fb9a6804fa6d3328067d4a7dbd86d46062757eeb",
+                "reference": "fb9a6804fa6d3328067d4a7dbd86d46062757eeb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sendpulse\\RestApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maksym Ustymenko",
+                    "email": "m.ustymenko@sendpulse.com"
+                },
+                {
+                    "name": "Alexey Moroz",
+                    "email": "a.moroz@sendpulse.com"
+                }
+            ],
+            "description": "Sendpulse REST API client library",
+            "keywords": [
+                "api",
+                "rest",
+                "sendpulse"
+            ],
+            "support": {
+                "issues": "https://github.com/sendpulse/sendpulse-rest-api-php/issues",
+                "source": "https://github.com/sendpulse/sendpulse-rest-api-php/tree/1.0.22"
+            },
+            "time": "2020-12-15T15:25:41+00:00"
         },
         {
             "name": "symfony/cache",
