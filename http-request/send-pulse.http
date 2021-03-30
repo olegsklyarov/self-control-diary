@@ -1,8 +1,0 @@
-POST https://events.sendpulse.com/events/id/c938c62e87d54b27b8e4e4df7edc2bdb/7646502
-Content-Type: application/json
-
-{
-  "email": "oleg.zhdanov88@gmail.com",
-  "phone": null,
-  "verification_url": "https://ya.ru"
-}
