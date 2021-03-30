@@ -4,18 +4,27 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Sendpulse\RestApi\ApiClient;
+use Sendpulse\RestApi\ApiClient as SendpulseApiClient;
 
 final class SendPulseEmailNotification implements EmailNotificationInterface
 {
-    private const API_USER_ID = '1f631511c945123ff2ccf024c19c4653';
-    private const API_SECRET = 'b50b4ed18a70baeb77bc1c07b02ffdef';
+    private const SEND_PULSE_EVENT_EMAIL_VERIFICATION = 'email_verification';
+
+    private SendpulseApiClient $sendpulseApiClient;
+
+    public function __construct(
+        private string $apiUserId,
+        private string $apiSecret,
+    ) {
+        $this->sendpulseApiClient = new SendpulseApiClient($this->apiUserId, $this->apiSecret);
+    }
 
     public function sendVerificationEmail(string $email, ?string $phone, string $verificationUrl): void
     {
-        $apiClient = new ApiClient(self::API_USER_ID, self::API_SECRET);
-
-
-
+        $this->sendpulseApiClient->startEventAutomation360(self::SEND_PULSE_EVENT_EMAIL_VERIFICATION, [
+            'email' => $email,
+            'phone' => $phone,
+            'verification_url' => $verificationUrl,
+        ]);
     }
 }

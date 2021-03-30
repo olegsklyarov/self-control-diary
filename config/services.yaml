@@ -41,3 +41,9 @@ services:
     App\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+    App\Service\SendPulseEmailNotification:
+        class: App\Service\SendPulseEmailNotification
+        arguments:
+            $apiUserId: '%env(SENDPULSE_API_USER_ID)%'
+            $apiSecret: '%env(SENDPULSE_API_SECRET)%'
