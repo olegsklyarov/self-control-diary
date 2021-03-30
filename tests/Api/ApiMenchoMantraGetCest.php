@@ -10,7 +10,7 @@ use Codeception\Util\HttpCode;
 
 class ApiMenchoMantraGetCest
 {
-    public function testSuccessPost(ApiTester $I): void
+    public function testSuccessGet(ApiTester $I): void
     {
         $user = $I->createUser();
         $I->haveInRepository($user);
@@ -55,5 +55,12 @@ class ApiMenchoMantraGetCest
                 'description' => null,
             ],
         ]);
+    }
+
+    public function testUnauthorised(ApiTester $I): void
+    {
+        $I->wantToTest('GET /api/mencho/mantra (unauthorized)');
+        $I->sendGet('/api/mencho/mantra');
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 }
