@@ -9,14 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/samaya', name: 'get_total_samaya', methods: ['GET'])]
 class Controller extends AbstractController
 {
     public function __construct(private MenchoSamayaService $menchoSamayaService)
     {
     }
 
-    #[Route('/api/mencho/samaya', name: 'get_total_samaya', methods: ['GET'])]
-    public function getTotalSamaya(): Response
+    public function __invoke(): Response
     {
         return $this->json($this->menchoSamayaService->findTotalSamayaForCurrentUser(), Response::HTTP_OK);
     }

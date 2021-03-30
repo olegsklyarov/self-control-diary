@@ -14,14 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/samaya', name: 'post_samaya', methods: ['POST'])]
 class Controller extends AbstractController
 {
     public function __construct(private MenchoService $menchoService)
     {
     }
 
-    #[Route('/api/mencho/samaya', name: 'post_samaya', methods: ['POST'])]
-    public function postSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
+    public function __invoke(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $createdMenchoSamaya = $this->menchoService->persistFromDto($menchoSamayaDTO);

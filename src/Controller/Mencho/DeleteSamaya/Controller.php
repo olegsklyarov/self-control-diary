@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/samaya/{noted_at}', name: 'delete_samaya', methods: ['DELETE'])]
 class Controller extends AbstractController
 {
     public function __construct(
@@ -17,8 +18,7 @@ class Controller extends AbstractController
     ) {
     }
 
-    #[Route('/api/mencho/samaya/{noted_at}', name: 'delete_samaya', methods: ['DELETE'])]
-    public function deleteSamaya(?Diary $diary): Response
+    public function __invoke(?Diary $diary): Response
     {
         if (null === $diary) {
             return new Response('', Response::HTTP_NOT_FOUND);

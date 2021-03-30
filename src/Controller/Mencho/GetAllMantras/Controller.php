@@ -9,10 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/mantra', name: 'get_mencho_mantras', methods: ['GET'])]
 class Controller extends AbstractController
 {
-    #[Route('/api/mencho/mantra', name: 'get_mencho_mantras', methods: ['GET'])]
-    public function getAllMantras(): Response
+    public function __invoke(): Response
     {
         return $this->json(
             $this->getDoctrine()->getRepository(MenchoMantra::class)->findAll()

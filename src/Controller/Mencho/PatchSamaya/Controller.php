@@ -14,14 +14,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/samaya', name: 'patch_samaya', methods: ['PATCH'])]
 class Controller extends AbstractController
 {
     public function __construct(private MenchoService $menchoService)
     {
     }
 
-    #[Route('/api/mencho/samaya', name: 'patch_samaya', methods: ['PATCH'])]
-    public function patchSamaya(MenchoSamayaDTO $menchoSamayaDTO): Response
+    public function __invoke(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $updatedMenchoSamaya = $this->menchoService->updateFromDto($menchoSamayaDTO);
