@@ -10,14 +10,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/diary', name: 'patch_diary', methods: ['PATCH'])]
 class Controller extends AbstractController
 {
     public function __construct(private DiaryService $diaryService)
     {
     }
 
-    #[Route('/api/diary', name: 'patch_diary', methods: ['PATCH'])]
-    public function patchDiary(DiaryDTO $diaryDto): Response
+    public function __invoke(DiaryDTO $diaryDto): Response
     {
         $updatedDiary = $this->diaryService->updateFromDTO($diaryDto);
 

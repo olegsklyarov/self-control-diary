@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/mencho/samaya/{noted_at}/{mantra_uuid}', name: 'delete_mencho_samaya_by_diary_and_mantra', methods: ['DELETE'])]
 class Controller extends AbstractController
 {
     public function __construct(
@@ -21,8 +22,7 @@ class Controller extends AbstractController
     ) {
     }
 
-    #[Route('/api/mencho/samaya/{noted_at}/{mantra_uuid}', name: 'delete_mencho_samaya_by_diary_and_mantra', methods: ['DELETE'])]
-    public function deleteMenchoSamayaByDiaryAndMantra(?Diary $diary, ?MenchoMantra $menchoMantra): Response
+    public function __invoke(?Diary $diary, ?MenchoMantra $menchoMantra): Response
     {
         if (null === $diary) {
             return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');

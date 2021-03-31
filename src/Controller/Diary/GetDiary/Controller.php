@@ -10,10 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api/diary/{noted_at}', name: 'get_diary', methods: ['GET'])]
 class Controller extends AbstractController
 {
-    #[Route('/api/diary/{noted_at}', name: 'get_diary', methods: ['GET'])]
-    public function getDiary(?Diary $diary): Response
+    public function __invoke(?Diary $diary): Response
     {
         if (null === $diary) {
             return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');
