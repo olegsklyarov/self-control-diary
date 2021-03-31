@@ -368,6 +368,9 @@
     "sebastian/version": {
         "version": "3.0.2"
     },
+    "sendpulse/rest-api": {
+        "version": "1.0.22"
+    },
     "softcreatr/jsonpath": {
         "version": "0.7.2"
     },
