@@ -23,7 +23,7 @@ class ApiDiaryGetCest
 
     public function testSuccess(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} (success)');
+        $I->wantToTest('GET /api/diary/{notedAt} (success)');
         $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendGet('/api/diary/2021-02-04');
@@ -38,7 +38,7 @@ class ApiDiaryGetCest
 
     public function testInvalidNotedAtValue(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} (invalid noted_at value)');
+        $I->wantToTest('GET /api/diary/{notedAt} (invalid noted_at value)');
         $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendGet('/api/diary/20210201');
@@ -52,7 +52,7 @@ class ApiDiaryGetCest
 
     public function testDiaryNotFound(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} (diary not found)');
+        $I->wantToTest('GET /api/diary/{notedAt} (diary not found)');
         $token = $I->doAuthAndGetJwtToken($I);
         $I->amBearerAuthenticated($token);
         $I->sendGet('/api/diary/2021-02-01');
@@ -66,7 +66,7 @@ class ApiDiaryGetCest
 
     public function testUnauthorised(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} (unauthorised)');
+        $I->wantToTest('GET /api/diary/{notedAt} (unauthorized)');
         $I->sendGet('/api/diary/2021-02-04');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

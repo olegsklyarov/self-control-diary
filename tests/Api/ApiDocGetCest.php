@@ -34,7 +34,7 @@ class ApiDocGetCest
 
     public function testUnauthorised(ApiTester $I): void
     {
-        $I->wantToTest('open page /api/doc (unauthorised)');
+        $I->wantToTest('open page /api/doc (unauthorized)');
         $I->amOnPage('/api/doc');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

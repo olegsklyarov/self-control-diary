@@ -14,13 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @SWG\Delete(
  *     summary="Delete diary with all related entities",
+ *     tags={"Diary"},
  *     @SWG\Response(
- *         response=204,
+ *         response="204",
  *         description="Diary with all related entities successfully deleted",
  *     ),
  *     @SWG\Response(
  *         response="400",
  *         description="Invalid noted_at value",
+ *     ),
+ *     @SWG\Response(
+ *         response="401",
+ *         description="Unauthorized",
  *     ),
  *     @SWG\Response(
  *         response="404",

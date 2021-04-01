@@ -7,7 +7,7 @@ namespace App\Controller\Diary;
 use App\SelfValidationInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class DiaryDTO implements SelfValidationInterface
+final class DiaryInputDTO implements SelfValidationInterface
 {
     /**
      * @Assert\AtLeastOneOf({

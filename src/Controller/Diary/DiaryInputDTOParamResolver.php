@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final class DiaryDTOParamResolver implements ArgumentValueResolverInterface
+final class DiaryInputDTOParamResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
@@ -24,32 +24,32 @@ final class DiaryDTOParamResolver implements ArgumentValueResolverInterface
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return DiaryDTO::class === $argument->getType();
+        return DiaryInputDTO::class === $argument->getType();
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         try {
-            /** @var DiaryDTO $diaryDTO */
-            $diaryDTO = $this->serializer->deserialize(
+            /** @var DiaryInputDTO $diaryInputDTO */
+            $diaryInputDTO = $this->serializer->deserialize(
                 $request->getContent(),
-                DiaryDTO::class,
+                DiaryInputDTO::class,
                 JsonEncoder::FORMAT,
             );
         } catch (\Throwable $e) {
             throw new BadRequestHttpException(null, $e, $e->getCode());
         }
 
-        $selfViolations = $diaryDTO->validate();
+        $selfViolations = $diaryInputDTO->validate();
         if (count($selfViolations) > 0) {
             throw new HttpRequestSelfValidationException($selfViolations);
         }
 
-        $violations = $this->validator->validate($diaryDTO);
+        $violations = $this->validator->validate($diaryInputDTO);
         if (count($violations) > 0) {
             throw new HttpRequestValidationException($violations);
         }
 
-        yield $diaryDTO;
+        yield $diaryInputDTO;
     }
 }
