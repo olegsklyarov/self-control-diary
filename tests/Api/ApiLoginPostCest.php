@@ -51,7 +51,7 @@ final class ApiLoginPostCest
     {
         $I->wantToTest('POST /api/login (invalid method)');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/api/login');
+        $I->sendGet('/api/login');
         $I->seeResponseCodeIs(HttpCode::METHOD_NOT_ALLOWED);
     }
 
