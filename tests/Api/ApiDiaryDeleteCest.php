@@ -70,4 +70,19 @@ class ApiDiaryDeleteCest
         $I->sendDelete('/api/diary/2021-01-30');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
+
+    public function testBadNotedAt(ApiTester $I): void
+    {
+        $I->wantToTest('DELETE /api/diary/{noted_at} (bad noted_at)');
+        $user = $I->createUser();
+        $I->haveInRepository($user);
+        $token = $I->doAuthAndGetJwtToken($I);
+        $I->amBearerAuthenticated($token);
+        $I->sendDelete('/api/diary/2021-Jan-30');
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Invalid noted_at value.',
+        ]);
+    }
 }
