@@ -10,6 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=LeadRepository::class)
+ * @ORM\Table(name="lead")
  */
 class Lead
 {
