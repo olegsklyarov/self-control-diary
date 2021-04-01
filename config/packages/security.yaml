@@ -17,7 +17,7 @@ security:
 
         api_doc:
             pattern: ^/api/doc
-            security: false
+            http_basic: ~
 
         token_refresh:
             pattern: ^/api/token/refresh
@@ -46,3 +46,6 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+
+    access_control:
+        - { path: '^/api/doc', roles: ROLE_ADMIN }
