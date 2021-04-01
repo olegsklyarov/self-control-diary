@@ -26,7 +26,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * TODO add email validation using Symfony Validation
      */
     private string $email;
 
@@ -43,7 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $passwordHash;
+    private ?string $passwordHash; // TODO убрать nullable
 
     /**
      * @ORM\Column(type="json")
