@@ -8,10 +8,8 @@ use App\Entity\Diary;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 
-class ApiDiaryPathCest
+class ApiDiaryPatchCest
 {
-    private ?Diary $diary = null;
-
     public function testSuccess(ApiTester $I): void
     {
         $I->wantToTest('PATCH /api/diary (success)');
