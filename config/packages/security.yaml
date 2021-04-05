@@ -48,4 +48,4 @@ security:
             # switch_user: true
 
     access_control:
-        - { path: '^/api/doc', roles: ROLE_ADMIN }
+        - { path: '^/api/doc', roles: ROLE_DEVELOPER }

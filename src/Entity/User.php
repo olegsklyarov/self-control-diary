@@ -17,10 +17,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     public const ROLE_USER = 'ROLE_USER';
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
     public const ROLES_ALLOWED = [
         self::ROLE_USER,
-        self::ROLE_ADMIN,
+        self::ROLE_DEVELOPER,
     ];
 
     /**

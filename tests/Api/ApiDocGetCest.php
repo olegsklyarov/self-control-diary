@@ -14,7 +14,7 @@ class ApiDocGetCest
     {
         $I->wantToTest('open page /api/doc (success)');
         $user = $I->createUser();
-        $user->addRole(User::ROLE_ADMIN);
+        $user->addRole(User::ROLE_DEVELOPER);
         $I->haveInRepository($user);
         $I->amHttpAuthenticated('user@example.com', 'my-strong-password');
         $I->amOnPage('/api/doc');
