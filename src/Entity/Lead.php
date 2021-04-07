@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\LeadRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -49,6 +50,16 @@ class Lead
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $verificationToken;
+
+    public function __construct(string $email, string $passwordHash)
+    {
+        $this->uuid = Uuid::uuid4();
+        $this->email = $email;
+        $this->passwordHash = $passwordHash;
+        $this->createdAt = new \DateTimeImmutable();
+        $this->verifiedEmailAt = null;
+        $this->verificationEmailSentAt = null;
+    }
 
     public function getUuid(): UuidInterface
     {
