@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Diary;
 
-use App\Controller\Diary\DiaryDTO;
+use App\Controller\Diary\DiaryInputDTO;
 use App\Entity\Diary;
 use App\Entity\User;
 use App\Service\Diary\Exception\DiaryAlreadyExistsException;
@@ -44,16 +44,16 @@ final class DiaryService
     /**
      * @throws DiaryAlreadyExistsException
      */
-    public function persistFromDto(DiaryDTO $diaryDTO): Diary
+    public function persistFromDto(DiaryInputDTO $diaryInputDTO): Diary
     {
-        $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
+        $notedAt = new \DateTimeImmutable($diaryInputDTO->notedAt);
         $this->entityManager->getConnection()->beginTransaction();
         try {
             if ($this->isDiaryExists($notedAt)) {
                 throw new DiaryAlreadyExistsException();
             }
             $createdDiary = new Diary($this->getCurrentUser(), $notedAt);
-            $createdDiary->setNotes($diaryDTO->notes);
+            $createdDiary->setNotes($diaryInputDTO->notes);
             $this->entityManager->persist($createdDiary);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
@@ -65,14 +65,14 @@ final class DiaryService
         return $createdDiary;
     }
 
-    public function updateFromDTO(DiaryDTO $diaryDTO): ?Diary
+    public function updateFromDTO(DiaryInputDTO $diaryInputDTO): ?Diary
     {
-        $notedAt = new \DateTimeImmutable($diaryDTO->notedAt);
+        $notedAt = new \DateTimeImmutable($diaryInputDTO->notedAt);
         $diary = $this->findByNotedAtForCurrentUser($notedAt);
         if (!$diary) {
             return null;
         }
-        $diary->setNotes($diaryDTO->notes);
+        $diary->setNotes($diaryInputDTO->notes);
         $this->entityManager->persist($diary);
         $this->entityManager->flush();
 

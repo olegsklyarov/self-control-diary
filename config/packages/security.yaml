@@ -15,6 +15,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        api_doc:
+            pattern: ^/api/doc
+            http_basic: ~
+
         token_refresh:
             pattern: ^/api/token/refresh
             stateless: true
@@ -42,3 +46,6 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+
+    access_control:
+        - { path: '^/api/doc', roles: ROLE_DEVELOPER }

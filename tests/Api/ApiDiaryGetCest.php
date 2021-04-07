@@ -66,7 +66,7 @@ class ApiDiaryGetCest
 
     public function testUnauthorised(ApiTester $I): void
     {
-        $I->wantToTest('GET /api/diary/{noted_at} (unauthorised)');
+        $I->wantToTest('GET /api/diary/{noted_at} (unauthorized)');
         $I->sendGet('/api/diary/2021-02-04');
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }

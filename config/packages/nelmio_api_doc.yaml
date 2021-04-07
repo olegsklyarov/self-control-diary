@@ -1,0 +1,18 @@
+nelmio_api_doc:
+    documentation:
+        host: 'self-control-diary.loc:8080'
+        info:
+            title: SCD REST API
+            description: This is a Self Control Diary REST API documentation
+            version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

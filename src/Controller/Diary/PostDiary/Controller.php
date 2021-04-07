@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Diary\PostDiary;
 
-use App\Controller\Diary\DiaryDTO;
+use App\Controller\Diary\DiaryInputDTO;
 use App\Service\Diary\DiaryService;
 use App\Service\Diary\Exception\DiaryAlreadyExistsException;
 use App\Service\Util;
@@ -19,7 +19,7 @@ class Controller extends AbstractController
     {
     }
 
-    public function __invoke(DiaryDTO $diaryDto): Response
+    public function __invoke(DiaryInputDTO $diaryDto): Response
     {
         try {
             $createdDiary = $this->diaryService->persistFromDto($diaryDto);

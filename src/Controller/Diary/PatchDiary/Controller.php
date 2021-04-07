@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Diary\PatchDiary;
 
-use App\Controller\Diary\DiaryDTO;
+use App\Controller\Diary\DiaryInputDTO;
 use App\Service\Diary\DiaryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ class Controller extends AbstractController
     {
     }
 
-    public function __invoke(DiaryDTO $diaryDto): Response
+    public function __invoke(DiaryInputDTO $diaryDto): Response
     {
         $updatedDiary = $this->diaryService->updateFromDTO($diaryDto);
 

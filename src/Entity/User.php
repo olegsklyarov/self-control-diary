@@ -16,7 +16,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    private const ROLE_USER = 'ROLE_USER';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_DEVELOPER = 'ROLE_DEVELOPER';
+    public const ROLES_ALLOWED = [
+        self::ROLE_USER,
+        self::ROLE_DEVELOPER,
+    ];
 
     /**
      * @ORM\Id
@@ -110,6 +115,19 @@ class User implements UserInterface
         $roles[] = self::ROLE_USER;
 
         return array_unique($roles);
+    }
+
+    /**
+     * @throws \LogicException
+     */
+    public function addRole(string $role): self
+    {
+        if (!in_array($role, self::ROLES_ALLOWED, true)) {
+            throw new \LogicException("Failed to add disallowed role: $role");
+        }
+        $this->roles = array_unique(array_merge([$role], $this->roles));
+
+        return $this;
     }
 
     public function getSalt(): void
