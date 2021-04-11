@@ -15,13 +15,19 @@ class ApiSignupPostCest
         $I->wantToTest('POST /api/signup (success)');
         $I->sendPOST('/api/signup', [
             'email' => 'signup@gmail.com',
-            'password' => 'userStrongPassword',
+            'password' => 'userStrongPassword1',
         ]);
         $I->seeResponseCodeIs(HttpCode::OK);
         $I->seeResponseContainsJson([
             'code' => HttpCode::OK,
             'message' => 'Please check your email inbox and follow verification link.',
         ]);
+        /** @var Lead $leadInRepository */
+        $leadInRepository = $I->grabEntitiesFromRepository(
+            Lead::class,
+            ['email' => 'signup@gmail.com']
+        )[0];
+        $I->seeInRepository(Lead::class, ['uuid' => $leadInRepository->getUuid()]);
     }
 
     public function testInvalidEmail(ApiTester $I): void
@@ -29,7 +35,7 @@ class ApiSignupPostCest
         $I->wantToTest('POST /api/signup (invalid email)');
         $I->sendPOST('/api/signup', [
             'email' => 'hello, world',
-            'password' => 'userStrongPassword',
+            'password' => 'userStrongPassword1',
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseContainsJson([
@@ -48,7 +54,7 @@ class ApiSignupPostCest
 
         $I->sendPOST('/api/signup', [
             'email' => 'signup@gmail.com',
-            'password' => 'userStrongPassword',
+            'password' => 'userStrongPassword1',
         ]);
         $I->seeResponseCodeIs(HttpCode::CONFLICT);
         $I->seeResponseContainsJson([
@@ -67,12 +73,26 @@ class ApiSignupPostCest
 
         $I->sendPOST('/api/signup', [
             'email' => 'signup@gmail.com',
-            'password' => 'userStrongPassword',
+            'password' => 'userStrongPassword1',
         ]);
         $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
         $I->seeResponseContainsJson([
             'code' => HttpCode::FORBIDDEN,
             'message' => 'Please check your email inbox and follow verification link.',
+        ]);
+    }
+
+    public function testEasyPassword(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/signup (easy password)');
+        $I->sendPOST('/api/signup', [
+            'email' => 'signup@gmail.com',
+            'password' => 'pass',
+        ]);
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Your password length must be at least 8, contain latin letters and digits.',
         ]);
     }
 }
