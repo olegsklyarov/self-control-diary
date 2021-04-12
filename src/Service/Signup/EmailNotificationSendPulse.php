@@ -6,7 +6,7 @@ namespace App\Service\Signup;
 
 use Sendpulse\RestApi\ApiClient as SendpulseApiClient;
 
-final class SendPulseEmailNotification implements EmailNotificationInterface
+final class EmailNotificationSendPulse implements EmailNotificationInterface
 {
     private const SEND_PULSE_EVENT_EMAIL_VERIFICATION = 'email_verification';
 
