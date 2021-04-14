@@ -13,7 +13,7 @@ final class SignupDTO
     #[Assert\NotBlank]
     public string $email;
 
-    #[Assert\Type(['String'])]
+    #[Assert\Type('string')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     public string $password;
