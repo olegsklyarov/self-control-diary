@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\Diary;
+use App\Entity\Lead;
 use App\Entity\MenchoMantra;
 use App\Entity\MenchoSamaya;
 use App\Entity\Running;
@@ -86,6 +87,9 @@ class AppFixtures extends Fixture
         $sleepAt = new \DateTimeImmutable('17.12.2020 23:00:00');
         $sleeping->setAwakeAt($awakeAt)->setSleepAt($sleepAt);
         $manager->persist($sleeping);
+
+        $lead = new Lead('lead@example.com', $this->passwordEncoder->encodePassword($user, 'lead-password'));
+        $manager->persist($lead);
 
         $manager->flush();
     }
