@@ -7,23 +7,20 @@ namespace App\Service\Signup;
 use App\Controller\Signup\SignupDTO;
 use App\Entity\Lead;
 use Doctrine\ORM\EntityManagerInterface;
-use Ramsey\Uuid\Uuid;
-use Symfony\Component\Security\Core\Security;
 
 final class SignupService
 {
-    public function __construct(private EntityManagerInterface $entityManager, private Security $security)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ) {
     }
 
     public function persistFromDto(SignupDTO $signupDTO): Lead
     {
+        $passwordHash = password_hash($signupDTO->password, PASSWORD_DEFAULT);
         $this->entityManager->getConnection()->beginTransaction();
         try {
-            $createdLead = new Lead();
-            $createdLead->setUuid(Uuid::uuid4())
-                ->setEmail($signupDTO->email)
-                ->setPasswordHash(password_hash($signupDTO->password, PASSWORD_DEFAULT));
+            $createdLead = new Lead($signupDTO->email, $passwordHash);
             $this->entityManager->persist($createdLead);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();

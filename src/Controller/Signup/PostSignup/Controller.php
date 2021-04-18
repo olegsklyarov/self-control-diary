@@ -21,6 +21,6 @@ class Controller extends AbstractController
     {
         $createdLead = $this->signupService->persistFromDto($signupDTO);
 
-        return $this->json(['code' => Response::HTTP_OK, 'message' => 'Please check your email inbox and follow verification link.', 'lead' => $createdLead], Response::HTTP_OK);
+        return $this->json(['code' => Response::HTTP_OK, 'message' => 'Please check your email inbox and follow verification link.'], Response::HTTP_OK);
     }
 }
