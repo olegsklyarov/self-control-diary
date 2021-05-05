@@ -67,8 +67,7 @@ class ApiSignupPostCest
     {
         $I->wantToTest('POST /api/signup (verification email already exist)');
 
-        $lead = new Lead();
-        $lead->setEmail('signup@gmail.com')->setVerifiedEmailAt(null);
+        $lead = new Lead('signup@gmail.com', password_hash('userStrongPassword1', PASSWORD_DEFAULT));
         $I->haveInRepository($lead);
 
         $I->sendPOST('/api/signup', [
