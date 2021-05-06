@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace App\Controller\Signup;
 
+use App\Exception\HttpRequestValidationException;
 use App\Service\Signup\SignupService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class SignupParamResolver implements ArgumentValueResolverInterface
 {
     private const PARAM_EMAIL = 'email';
     private const PARAM_PASSWORD = 'password';
 
-    public function __construct(private SignupService $signupService)
-    {
+    public function __construct(
+        private SignupService $signupService,
+        private ValidatorInterface $validator,
+    ) {
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
@@ -28,6 +32,11 @@ class SignupParamResolver implements ArgumentValueResolverInterface
         $signupDTO = new SignupDTO();
         $signupDTO->email = $request->get(self::PARAM_EMAIL);
         $signupDTO->password = $request->get(self::PARAM_PASSWORD);
+
+        $violations = $this->validator->validate($signupDTO);
+        if (count($violations) > 0) {
+            throw new HttpRequestValidationException($violations);
+        }
 
         yield $signupDTO;
     }

@@ -7,7 +7,6 @@ namespace App\Service\Signup;
 use App\Controller\Signup\SignupDTO;
 use App\Entity\Lead;
 use App\Entity\User;
-use App\Service\Signup\Exception\InvalidEmailException;
 use App\Service\Signup\Exception\LeadIsAlreadyExistException;
 use App\Service\Signup\Exception\UserIsAlreadyExistException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,9 +23,9 @@ final class SignupService
         $passwordHash = password_hash($signupDTO->password, PASSWORD_DEFAULT);
         $this->entityManager->getConnection()->beginTransaction();
         try {
-            if (!filter_var($signupDTO->email, FILTER_VALIDATE_EMAIL)) {
-                throw new InvalidEmailException();
-            }
+//            if (!filter_var($signupDTO->email, FILTER_VALIDATE_EMAIL)) {
+//                throw new InvalidEmailException();
+//            }
             if ($this->isUserExist($signupDTO->email)) {
                 throw new UserIsAlreadyExistException();
             }

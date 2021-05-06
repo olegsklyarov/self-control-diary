@@ -40,7 +40,7 @@ class ApiSignupPostCest
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseContainsJson([
             'code' => HttpCode::BAD_REQUEST,
-            'message' => 'Please specify correct email address.',
+            'message' => 'Validation errors: "email" - Please specify correct email address.',
         ]);
     }
 
@@ -86,12 +86,12 @@ class ApiSignupPostCest
         $I->wantToTest('POST /api/signup (easy password)');
         $I->sendPOST('/api/signup', [
             'email' => 'signup@gmail.com',
-            'password' => 'pass',
+            'password' => '',
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseContainsJson([
             'code' => HttpCode::BAD_REQUEST,
-            'message' => 'Your password length must be at least 8, contain latin letters and digits.',
+            'message' => 'Validation errors: "password" - Your password length must be at least 8, contain latin letters and digits.',
         ]);
     }
 }
