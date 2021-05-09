@@ -23,9 +23,6 @@ final class SignupService
         $passwordHash = password_hash($signupDTO->password, PASSWORD_DEFAULT);
         $this->entityManager->getConnection()->beginTransaction();
         try {
-//            if (!filter_var($signupDTO->email, FILTER_VALIDATE_EMAIL)) {
-//                throw new InvalidEmailException();
-//            }
             if ($this->isUserExist($signupDTO->email)) {
                 throw new UserIsAlreadyExistException();
             }

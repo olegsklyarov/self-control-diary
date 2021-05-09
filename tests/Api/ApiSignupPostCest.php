@@ -81,12 +81,40 @@ class ApiSignupPostCest
         ]);
     }
 
-    public function testEasyPassword(ApiTester $I): void
+    public function testShortPassword(ApiTester $I): void
     {
-        $I->wantToTest('POST /api/signup (easy password)');
+        $I->wantToTest('POST /api/signup (easy password (short))');
         $I->sendPOST('/api/signup', [
             'email' => 'signup@gmail.com',
-            'password' => '',
+            'password' => '1234567',
+        ]);
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Validation errors: "password" - Your password length must be at least 8, contain latin letters and digits.',
+        ]);
+    }
+
+    public function testLongPassword(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/signup (easy password (long))');
+        $I->sendPOST('/api/signup', [
+            'email' => 'signup@gmail.com',
+            'password' => 'FAbI7sBlQ8xZI2fV69J3ZxKLYWssDei8WtenvrxeisvS1BjxWCWqn22MN2jNlKP6JwHKqAF1CbTJzt8oPxZP5zZ9fXfnzb4e2fSpm',
+        ]);
+        $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
+        $I->seeResponseContainsJson([
+            'code' => HttpCode::BAD_REQUEST,
+            'message' => 'Validation errors: "password" - Your password length must be at least 8, contain latin letters and digits.',
+        ]);
+    }
+
+    public function testSpecialCharactersPassword(ApiTester $I): void
+    {
+        $I->wantToTest('POST /api/signup (easy password (special characters))');
+        $I->sendPOST('/api/signup', [
+            'email' => 'signup@gmail.com',
+            'password' => '!@#$%^&*()',
         ]);
         $I->seeResponseCodeIs(HttpCode::BAD_REQUEST);
         $I->seeResponseContainsJson([
