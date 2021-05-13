@@ -10,17 +10,20 @@ use App\Entity\User;
 use App\Service\Signup\Exception\LeadIsAlreadyExistException;
 use App\Service\Signup\Exception\UserIsAlreadyExistException;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 final class SignupService
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
+        private EncoderFactoryInterface $encoderFactory,
     ) {
     }
 
     public function persistFromDto(SignupDTO $signupDTO): Lead
     {
-        $passwordHash = password_hash($signupDTO->password, PASSWORD_DEFAULT);
+        $passwordEncoder = $this->encoderFactory->getEncoder(User::class);
+        $passwordHash = $passwordEncoder->encodePassword($signupDTO->password, null);
         $this->entityManager->getConnection()->beginTransaction();
         try {
             if ($this->isUserExist($signupDTO->email)) {
