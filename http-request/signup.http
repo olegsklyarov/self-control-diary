@@ -1,0 +1,7 @@
+POST {{host}}/api/signup
+Content-Type: application/json
+
+{
+  "email": "signup@gmail.com",
+  "password": "userStrongPassword1"
+}
