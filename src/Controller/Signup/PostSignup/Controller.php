@@ -30,7 +30,7 @@ class Controller extends AbstractController
         } catch (LeadIsAlreadyExistException) {
             return Util::errorJsonResponse(Response::HTTP_FORBIDDEN, 'Please check your email inbox and follow verification link.');
         } catch (ConnectionException) {
-            return Util::errorJsonResponse(Response::HTTP_FAILED_DEPENDENCY, 'Ooops. This is connection exception');
+            return Util::errorJsonResponse(Response::HTTP_FAILED_DEPENDENCY, 'Failed to save data in database');
         }
 
         return $this->json(['code' => Response::HTTP_OK, 'message' => 'Please check your email inbox and follow verification link.'], Response::HTTP_OK);
