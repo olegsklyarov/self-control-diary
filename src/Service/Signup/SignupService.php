@@ -9,6 +9,7 @@ use App\Entity\Lead;
 use App\Entity\User;
 use App\Service\Signup\Exception\LeadIsAlreadyExistException;
 use App\Service\Signup\Exception\UserIsAlreadyExistException;
+use Doctrine\DBAL\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
@@ -20,6 +21,11 @@ final class SignupService
     ) {
     }
 
+    /**
+     * @throws LeadIsAlreadyExistException
+     * @throws UserIsAlreadyExistException
+     * @throws ConnectionException
+     */
     public function persistFromDto(SignupDTO $signupDTO): Lead
     {
         $passwordEncoder = $this->encoderFactory->getEncoder(User::class);
@@ -36,7 +42,7 @@ final class SignupService
             $this->entityManager->persist($createdLead);
             $this->entityManager->flush();
             $this->entityManager->getConnection()->commit();
-        } catch (\Throwable $e) {
+        } catch (ConnectionException $e) {
             $this->entityManager->getConnection()->rollBack();
             throw $e;
         }
