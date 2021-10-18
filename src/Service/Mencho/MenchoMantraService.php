@@ -10,8 +10,11 @@ use Ramsey\Uuid\UuidInterface;
 
 final class MenchoMantraService
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
     }
 
     public function findByUuid(UuidInterface $uuid): ?MenchoMantra

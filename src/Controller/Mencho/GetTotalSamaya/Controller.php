@@ -9,11 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/mencho/samaya', name: 'get_total_samaya', methods: ['GET'])]
+/**
+ * @Route("/api/mencho/samaya", name="get_total_samaya", methods={"GET"})
+ */
 class Controller extends AbstractController
 {
-    public function __construct(private MenchoSamayaService $menchoSamayaService)
+    private MenchoSamayaService $menchoSamayaService;
+
+    public function __construct(MenchoSamayaService $menchoSamayaService)
     {
+        $this->menchoSamayaService = $menchoSamayaService;
     }
 
     public function __invoke(): Response

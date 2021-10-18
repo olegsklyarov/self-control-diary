@@ -13,10 +13,13 @@ use Symfony\Component\Security\Core\Security;
 
 final class MenchoSamayaService
 {
-    public function __construct(
-        private EntityManagerInterface $entityManager,
-        private Security $security,
-    ) {
+    private EntityManagerInterface $entityManager;
+    private Security $security;
+
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
+    {
+        $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     public function findByDiaryAndMantra(Diary $diary, MenchoMantra $menchoMantra): ?MenchoSamaya

@@ -16,8 +16,11 @@ final class DiaryParamResolver implements ArgumentValueResolverInterface
 {
     private const PARAM_NOTED_AT = 'noted_at';
 
-    public function __construct(private DiaryService $diaryService)
+    private DiaryService $diaryService;
+
+    public function __construct(DiaryService $diaryService)
     {
+        $this->diaryService = $diaryService;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool

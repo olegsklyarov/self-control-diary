@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/api/diary/{noted_at}", name="get_diary", methods={"GET"})
+ *
  * @SWG\Get(
  *     summary="Get diary",
  *     tags={"Diary"},
@@ -39,7 +41,6 @@ use Symfony\Component\Routing\Annotation\Route;
  *     ),
  * )
  */
-#[Route('/api/diary/{noted_at}', name: 'get_diary', methods: ['GET'])]
 class Controller extends AbstractController
 {
     public function __invoke(?Diary $diary): Response

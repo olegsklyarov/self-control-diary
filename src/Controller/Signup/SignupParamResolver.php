@@ -15,9 +15,11 @@ class SignupParamResolver implements ArgumentValueResolverInterface
     private const PARAM_EMAIL = 'email';
     private const PARAM_PASSWORD = 'password';
 
-    public function __construct(
-        private ValidatorInterface $validator,
-    ) {
+    private ValidatorInterface $validator;
+
+    public function __construct(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool

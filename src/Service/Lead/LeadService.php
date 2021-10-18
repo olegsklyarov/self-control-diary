@@ -11,8 +11,11 @@ final class LeadService
 {
     public const MAX_LEADS_TO_SEND_EMAIL = 10;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
     }
 
     /**

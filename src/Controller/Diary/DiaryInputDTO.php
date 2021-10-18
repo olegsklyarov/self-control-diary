@@ -17,9 +17,11 @@ final class DiaryInputDTO implements SelfValidationInterface
      */
     public ?string $notes;
 
-    #[Assert\Date]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
+    /**
+     * @Assert\Date()
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
+     */
     public string $notedAt;
 
     public function validate(): array

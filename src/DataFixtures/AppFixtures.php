@@ -20,8 +20,11 @@ class AppFixtures extends Fixture
     private const ADMIN_USER_EMAIL = 'admin@example.com';
     private const ADMIN_USER_PASSWORD = 'admin';
 
-    public function __construct(private UserPasswordEncoderInterface $passwordEncoder)
+    private UserPasswordEncoderInterface $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager): void

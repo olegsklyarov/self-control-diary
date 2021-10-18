@@ -14,10 +14,11 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 class MenchoMantraParamResolver implements ArgumentValueResolverInterface
 {
     private const PARAM_MANTRA_UUID = 'mantra_uuid';
+    private MenchoMantraService $menchoMantraService;
 
-    public function __construct(
-        private MenchoMantraService $menchoMantraService
-    ) {
+    public function __construct(MenchoMantraService $menchoMantraService)
+    {
+        $this->menchoMantraService = $menchoMantraService;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool

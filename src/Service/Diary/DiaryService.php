@@ -13,6 +13,15 @@ use Symfony\Component\Security\Core\Security;
 
 final class DiaryService
 {
+    private EntityManagerInterface $entityManager;
+    private Security $security;
+
+    public function __construct(EntityManagerInterface $entityManager, Security $security)
+    {
+        $this->entityManager = $entityManager;
+        $this->security = $security;
+    }
+
     private function getCurrentUser(): User
     {
         /** @var User $user */
@@ -24,10 +33,6 @@ final class DiaryService
     private function isDiaryExists(\DateTimeInterface $notedAt): bool
     {
         return null !== $this->findByNotedAtForCurrentUser($notedAt);
-    }
-
-    public function __construct(private EntityManagerInterface $entityManager, private Security $security)
-    {
     }
 
     public function findByNotedAtForCurrentUser(\DateTimeInterface $notedAt): ?Diary

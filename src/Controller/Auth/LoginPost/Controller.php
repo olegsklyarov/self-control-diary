@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/api/login", name="post_login", methods={"POST"})
+ *
  * @SWG\Post(
  *     summary="Login and get JWT token",
  *     tags={"Auth"},
@@ -43,7 +45,6 @@ use Symfony\Component\Routing\Annotation\Route;
  *     ),
  * )
  */
-#[Route('/api/login', name: 'post_login', methods: ['POST'])]
 final class Controller extends AbstractController
 {
     public function __invoke(): void

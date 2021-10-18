@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/api/diary/{noted_at}", name="delete_diary", methods={"DELETE"})
+ *
  * @SWG\Delete(
  *     summary="Delete diary with all related entities",
  *     tags={"Diary"},
@@ -33,11 +35,13 @@ use Symfony\Component\Routing\Annotation\Route;
  *     ),
  * )
  */
-#[Route('/api/diary/{noted_at}', name: 'delete_diary', methods: ['DELETE'])]
 final class Controller extends AbstractController
 {
-    public function __construct(private DiaryService $diaryService)
+    private DiaryService $diaryService;
+
+    public function __construct(DiaryService $diaryService)
     {
+        $this->diaryService = $diaryService;
     }
 
     public function __invoke(?Diary $diary): Response

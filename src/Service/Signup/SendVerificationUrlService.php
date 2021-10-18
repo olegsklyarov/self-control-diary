@@ -11,12 +11,18 @@ use Ramsey\Uuid\Uuid;
 final class SendVerificationUrlService
 {
     private const VERIFICATION_URL_BASE = 'http://self-control-diary:8080/signup/verify/';
+    private LeadService $leadService;
+    private EntityManagerInterface $entityManager;
+    private EmailNotificationInterface $emailNotification;
 
     public function __construct(
-        private LeadService $leadService,
-        private EntityManagerInterface $entityManager,
-        private EmailNotificationInterface $emailNotification,
+        LeadService $leadService,
+        EntityManagerInterface $entityManager,
+        EmailNotificationInterface $emailNotification
     ) {
+        $this->leadService = $leadService;
+        $this->entityManager = $entityManager;
+        $this->emailNotification = $emailNotification;
     }
 
     public function findAndNotifyLeadsWaitingForVerificationUrl(): void
