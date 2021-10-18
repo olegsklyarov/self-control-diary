@@ -12,18 +12,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/diary', name: 'post_diary', methods: ['POST'])]
+/**
+ * @Route("/api/diary", name="post_diary", methods={"POST"})
+ */
 class Controller extends AbstractController
 {
-    public function __construct(private DiaryService $diaryService)
+    private DiaryService $diaryService;
+
+    public function __construct(DiaryService $diaryService)
     {
+        $this->diaryService = $diaryService;
     }
 
     public function __invoke(DiaryInputDTO $diaryDto): Response
     {
         try {
             $createdDiary = $this->diaryService->persistFromDto($diaryDto);
-        } catch (DiaryAlreadyExistsException) {
+        } catch (DiaryAlreadyExistsException $e) {
             return Util::errorJsonResponse(Response::HTTP_CONFLICT, 'Diary already exists.');
         }
 

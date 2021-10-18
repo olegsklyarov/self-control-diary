@@ -12,11 +12,9 @@ final class EmailNotificationSendPulse implements EmailNotificationInterface
 
     private SendpulseApiClient $sendpulseApiClient;
 
-    public function __construct(
-        private string $apiUserId,
-        private string $apiSecret,
-    ) {
-        $this->sendpulseApiClient = new SendpulseApiClient($this->apiUserId, $this->apiSecret);
+    public function __construct(string $apiUserId, string $apiSecret)
+    {
+        $this->sendpulseApiClient = new SendpulseApiClient($apiUserId, $apiSecret);
     }
 
     public function sendVerificationEmail(string $email, ?string $phone, string $verificationUrl): void

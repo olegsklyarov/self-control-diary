@@ -17,12 +17,21 @@ use Ramsey\Uuid\Uuid;
 
 final class MenchoService
 {
+    private EntityManagerInterface $entityManager;
+    private DiaryService $diaryService;
+    private MenchoMantraService $menchoMantraService;
+    private MenchoSamayaService $menchoSamayaService;
+
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private DiaryService $diaryService,
-        private MenchoMantraService $menchoMantraService,
-        private MenchoSamayaService $menchoSamayaService
+         EntityManagerInterface $entityManager,
+         DiaryService $diaryService,
+         MenchoMantraService $menchoMantraService,
+         MenchoSamayaService $menchoSamayaService
     ) {
+        $this->entityManager = $entityManager;
+        $this->diaryService = $diaryService;
+        $this->menchoMantraService = $menchoMantraService;
+        $this->menchoSamayaService = $menchoSamayaService;
     }
 
     public function getSamaya(Diary $diary): array
@@ -32,7 +41,6 @@ final class MenchoService
 
     public function persistFromDto(MenchoSamayaDTO $menchoSamayaDTO): ?MenchoSamaya
     {
-        $createdMenchoSamaya = null;
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $diary = $this->diaryService->findByNotedAtForCurrentUser(
@@ -68,7 +76,6 @@ final class MenchoService
 
     public function updateFromDto(MenchoSamayaDTO $menchoSamayaDTO): ?MenchoSamaya
     {
-        $updatedMenchoSamaya = null;
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $diary = $this->diaryService->findByNotedAtForCurrentUser(

@@ -10,12 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/mencho/samaya/{noted_at}', name: 'delete_samaya', methods: ['DELETE'])]
+/**
+ * @Route("/api/mencho/samaya/{noted_at}", name="delete_samaya", methods={"DELETE"})
+ */
 class Controller extends AbstractController
 {
-    public function __construct(
-        private MenchoService $menchoService
-    ) {
+    private MenchoService $menchoService;
+
+    public function __construct(MenchoService $menchoService)
+    {
+        $this->menchoService = $menchoService;
     }
 
     public function __invoke(?Diary $diary): Response

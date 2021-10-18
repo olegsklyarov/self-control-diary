@@ -15,10 +15,15 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 final class SignupService
 {
+    private EntityManagerInterface $entityManager;
+    private EncoderFactoryInterface $encoderFactory;
+
     public function __construct(
-        private EntityManagerInterface $entityManager,
-        private EncoderFactoryInterface $encoderFactory,
+         EntityManagerInterface $entityManager,
+         EncoderFactoryInterface $encoderFactory
     ) {
+        $this->entityManager = $entityManager;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**

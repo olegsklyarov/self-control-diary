@@ -14,22 +14,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/mencho/samaya', name: 'patch_samaya', methods: ['PATCH'])]
+/**
+ * @Route("/api/mencho/samaya", name="patch_samaya", methods={"PATCH"})
+ */
 class Controller extends AbstractController
 {
-    public function __construct(private MenchoService $menchoService)
+    private MenchoService $menchoService;
+
+    public function __construct(MenchoService $menchoService)
     {
+        $this->menchoService = $menchoService;
     }
 
     public function __invoke(MenchoSamayaDTO $menchoSamayaDTO): Response
     {
         try {
             $updatedMenchoSamaya = $this->menchoService->updateFromDto($menchoSamayaDTO);
-        } catch (DiaryNotFoundException) {
+        } catch (DiaryNotFoundException $e) {
             return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Diary not found.');
-        } catch (MantraNotFoundException) {
+        } catch (MantraNotFoundException $e) {
             return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'Mantra not found.');
-        } catch (MenchoSamayaNotFoundException) {
+        } catch (MenchoSamayaNotFoundException $e) {
             return Util::errorJsonResponse(Response::HTTP_NOT_FOUND, 'MenchoSamaya not found.');
         }
 

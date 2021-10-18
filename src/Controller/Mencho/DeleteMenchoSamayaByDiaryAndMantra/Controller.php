@@ -13,13 +13,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/mencho/samaya/{noted_at}/{mantra_uuid}', name: 'delete_mencho_samaya_by_diary_and_mantra', methods: ['DELETE'])]
+/**
+ * @Route("/api/mencho/samaya/{noted_at}/{mantra_uuid}", name="delete_mencho_samaya_by_diary_and_mantra", methods={"DELETE"})
+ */
 class Controller extends AbstractController
 {
+    private MenchoService $menchoService;
+    private MenchoSamayaService $menchoSamayaService;
+
     public function __construct(
-        private MenchoService $menchoService,
-        private MenchoSamayaService $menchoSamayaService
+        MenchoService $menchoService,
+        MenchoSamayaService $menchoSamayaService
     ) {
+        $this->menchoService = $menchoService;
+        $this->menchoSamayaService = $menchoSamayaService;
     }
 
     public function __invoke(?Diary $diary, ?MenchoMantra $menchoMantra): Response

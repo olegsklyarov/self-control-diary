@@ -16,10 +16,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class DiaryInputDTOParamResolver implements ArgumentValueResolverInterface
 {
-    public function __construct(
-        private SerializerInterface $serializer,
-        private ValidatorInterface $validator
-    ) {
+    private SerializerInterface $serializer;
+    private ValidatorInterface $validator;
+
+    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator)
+    {
+        $this->serializer = $serializer;
+        $this->validator = $validator;
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool

@@ -9,7 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/mencho/mantra', name: 'get_mencho_mantras', methods: ['GET'])]
+/**
+ * @Route("/api/mencho/mantra", name="get_mencho_mantras", methods={"GET"})
+ */
 class Controller extends AbstractController
 {
     public function __invoke(): Response

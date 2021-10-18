@@ -13,10 +13,12 @@ final class SendVerificationEmailCommand extends Command
 {
     protected static $defaultName = 'signup:send-verification-email';
 
-    public function __construct(
-        private SendVerificationUrlService $sendVerificationUrlService,
-    ) {
+    private SendVerificationUrlService $sendVerificationUrlService;
+
+    public function __construct(SendVerificationUrlService $sendVerificationUrlService)
+    {
         parent::__construct();
+        $this->sendVerificationUrlService = $sendVerificationUrlService;
     }
 
     public function configure(): void
