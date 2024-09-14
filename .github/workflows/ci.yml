@@ -60,7 +60,7 @@ jobs:
 
       - name: Code Style Check
         run: |
-          vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no
+          vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no
 
       - name: Migrations
         env:

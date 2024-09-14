@@ -12,32 +12,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MenchoSamayaRepository::class)
+ *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"diary_uuid", "mantra_uuid"})})
  */
 class MenchoSamaya
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @Groups({"api"})
      */
     private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @Groups({"api"})
      */
     private int $count;
 
     /**
      * @ORM\ManyToOne(targetEntity=Diary::class)
+     *
      * @ORM\JoinColumn(name="diary_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
      */
     private Diary $diary;
 
     /**
      * @ORM\ManyToOne(targetEntity=MenchoMantra::class)
+     *
      * @ORM\JoinColumn(name="mantra_uuid", nullable=false, referencedColumnName="uuid", onDelete="CASCADE")
+     *
      * @Groups({"api"})
      */
     private MenchoMantra $menchoMantra;

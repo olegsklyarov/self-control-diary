@@ -11,7 +11,9 @@ final class DiaryInputDTO implements SelfValidationInterface
 {
     /**
      * @Assert\AtLeastOneOf({
+     *
      *     @Assert\Length(min=1),
+     *
      *     @Assert\IsNull
      * })
      */

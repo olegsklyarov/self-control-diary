@@ -17,19 +17,23 @@ class MenchoMantra
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @Groups({"api"})
      */
     private UuidInterface $uuid;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     *
      * @Groups({"api"})
      */
     private string $name;
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @Groups({"api"})
      */
     private int $level;

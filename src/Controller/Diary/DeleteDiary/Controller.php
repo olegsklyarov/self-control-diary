@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @SWG\Delete(
  *     summary="Delete diary with all related entities",
  *     tags={"Diary"},
+ *
  *     @SWG\Response(
  *         response="204",
  *         description="Diary with all related entities successfully deleted",

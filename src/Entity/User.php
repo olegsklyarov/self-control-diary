@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
  * @ORM\Table(name="`user`")
  */
 class User implements UserInterface
@@ -25,6 +26,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
      */
     private UuidInterface $uuid;

@@ -18,7 +18,7 @@ class Api extends Module
 
     public function createUser(
         string $username = self::DEFAULT_USERNAME,
-        string $password = self::DEFAULT_PASSWORD
+        string $password = self::DEFAULT_PASSWORD,
     ): User {
         /** @var Symfony $symfony */
         $symfony = $this->getModule('Symfony');
@@ -36,7 +36,7 @@ class Api extends Module
     public function doAuthAndGetJwtToken(
         ApiTester $I,
         string $username = self::DEFAULT_USERNAME,
-        string $password = self::DEFAULT_PASSWORD
+        string $password = self::DEFAULT_PASSWORD,
     ): string {
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/api/login', [

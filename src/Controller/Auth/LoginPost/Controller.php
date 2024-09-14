@@ -12,13 +12,16 @@ use Symfony\Component\Routing\Annotation\Route;
  * @SWG\Post(
  *     summary="Login and get JWT token",
  *     tags={"Auth"},
+ *
  *     @SWG\Parameter(
  *         name="body",
  *         in="body",
  *         type="object",
  *         required=true,
+ *
  *         @SWG\Schema(
  *             type="object",
+ *
  *             @SWG\Property(
  *                 property="username",
  *                 type="string",
@@ -29,6 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *             ),
  *         ),
  *     ),
+ *
  *     @SWG\Response(
  *         response="200",
  *         description="Returns token and refresh_token",

@@ -16,14 +16,14 @@ class MenchoMantraParamResolver implements ArgumentValueResolverInterface
     private const PARAM_MANTRA_UUID = 'mantra_uuid';
 
     public function __construct(
-        private MenchoMantraService $menchoMantraService
+        private MenchoMantraService $menchoMantraService,
     ) {
     }
 
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
-        return MenchoMantra::class === $argument->getType() &&
-            null !== $request->get(self::PARAM_MANTRA_UUID);
+        return MenchoMantra::class === $argument->getType()
+            && null !== $request->get(self::PARAM_MANTRA_UUID);
     }
 
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
