@@ -14,26 +14,12 @@ jobs:
           POSTGRES_PORT: 5432
         ports:
           - 5432/tcp
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 3
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
     strategy:
       fail-fast: false
       matrix:
         php-versions: ['8.0']
     steps:
-      # - name: Install PostgreSQL client
-      #   run: |
-      #     apt-get update
-      #     apt-get install --yes postgresql-client
-
-      - name: Create database
-        run: psql -h postgres -d postgres -U postgres -c "CREATE DATABASE self_control_diary;"
-        env:
-          PGPASSWORD: postgres
-
       - name: Check out
         uses: actions/checkout@v4
 
@@ -72,14 +58,14 @@ jobs:
 
       - name: Migrations
         env:
-          DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/self_control_diary?serverVersion=9&charset=utf8"
+          DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8"
           APP_ENV: test
         run: |
           php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
 
       - name: Run tests
         env:
-          DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/self_control_diary?serverVersion=9&charset=utf8"
+          DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8"
           APP_ENV: test
         run: |
           vendor/bin/codecept run
