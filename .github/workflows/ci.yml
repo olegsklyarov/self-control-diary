@@ -20,7 +20,11 @@ jobs:
           POSTGRES_PORT: 5432
         ports:
           - 5432/tcp
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+       options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
     strategy:
       fail-fast: false
       matrix:
@@ -55,23 +59,24 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Install composer dependencies
-        run: |
-          composer install
+        run: composer install
+
 
       - name: Code Style Check
-        run: |
-          vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no
+        run: vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no
+
 
       - name: Migrations
         env:
           DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8"
           APP_ENV: test
-        run: |
-          php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
+        run: php bin/console doctrine:migrations:migrate --allow-no-migration -n -q
+
 
       - name: Run tests
         env:
           DATABASE_URL: "postgresql://postgres:postgres@127.0.0.1:${{ job.services.postgres.ports[5432] }}/postgres?charset=UTF-8"
           APP_ENV: test
         run: |
+          touch .env.local
           vendor/bin/codecept run
