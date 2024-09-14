@@ -1,5 +1,11 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
 jobs:
   CI:
     name: CI (PHP ${{ matrix.php-versions }})
@@ -18,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.0']
+        php-versions: ['8.3']
     steps:
       - name: Check out
         uses: actions/checkout@v4
