@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$finder = PhpCsFixer\Finder::create()
+$finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude(
             [
@@ -14,7 +14,7 @@ $finder = PhpCsFixer\Finder::create()
             ]
 );
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
