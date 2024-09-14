@@ -20,7 +20,7 @@ jobs:
           POSTGRES_PORT: 5432
         ports:
           - 5432/tcp
-       options: >-
+        options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
