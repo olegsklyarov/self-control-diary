@@ -41,3 +41,7 @@ git version 2.31.0
 1. Прогнать проверку code style командой `composer run-script fix-cs`, если найдены недочеты, то сделать коммит с исправлениями.
 1. Прогнать тесты при помощи `composer run-script test`. Если тесты "упали", то сделать коммит и исправлениями, после чего заново прогнать тесты.
 1. Сделать git push и [создать Pull Request](https://github.com/olegsklyarov/self-control-diary/compare).
+
+## Ручное тестирование
+1. (docker) накатить фикстуры `composer run-script fixtures-load`
+1. Выполнять запросы при помощи встроенного в PHP Storm HTTP клиента, смотри папку http-requests

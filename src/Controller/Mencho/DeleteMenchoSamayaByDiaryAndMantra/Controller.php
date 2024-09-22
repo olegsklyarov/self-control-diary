@@ -18,7 +18,7 @@ class Controller extends AbstractController
 {
     public function __construct(
         private MenchoService $menchoService,
-        private MenchoSamayaService $menchoSamayaService
+        private MenchoSamayaService $menchoSamayaService,
     ) {
     }
 

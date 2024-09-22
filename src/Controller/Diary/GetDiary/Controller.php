@@ -17,14 +17,17 @@ use Symfony\Component\Routing\Annotation\Route;
  * @SWG\Get(
  *     summary="Get diary",
  *     tags={"Diary"},
+ *
  *     @SWG\Response(
  *         response="200",
  *         description="Diary properties",
+ *
  *         @SWG\Schema(
  *             type="object",
  *             ref=@Model(type=DiaryOutputDTO::class),
  *         ),
  *     ),
+ *
  *     @SWG\Response(
  *         response="400",
  *         description="Invalid noted_at value",

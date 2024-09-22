@@ -18,7 +18,7 @@ final class DiaryInputDTOParamResolver implements ArgumentValueResolverInterface
 {
     public function __construct(
         private SerializerInterface $serializer,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
     }
 

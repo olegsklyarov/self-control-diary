@@ -259,9 +259,6 @@
     "php": {
         "version": "8.0"
     },
-    "php-cs-fixer/diff": {
-        "version": "v1.3.1"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },
@@ -496,9 +493,6 @@
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
-    },
-    "symfony/http-client-contracts": {
-        "version": "v2.3.1"
     },
     "symfony/http-foundation": {
         "version": "v5.1.8"

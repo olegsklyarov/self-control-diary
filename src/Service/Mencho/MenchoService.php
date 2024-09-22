@@ -21,7 +21,7 @@ final class MenchoService
         private EntityManagerInterface $entityManager,
         private DiaryService $diaryService,
         private MenchoMantraService $menchoMantraService,
-        private MenchoSamayaService $menchoSamayaService
+        private MenchoSamayaService $menchoSamayaService,
     ) {
     }
 

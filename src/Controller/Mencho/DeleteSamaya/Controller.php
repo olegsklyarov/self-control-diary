@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Controller extends AbstractController
 {
     public function __construct(
-        private MenchoService $menchoService
+        private MenchoService $menchoService,
     ) {
     }
 

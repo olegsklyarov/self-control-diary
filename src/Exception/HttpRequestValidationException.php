@@ -11,7 +11,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 final class HttpRequestValidationException extends BadRequestHttpException
 {
-    public function __construct(ConstraintViolationListInterface $violations, \Exception $previous = null)
+    public function __construct(ConstraintViolationListInterface $violations, ?\Exception $previous = null)
     {
         parent::__construct(
             'Validation errors: ' . $this->violationsToString($violations),

@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final class HttpRequestSelfValidationException extends BadRequestHttpException
 {
-    public function __construct(array $violations, \Exception $previous = null)
+    public function __construct(array $violations, ?\Exception $previous = null)
     {
         parent::__construct(
             'Self validation errors: ' . $this->violationsToString($violations),

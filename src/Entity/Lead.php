@@ -11,12 +11,14 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=LeadRepository::class)
+ *
  * @ORM\Table(name="lead")
  */
 class Lead
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
      */
     private UuidInterface $uuid;
