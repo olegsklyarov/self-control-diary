@@ -79,4 +79,5 @@ jobs:
           APP_ENV: test
         run: |
           touch .env.local
+          php bin/console lexik:jwt:generate-keypair
           vendor/bin/codecept run

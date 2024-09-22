@@ -96,7 +96,8 @@
         ],
         "fix-cs": "php-cs-fixer fix -v",
         "test": "codecept run",
-        "recreate-db": "php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate --no-interaction"
+        "recreate-db": "php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create && php bin/console doctrine:migrations:migrate --no-interaction",
+        "fixtures-load": "php bin/console doctrine:fixtures:load"
     },
     "conflict": {
         "symfony/symfony": "*"
