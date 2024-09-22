@@ -1,6 +1,6 @@
 nelmio_api_doc:
     documentation:
-        host: 'self-control-diary.loc:8080'
+        host: 'self-control-diary.localhost:8080'
         info:
             title: SCD REST API
             description: This is a Self Control Diary REST API documentation
