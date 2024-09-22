@@ -20,3 +20,6 @@
 
 /.composer/
 /.bash_history
+
+/config/jwt/*
+.php-cs-fixer.cache

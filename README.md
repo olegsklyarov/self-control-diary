@@ -1,6 +1,6 @@
 # self-control-diary
 
-[![Build Status](https://travis-ci.com/olegsklyarov/self-control-diary.svg?branch=master)](https://travis-ci.com/olegsklyarov/self-control-diary)
+[![Build Status](https://github.com/olegsklyarov/self-control-diary/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/olegsklyarov/self-control-diary/actions)
 
 # Настройка локального окружения
 
